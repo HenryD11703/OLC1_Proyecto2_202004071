@@ -11,6 +11,7 @@ class router{
     config(): void{
         this.router.get('/', indexController.prueba);
         this.router.post('/post', indexController.postMethod);
+        this.router.get('/analizar', indexController.analizar);
     }
 }
 

@@ -10,6 +10,17 @@ class Controller {
         console.log(req.body.notas);
         res.json({message: 'Post Method'})
     }
+
+    public analizar(req: Request, res: Response) {
+        try{
+            let parser = require('./Analizador.js');
+            let resultado = parser.parse("int x,y;");
+  
+
+        }catch(e: any){
+            console.log(e);
+        }
+    }
 }
 
 export const indexController = new Controller();
