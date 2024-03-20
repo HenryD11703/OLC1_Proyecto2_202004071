@@ -135,11 +135,11 @@ expresion : NUMERO
           | DECIMAL
           | CADENA
           | ID                      { $$ = variables[$1]; } 
-          | expresion MAS expresion { $$ = $1 + $3; }
-          | expresion RES expresion { $$ = $1 - $3; }
-          | expresion MUL expresion { $$ = $1 * $3; }
-          | expresion DIV expresion { $$ = $1 / $3; }
-          | expresion POW expresion { $$ = Math.pow($1, $3); }
+          | expresion MAS expresion { $$ = Number($1) + Number($3); }
+          | expresion RES expresion { $$ = Number($1) - Number($3); }
+          | expresion MUL expresion { $$ = Number($1) * Number($3); }
+          | expresion DIV expresion { $$ = Number($1) / Number($3); }
+          | expresion POW expresion { $$ = Math.pow(Number($1), Number($3)); }
 
 ;
 

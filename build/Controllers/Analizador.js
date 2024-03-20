@@ -117,19 +117,19 @@ case 18:
  this.$ = variables[$$[$0]]; 
 break;
 case 19:
- this.$ = $$[$0-2] + $$[$0]; 
+ this.$ = Number($$[$0-2]) + Number($$[$0]); 
 break;
 case 20:
- this.$ = $$[$0-2] - $$[$0]; 
+ this.$ = Number($$[$0-2]) - Number($$[$0]); 
 break;
 case 21:
- this.$ = $$[$0-2] * $$[$0]; 
+ this.$ = Number($$[$0-2]) * Number($$[$0]); 
 break;
 case 22:
- this.$ = $$[$0-2] / $$[$0]; 
+ this.$ = Number($$[$0-2]) / Number($$[$0]); 
 break;
 case 23:
- this.$ = Math.pow($$[$0-2], $$[$0]); 
+ this.$ = Math.pow(Number($$[$0-2]), Number($$[$0])); 
 break;
 }
 },

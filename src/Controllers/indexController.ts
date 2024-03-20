@@ -14,7 +14,7 @@ class Controller {
     public analizar(req: Request, res: Response) {
         try{
             let parser = require('./Analizador.js');
-            let resultado = parser.parse("int x,y,a,b; int z = 21; x=3; b=2; a=3; y=2; int prueba = x;");
+            let resultado = parser.parse("int x,y,a,b; int z = 21; x=3; b=2; a=3; y=2; int prueba = x; int sumatoria = x+y+a+b+z;");
   
 
         }catch(e: any){
