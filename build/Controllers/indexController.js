@@ -13,7 +13,7 @@ class Controller {
     analizar(req, res) {
         try {
             let parser = require('./Analizador.js');
-            let resultado = parser.parse("int x,y;");
+            let resultado = parser.parse("int x,y,a,b; int z = 21; x=3; b=2; a=3; y=2; int prueba = x;");
         }
         catch (e) {
             console.log(e);

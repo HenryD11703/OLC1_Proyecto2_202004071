@@ -72,12 +72,12 @@
   }
 */
 var Analizador = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,6],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[1,11],$V6=[5,15,16,17,18,19,20],$V7=[10,11,14];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,12],$V1=[1,7],$V2=[1,8],$V3=[1,9],$V4=[1,10],$V5=[1,11],$V6=[5,13,15,16,17,18,19],$V7=[1,17],$V8=[10,11,14],$V9=[1,25],$Va=[1,22],$Vb=[1,23],$Vc=[1,24],$Vd=[1,30],$Ve=[1,31],$Vf=[1,32],$Vg=[1,33],$Vh=[1,34],$Vi=[10,25,26,27,28,29],$Vj=[10,25,26,29];
 var parser = {trace: function trace () { },
 yy: {},
-symbols_: {"error":2,"inicio":3,"instrucciones":4,"EOF":5,"instruccion":6,"declaracion":7,"tipo":8,"ids":9,"PYC":10,"IGUAL":11,"expresion":12,"ID":13,"COMA":14,"INT":15,"DOUBLE":16,"BOOL":17,"CHAR":18,"STRING":19,"STD":20,"DOSPUNTOS":21,"NUMERO":22,"DECIMAL":23,"CADENA":24,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",10:"PYC",11:"IGUAL",13:"ID",14:"COMA",15:"INT",16:"DOUBLE",17:"BOOL",18:"CHAR",19:"STRING",20:"STD",21:"DOSPUNTOS",22:"NUMERO",23:"DECIMAL",24:"CADENA"},
-productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[9,1],[9,3],[8,1],[8,1],[8,1],[8,1],[8,1],[8,4],[12,1],[12,1],[12,1]],
+symbols_: {"error":2,"inicio":3,"instrucciones":4,"EOF":5,"instruccion":6,"declaracion":7,"tipo":8,"ids":9,"PYC":10,"IGUAL":11,"expresion":12,"ID":13,"COMA":14,"INT":15,"DOUBLE":16,"BOOL":17,"CHAR":18,"STD":19,"DOSPUNTOS":20,"STRING":21,"NUMERO":22,"DECIMAL":23,"CADENA":24,"MAS":25,"RES":26,"MUL":27,"DIV":28,"POW":29,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",10:"PYC",11:"IGUAL",13:"ID",14:"COMA",15:"INT",16:"DOUBLE",17:"BOOL",18:"CHAR",19:"STD",20:"DOSPUNTOS",21:"STRING",22:"NUMERO",23:"DECIMAL",24:"CADENA",25:"MAS",26:"RES",27:"MUL",28:"DIV",29:"POW"},
+productions_: [0,[3,2],[4,2],[4,1],[6,1],[7,3],[7,5],[7,4],[9,1],[9,3],[8,1],[8,1],[8,1],[8,1],[8,4],[12,1],[12,1],[12,1],[12,1],[12,3],[12,3],[12,3],[12,3],[12,3]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
@@ -86,10 +86,55 @@ switch (yystate) {
 case 1:
 console.log('Sintactico', 'Correcto');
 break;
+case 5:
+ console.log('Declaracion de variable: ', $$[$0-2], $$[$0-1]); 
+break;
+case 6:
+ variables[$$[$0-3]] = $$[$0-1];  console.log('Declaracion de variable con asignacion: ', $$[$0-4], $$[$0-3], $$[$0-2], $$[$0-1]);
+break;
+case 7:
+ variables[$$[$0-3]] = $$[$0-1];   console.log('Asignacion de variable: ', $$[$0-3], $$[$0-1]);
+break;
+case 9:
+ this.$ = $$[$0-2] + ',' + $$[$0]; 
+break;
+case 10:
+ this.$ = 'int'; 
+break;
+case 11:
+ this.$ = 'double'; 
+break;
+case 12:
+ this.$ = 'bool'; 
+break;
+case 13:
+ this.$ = 'char'; 
+break;
+case 14:
+ this.$ = 'string'; 
+break;
+case 18:
+ this.$ = variables[$$[$0]]; 
+break;
+case 19:
+ this.$ = $$[$0-2] + $$[$0]; 
+break;
+case 20:
+ this.$ = $$[$0-2] - $$[$0]; 
+break;
+case 21:
+ this.$ = $$[$0-2] * $$[$0]; 
+break;
+case 22:
+ this.$ = $$[$0-2] / $$[$0]; 
+break;
+case 23:
+ this.$ = Math.pow($$[$0-2], $$[$0]); 
+break;
 }
 },
-table: [{3:1,4:2,6:3,7:4,8:5,15:$V0,16:$V1,17:$V2,18:$V3,19:$V4,20:$V5},{1:[3]},{5:[1,12],6:13,7:4,8:5,15:$V0,16:$V1,17:$V2,18:$V3,19:$V4,20:$V5},o($V6,[2,3]),o($V6,[2,4]),{9:14,13:[1,15]},{13:[2,9]},{13:[2,10]},{13:[2,11]},{13:[2,12]},{13:[2,13]},{21:[1,16]},{1:[2,1]},o($V6,[2,2]),{10:[1,17],11:[1,18],14:[1,19]},o($V7,[2,7]),{21:[1,20]},o($V6,[2,5]),{12:21,22:[1,22],23:[1,23],24:[1,24]},{13:[1,25]},{19:[1,26]},{10:[1,27]},{10:[2,15]},{10:[2,16]},{10:[2,17]},o($V7,[2,8]),{13:[2,14]},o($V6,[2,6])],
-defaultActions: {6:[2,9],7:[2,10],8:[2,11],9:[2,12],10:[2,13],12:[2,1],22:[2,15],23:[2,16],24:[2,17],26:[2,14]},
+table: [{3:1,4:2,6:3,7:4,8:5,9:6,13:$V0,15:$V1,16:$V2,17:$V3,18:$V4,19:$V5},{1:[3]},{5:[1,13],6:14,7:4,8:5,9:6,13:$V0,15:$V1,16:$V2,17:$V3,18:$V4,19:$V5},o($V6,[2,3]),o($V6,[2,4]),{9:15,13:$V0},{11:[1,16],14:$V7},{13:[2,10]},{13:[2,11]},{13:[2,12]},{13:[2,13]},{20:[1,18]},o($V8,[2,8]),{1:[2,1]},o($V6,[2,2]),{10:[1,19],11:[1,20],14:$V7},{12:21,13:$V9,22:$Va,23:$Vb,24:$Vc},{13:[1,26]},{20:[1,27]},o($V6,[2,5]),{12:28,13:$V9,22:$Va,23:$Vb,24:$Vc},{10:[1,29],25:$Vd,26:$Ve,27:$Vf,28:$Vg,29:$Vh},o($Vi,[2,15]),o($Vi,[2,16]),o($Vi,[2,17]),o($Vi,[2,18]),o($V8,[2,9]),{21:[1,35]},{10:[1,36],25:$Vd,26:$Ve,27:$Vf,28:$Vg,29:$Vh},o($V6,[2,7]),{12:37,13:$V9,22:$Va,23:$Vb,24:$Vc},{12:38,13:$V9,22:$Va,23:$Vb,24:$Vc},{12:39,13:$V9,22:$Va,23:$Vb,24:$Vc},{12:40,13:$V9,22:$Va,23:$Vb,24:$Vc},{12:41,13:$V9,22:$Va,23:$Vb,24:$Vc},{13:[2,14]},o($V6,[2,6]),o($Vj,[2,19],{27:$Vf,28:$Vg}),o($Vj,[2,20],{27:$Vf,28:$Vg}),o($Vi,[2,21]),o($Vi,[2,22]),{10:[2,23],25:$Vd,26:$Ve,27:$Vf,28:$Vg}],
+defaultActions: {7:[2,10],8:[2,11],9:[2,12],10:[2,13],13:[2,1],35:[2,14]},
 parseError: function parseError (str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -238,6 +283,7 @@ parse: function parse(input) {
 }};
 
     // Importar librerías
+    var variables = {};
 /* generated by jison-lex 0.3.4 */
 var lexer = (function(){
 var lexer = ({
@@ -582,11 +628,11 @@ case 6:return 17;
 break;
 case 7:return 18;
 break;
-case 8:return 20;
+case 8:return 19;
 break;
-case 9:return 19;
+case 9:return 21;
 break;
-case 10:return 'POW';
+case 10:return 29;
 break;
 case 11:return 'NEW';
 break;
@@ -650,15 +696,15 @@ case 40:return 'COMILLA';
 break;
 case 41:return 'BARRA'; 
 break;
-case 42:return 'DIV';
+case 42:return 28;
 break;
-case 43:return 'MUL';
+case 43:return 27;
 break;
-case 44:return 21;
+case 44:return 20;
 break;
-case 45:return 'MAS';
+case 45:return 25;
 break;
-case 46:return 'RES';
+case 46:return 26;
 break;
 case 47:return 'PARENTESISI';
 break;
@@ -713,7 +759,7 @@ break;
 case 72:console.log(yy_.yylloc.first_line, yy_.yylloc.first_column,'Lexico',yy_.yytext);
 break;
 case 73:
-    // Código de JavaScript
+    
 
 break;
 }

@@ -1,5 +1,6 @@
 %{
     // Importar librerías
+    var variables = {};
 %}
 
 %lex // Inicia parte léxica
@@ -87,7 +88,7 @@
 .					        {console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);}
 
 %{
-    // Código de JavaScript
+    
 %}
 // Finaliza parte de Léxica
 /lex
@@ -95,8 +96,9 @@
 // precedencia
 %right 'RES'
 %nonassoc 'POW'
-%left 'MUL','DIV'
 %left 'MAS','RES'
+%left 'MUL','DIV'
+%left 'UMENOS'
 %left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
 %right 'NOT'
 %left 'AND'
@@ -116,21 +118,28 @@ instrucciones : instrucciones instruccion
 ;
 instruccion : declaracion
 ;
-declaracion: tipo ids PYC
-           | tipo ids IGUAL expresion PYC
+declaracion: tipo ids PYC                   { console.log('Declaracion de variable: ', $1, $2); }
+           | tipo ids IGUAL expresion PYC   { variables[$2] = $4;  console.log('Declaracion de variable con asignacion: ', $1, $2, $3, $4);}
+           | ids IGUAL expresion PYC        { variables[$1] = $3;   console.log('Asignacion de variable: ', $1, $3);}
 ;
 ids : ID
-    | ids COMA ID
+    | ids COMA ID                        { $$ = $1 + ',' + $3; }
 ;
-tipo : INT
-     | DOUBLE
-     | BOOL
-     | CHAR
-     | STRING
-     | STD DOSPUNTOS DOSPUNTOS STRING
+tipo : INT                              { $$ = 'int'; }
+     | DOUBLE                           { $$ = 'double'; }
+     | BOOL                             { $$ = 'bool'; }
+     | CHAR                             { $$ = 'char'; }
+     | STD DOSPUNTOS DOSPUNTOS STRING   { $$ = 'string'; }
 ;
 expresion : NUMERO
           | DECIMAL
           | CADENA
- 
+          | ID                      { $$ = variables[$1]; } 
+          | expresion MAS expresion { $$ = $1 + $3; }
+          | expresion RES expresion { $$ = $1 - $3; }
+          | expresion MUL expresion { $$ = $1 * $3; }
+          | expresion DIV expresion { $$ = $1 / $3; }
+          | expresion POW expresion { $$ = Math.pow($1, $3); }
+
 ;
+
