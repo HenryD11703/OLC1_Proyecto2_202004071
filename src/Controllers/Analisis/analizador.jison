@@ -140,6 +140,8 @@ expresion : NUMERO
           | expresion MUL expresion { $$ = Number($1) * Number($3); }
           | expresion DIV expresion { $$ = Number($1) / Number($3); }
           | expresion POW expresion { $$ = Math.pow(Number($1), Number($3)); }
+          | PARENTESISI expresion PARENTESISD 
+          | RES expresion %prec UMENOS { $$ = -Number($2); }
 
 ;
 
