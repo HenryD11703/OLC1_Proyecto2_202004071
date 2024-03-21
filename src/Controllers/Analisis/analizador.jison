@@ -1,6 +1,8 @@
 %{
-    // Importar librerías
-    var variables = {};
+    //Importar clases
+    const Tipo = require('./Analisis/Simbolo/Tipo');
+    const Nativo = require('./Analisis/Expresiones/Nativo');
+    const Aritmetica = require('./Analisis/Expresiones/Aritmetica');
 %}
 
 %lex // Inicia parte léxica
@@ -98,11 +100,12 @@
 %nonassoc 'POW'
 %left 'MAS','RES'
 %left 'MUL','DIV'
-%left 'UMENOS'
+%right 'UMENOS'
 %left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
 %right 'NOT'
 %left 'AND'
 %left 'OR'
+
 
 // Inicio de gramática
 %start inicio
@@ -110,38 +113,40 @@
 // Parte sintáctica  - Definición de la gramática
 %%
 
-inicio : instrucciones EOF                  {console.log('Sintactico', 'Correcto');}
+inicio : instrucciones EOF                       {return $1;}
 ;
 
-instrucciones : instrucciones instruccion
-              | instruccion
+instrucciones : instrucciones instruccion        { $1.push($2); $$ = $1;}
+              | instruccion                      { $$ = [$1]; }
+
 ;
-instruccion : declaracion
+instruccion : declaracion                        { $$ = $1; }
 ;
-declaracion: tipo ids PYC                   { console.log('Declaracion de variable: ', $1, $2); }
-           | tipo ids IGUAL expresion PYC   { variables[$2] = $4;  console.log('Declaracion de variable con asignacion: ', $1, $2, $3, $4);}
-           | ids IGUAL expresion PYC        { variables[$1] = $3;   console.log('Asignacion de variable: ', $1, $3);}
+declaracion: tipo ids PYC                   
+           | tipo ids IGUAL expresion PYC        { $$ = $4 }  
+           | ids IGUAL expresion PYC             { $$ = $3 }
 ;
 ids : ID
-    | ids COMA ID                        { $$ = $1 + ',' + $3; }
+    | ids COMA ID       
 ;
-tipo : INT                              { $$ = 'int'; }
-     | DOUBLE                           { $$ = 'double'; }
-     | BOOL                             { $$ = 'bool'; }
-     | CHAR                             { $$ = 'char'; }
-     | STD DOSPUNTOS DOSPUNTOS STRING   { $$ = 'string'; }
+tipo : INT 
+     | DOUBLE
+     | BOOL
+     | CHAR 
+     | STD DOSPUNTOS DOSPUNTOS STRING 
 ;
-expresion : NUMERO
-          | DECIMAL
+expresion : NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
+          | DECIMAL                              { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.DECIMAL), $1, @1.first_line, @1.first_column);}
           | CADENA
-          | ID                      { $$ = variables[$1]; } 
-          | expresion MAS expresion { $$ = Number($1) + Number($3); }
-          | expresion RES expresion { $$ = Number($1) - Number($3); }
-          | expresion MUL expresion { $$ = Number($1) * Number($3); }
-          | expresion DIV expresion { $$ = Number($1) / Number($3); }
-          | expresion POW expresion { $$ = Math.pow(Number($1), Number($3)); }
-          | PARENTESISI expresion PARENTESISD 
-          | RES expresion %prec UMENOS { $$ = -Number($2); }
+          | ID 
+          | PARENTESISI expresion PARENTESISD    { $$ = $2; }
+          | operacion
+;
+operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
+          | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}
+          | expresion MUL expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MULTIPLICACION,@1.first_line, @1.first_column, $1, $3);}
+          | expresion DIV expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.DIVISION,@1.first_line, @1.first_column, $1, $3);}
+          | expresion POW expresion
+          | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}
 
 ;
-

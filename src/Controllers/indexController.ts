@@ -1,4 +1,6 @@
 import {Request, Response} from 'express';
+import ArbolS from './Analisis/SimboloC/ArbolS';
+import TablaSimbolos from './Analisis/SimboloC/TablaSimbolos';
 
 class Controller {
     public prueba(req: Request, res: Response) {
@@ -14,11 +16,22 @@ class Controller {
     public analizar(req: Request, res: Response) {
         try{
             let parser = require('./Analizador.js');
-            let resultado = parser.parse("int x,y,a,b; int z = 21; x=3; b=2; a=3; y=2; int prueba = x; int sumatoria = x+y+a+b+z;");
+            let ast = new ArbolS(parser.parse(req.body.Entrada));
+            let Tabla = new TablaSimbolos();
+            Tabla.setNombre("Prueba 1");
+            ast.setTablaGlobal(Tabla);
+            ast.setConsola("");
+            for(let i of ast.getInstrucciones()){
+                console.log(i);
+                var resultado = i.interpretar(ast, Tabla);
+                console.log(resultado);
+            }
+            res.send({message: 'Analizado :D', consola: ast.getConsola(), errores: ast.getErrores()});
   
 
         }catch(e: any){
             console.log(e);
+            res.json({message: 'Error :( Ya no se que hacer con mi vida :c'})
         }
     }
 }
