@@ -1,21 +1,33 @@
 %{
-    //Importar clases
+    
     const Tipo = require('./Analisis/Simbolo/Tipo');
     const Nativo = require('./Analisis/Expresiones/Nativo');
     const Aritmetica = require('./Analisis/Expresiones/Aritmetica');
 %}
 
-%lex // Inicia parte léxica
+%lex 
 
 %options case-insensitive
+%x string
 
 %%
 
 \s+                                 //ignora espacios
 
-// Comentarios son con //
+["]				{ cadena = ''; this.begin("string"); }
+<string>[^"\\]+			{ cadena += yytext; }
+<string>"\\\""			{ cadena += "\""; }
+<string>"\n"			{ cadena += "\n"; }
+<string>\s			{ cadena += " ";  }
+<string>"\t"			{ cadena += "\t"; }
+<string>"\\\\"			{ cadena += "\\"; }
+<string>"\'"			{ cadena += "\'"; }
+<string>"\r"			{ cadena += "\r"; }
+<string>["]		        { yytext = cadena; this.popState(); return 'CADENA'; }
 
-[0-9]+("."[0-9]+)           return 'DECIMAL';
+\/\/([^\n])*                {};//ignora comentarios de una línea
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] {};//ignora comentarios de varias líneas
+[0-9]+("."[0-9]+)+\b        return 'DECIMAL';
 [0-9]+                      return 'NUMERO';
 "EXEC"                      return 'EXEC';
 "int"                       return 'INT';
@@ -50,9 +62,10 @@
 "toString"                  return 'TOSTRING';
 "c_str"                     return 'C_STR';
 "execute"                   return 'EXECUTE';
-[\"]((\\\")|[^\"\n])*[\"]   {yytext=yytext.substring(1,yyleng-1); return 'CADENA';}
+// Simbolos para la gramática
+"++"                        return 'MASMAS';
+"--"                        return 'MENOSMENOS';
 "."                         return 'PUNTO';
-([a-zA-z])[a-zA-Z0-9_]*     return 'ID';
 '"'                         return 'COMILLAS';
 "'"                         return 'COMILLA';
 "\\\\"                      return 'BARRA'; 
@@ -81,10 +94,13 @@
 "}"                         return 'LLAVED';
 "["                         return 'CORCHETEI';
 "]"                         return 'CORCHETED';
-\/\/([^\n])*                {};//ignora comentarios de una línea
-\/\*(.|[\r\n])*?\*\/        {};//ignora comentarios de varias líneas
-[\ \f\t\n\r]+               {};
-[\n\ ]                      {};
+([a-zA-z])[a-zA-Z0-9_]*     return 'ID';
+/* COMO CHAR SERIAN ESTOS CARACTERES DENTRO DE COMILLAS SIMPLES
+a', 'b', 'c',
+'E', '1', '&',
+'\', '\n', etc
+    USARE ESTA EXPRESION REGULAR PARA DETECTAR CARACTERES */
+[']\\\\[']|[']\\\"[']|[']\\\'[']|[']\\n[']|[']\\t[']|[']\\r[']|['].?[']	return 'CARACTER'
 
 <<EOF>>                     return 'EOF';
 .					        {console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);}
@@ -96,15 +112,18 @@
 /lex
 
 // precedencia
+%left 'OR'
+%left 'AND'
+%right 'NOT'
+%left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
 %right 'RES'
 %nonassoc 'POW'
 %left 'MAS','RES'
 %left 'MUL','DIV'
 %right 'UMENOS'
-%left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
-%right 'NOT'
-%left 'AND'
-%left 'OR'
+
+
+
 
 
 // Inicio de gramática
@@ -112,15 +131,21 @@
 
 // Parte sintáctica  - Definición de la gramática
 %%
+//Expresión
+//resultado = 2 + 3
 
-inicio : instrucciones EOF                       {return $1;}
+// Instrucción
+//print(resultado)
+
+inicio : codigos EOF                       {return $1;}
 ;
 
-instrucciones : instrucciones instruccion        { $1.push($2); $$ = $1;}
-              | instruccion                      { $$ = [$1]; }
+codigos : codigos codigo                        { $1.push($2); $$ = $1;}
+              | codigo                      { $$ = [$1]; }
 
 ;
-instruccion : declaracion                        { $$ = $1; }
+codigo : declaracion                        { $$ = $1; }
+        
 ;
 declaracion: tipo ids PYC                   
            | tipo ids IGUAL expresion PYC        { $$ = $4 }  
