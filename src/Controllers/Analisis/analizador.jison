@@ -119,7 +119,7 @@ a', 'b', 'c',
 %right 'RES'
 %nonassoc 'POW'
 %left 'MAS','RES'
-%left 'MUL','DIV'
+%left 'MUL','DIV','MOD'
 %right 'UMENOS'
 
 
@@ -144,12 +144,12 @@ codigos : codigos codigo                        { $1.push($2); $$ = $1;}
               | codigo                      { $$ = [$1]; }
 
 ;
-codigo : declaracion                        { $$ = $1; }
+codigo : declaracionv                        { $$ = $1; }
         
 ;
-declaracion: tipo ids PYC                   
-           | tipo ids IGUAL expresion PYC        { $$ = $4 }  
-           | ids IGUAL expresion PYC             { $$ = $3 }
+declaracionv: tipo ids PYC                   
+            | tipo ids IGUAL expresion PYC        { $$ = $4 }  
+            | ids IGUAL expresion PYC             { $$ = $3 }
 ;
 ids : ID
     | ids COMA ID       
@@ -166,12 +166,15 @@ expresion : NUMERO                               { $$ = new Nativo.default(new T
           | ID 
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
           | operacion
+          | CARACTER
 ;
 operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
           | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}
           | expresion MUL expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MULTIPLICACION,@1.first_line, @1.first_column, $1, $3);}
           | expresion DIV expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.DIVISION,@1.first_line, @1.first_column, $1, $3);}
-          | expresion POW expresion
+          | expresion MOD expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MODULO,@1.first_line, @1.first_column, $1, $3);}
+          | POW PARENTESISI expresion COMA expresion PARENTESISD { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.POTENCIA,@1.first_line, @1.first_column, $3, $5);}
           | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}
+         
 
 ;

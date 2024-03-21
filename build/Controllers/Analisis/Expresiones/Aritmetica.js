@@ -68,6 +68,10 @@ class Aritmetica extends Instruccion_1.Instruccion {
                 return this.multiplicacion(operadorIzq, operadorDer);
             case OperadorAritmetico.DIVISION:
                 return this.division(operadorIzq, operadorDer);
+            case OperadorAritmetico.POTENCIA:
+                return this.potencia(operadorIzq, operadorDer);
+            case OperadorAritmetico.MODULO:
+                return this.modulo(operadorIzq, operadorDer);
             default:
                 return new Errores_1.default('Error Semantico', `El operador ${this.Operador} no es valido`, this.Linea, this.Columna);
         }
@@ -227,6 +231,76 @@ class Aritmetica extends Instruccion_1.Instruccion {
                 return new Errores_1.default('Error Semantico', `No se puede negar ${Tipo1}`, this.Linea, this.Columna);
         }
     }
+    potencia(operadorIzq, operadorDer) {
+        var _a, _b;
+        let Tipo1 = (_a = this.Operando1) === null || _a === void 0 ? void 0 : _a.Tipo.getTipo();
+        let Tipo2 = (_b = this.Operando2) === null || _b === void 0 ? void 0 : _b.Tipo.getTipo();
+        // Aca se pueden validar los tipos de datos
+        switch (Tipo1) {
+            case Tipo_1.TipoDato.ENTERO:
+                switch (Tipo2) {
+                    case Tipo_1.TipoDato.ENTERO:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.ENTERO);
+                        return Math.pow(parseInt(operadorIzq), parseInt(operadorDer));
+                    case Tipo_1.TipoDato.DECIMAL:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return Math.pow(parseInt(operadorIzq), parseFloat(operadorDer));
+                    default:
+                        return new Errores_1.default('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case Tipo_1.TipoDato.DECIMAL:
+                switch (Tipo2) {
+                    case Tipo_1.TipoDato.ENTERO:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return Math.pow(parseFloat(operadorIzq), parseInt(operadorDer));
+                    case Tipo_1.TipoDato.DECIMAL:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return Math.pow(parseFloat(operadorIzq), parseFloat(operadorDer));
+                    default:
+                        return new Errores_1.default('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            //case TipoDato.CARACTER: Aca hacer las operaciones de potencia segun el tipo de dato segun el enunciado del proyecto
+            default:
+                return new Errores_1.default('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+        }
+    }
+    modulo(operadorIzq, operadorDer) {
+        var _a, _b;
+        let Tipo1 = (_a = this.Operando1) === null || _a === void 0 ? void 0 : _a.Tipo.getTipo();
+        let Tipo2 = (_b = this.Operando2) === null || _b === void 0 ? void 0 : _b.Tipo.getTipo();
+        // Aca se pueden validar los tipos de datos
+        switch (Tipo1) {
+            case Tipo_1.TipoDato.ENTERO:
+                switch (Tipo2) {
+                    case Tipo_1.TipoDato.ENTERO:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.ENTERO);
+                        return parseInt(operadorIzq) % parseInt(operadorDer);
+                    case Tipo_1.TipoDato.DECIMAL:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return parseFloat(operadorIzq) % parseFloat(operadorDer);
+                    default:
+                        return new Errores_1.default('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case Tipo_1.TipoDato.DECIMAL:
+                switch (Tipo2) {
+                    case Tipo_1.TipoDato.ENTERO:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return parseFloat(operadorIzq) % parseFloat(operadorDer);
+                    case Tipo_1.TipoDato.DECIMAL:
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        return parseFloat(operadorIzq) % parseFloat(operadorDer);
+                    default:
+                        return new Errores_1.default('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            //case TipoDato.CARACTER: Aca hacer las operaciones de modulo segun el tipo de dato segun el enunciado del proyecto
+            default:
+                return new Errores_1.default('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+        }
+    }
 }
 exports.default = Aritmetica;
 var OperadorAritmetico;
@@ -236,4 +310,6 @@ var OperadorAritmetico;
     OperadorAritmetico[OperadorAritmetico["NEGACION"] = 2] = "NEGACION";
     OperadorAritmetico[OperadorAritmetico["MULTIPLICACION"] = 3] = "MULTIPLICACION";
     OperadorAritmetico[OperadorAritmetico["DIVISION"] = 4] = "DIVISION";
+    OperadorAritmetico[OperadorAritmetico["POTENCIA"] = 5] = "POTENCIA";
+    OperadorAritmetico[OperadorAritmetico["MODULO"] = 6] = "MODULO";
 })(OperadorAritmetico || (exports.OperadorAritmetico = OperadorAritmetico = {}));
