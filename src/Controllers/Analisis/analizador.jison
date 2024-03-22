@@ -162,10 +162,11 @@ tipo : INT
 ;
 expresion : NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
           | DECIMAL                              { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.DECIMAL), $1, @1.first_line, @1.first_column);}
-          | CADENA
+          | CADENA                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CADENA), $1, @1.first_line, @1.first_column);}
+          
           | ID 
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
-          | operacion
+          | operacion                            { $$ = $1; }
           | CARACTER
 ;
 operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     

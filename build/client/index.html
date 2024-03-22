@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDE de Programación</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #f8f9fa;
+    }
+    .textAreaHeight {
+      height: 500px;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card-header {
+      background-color: #250046;
+      color: white;
+      border-radius: 8px 8px 0 0;
+      font-size: 1.5rem;
+    }
+    .card {
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    #analyzeBtn {
+      background-color: #380076;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease;
+    }
+    #analyzeBtn:hover {
+      background-color: #4c008f;
+    }
+    #loadFileBtn {
+  background-color: #380076;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+#loadFileBtn:hover {
+  background-color: #4c008f;
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Proyecto 2 COMPI1 Henry Quel 202004071</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <label for="fileInput" id="loadFileBtn" class="btn btn-outline-light mr-2">
+                <i class="fas fa-upload"></i> Cargar Archivo
+              </label>
+              <input type="file" id="fileInput" accept=".txt,.sc" style="display: none;">
+        </li>
+        <li class="nav-item">
+          <button id="analyzeBtn" class="btn btn-outline-light">Analizar Código</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-3">
+    <h1 class="display-4 text-center mb-4">CompiScript+ <i class="fas fa-code"></i></h1>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Código</div>
+          <div class="card-body">
+            <textarea id="codeEditor" class="form-control textAreaHeight"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mt-4">
+        <div class="card">
+          <div class="card-header">Salida</div>
+          <div class="card-body">
+            <textarea id="output" class="form-control textAreaHeight" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/mode/javascript/javascript.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var content = e.target.result;
+        codeEditor.setValue(content); // Establece el contenido en el editor de código
+      };
+
+      reader.readAsText(file);
+    });
+
+    var codeEditor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+      lineNumbers: true,
+      mode: "javascript",
+      theme: "dracula",
+      extraKeys: {"Ctrl-Space": "autocomplete"},
+      lineWrapping: true,
+      fontFamily: "'JetBrains Mono', monospace"
+    });
+
+    var outputEditor = CodeMirror.fromTextArea(document.getElementById("output"), {
+      lineNumbers: true,
+      mode: "javascript",
+      theme: "dracula",
+      readOnly: true,
+      fontFamily: "'JetBrains Mono', monospace"
+    });
+
+    codeEditor.setSize("100%", "500px");
+    outputEditor.setSize("100%", "500px");
+  </script>
+</body>
+</html>

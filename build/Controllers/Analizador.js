@@ -92,7 +92,7 @@ break;
 case 3:
  this.$ = [$$[$0]]; 
 break;
-case 4:
+case 4: case 20:
  this.$ = $$[$0]; 
 break;
 case 6: case 7:
@@ -103,6 +103,9 @@ case 15:
 break;
 case 16:
  this.$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.DECIMAL), $$[$0], _$[$0].first_line, _$[$0].first_column);
+break;
+case 17:
+ this.$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CADENA), $$[$0], _$[$0].first_line, _$[$0].first_column);
 break;
 case 19:
  this.$ = $$[$0-1]; 

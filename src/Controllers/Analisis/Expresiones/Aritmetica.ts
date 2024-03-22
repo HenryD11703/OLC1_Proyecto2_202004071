@@ -129,13 +129,16 @@ export default class Aritmetica extends Instruccion {
         // Aca se pueden validar los tipos de datos
         switch(Tipo1){
             case TipoDato.ENTERO:
-                switch(Tipo2){
-                    case TipoDato.ENTERO:
+                switch(Tipo2){ 
+                    case TipoDato.ENTERO: //Entero mas entero es entero
                         this.Tipo = new Tipo(TipoDato.ENTERO);
                         return parseInt(operadorIzq) + parseInt(operadorDer);
                     case TipoDato.DECIMAL:
-                        this.Tipo = new Tipo(TipoDato.DECIMAL);
+                        this.Tipo = new Tipo(TipoDato.DECIMAL); // Entero mas decimal es decimal
                         return parseFloat(operadorIzq) + parseFloat(operadorDer);
+                    case TipoDato.BOOLEANO: // Entero mas booleano es entero
+                        this.Tipo = new Tipo(TipoDato.ENTERO);
+                        return parseInt(operadorIzq) + (operadorDer ? 1 : 0); // Si es verdadero se suma 1, si es falso se suma 0
                     default:
                         return new Errores('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                 break; 

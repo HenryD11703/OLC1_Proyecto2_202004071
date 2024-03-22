@@ -154,12 +154,15 @@ class Aritmetica extends Instruccion_1.Instruccion {
         switch (Tipo1) {
             case Tipo_1.TipoDato.ENTERO:
                 switch (Tipo2) {
-                    case Tipo_1.TipoDato.ENTERO:
+                    case Tipo_1.TipoDato.ENTERO: //Entero mas entero es entero
                         this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.ENTERO);
                         return parseInt(operadorIzq) + parseInt(operadorDer);
                     case Tipo_1.TipoDato.DECIMAL:
-                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL); // Entero mas decimal es decimal
                         return parseFloat(operadorIzq) + parseFloat(operadorDer);
+                    case Tipo_1.TipoDato.BOOLEANO: // Entero mas booleano es entero
+                        this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.ENTERO);
+                        return parseInt(operadorIzq) + (operadorDer ? 1 : 0); // Si es verdadero se suma 1, si es falso se suma 0
                     default:
                         return new Errores_1.default('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                         break;

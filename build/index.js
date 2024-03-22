@@ -24,6 +24,9 @@ class Servidor {
         this.app.use(express_1.default.urlencoded({ limit: '50mb' }));
         this.app.use((0, cors_1.default)());
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
+        this.app.get('/Principal', (req, res) => {
+            res.sendFile(__dirname + '/client/index.html');
+        });
     }
     routes() {
         this.app.use('/', indexRouter_1.default);
