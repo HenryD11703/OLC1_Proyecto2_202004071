@@ -67,6 +67,12 @@
 "--"                        return 'MENOSMENOS';
 "."                         return 'PUNTO';
 '"'                         return 'COMILLAS';
+/* COMO CHAR SERIAN ESTOS CARACTERES DENTRO DE COMILLAS SIMPLES
+a', 'b', 'c',
+'E', '1', '&',
+'\', '\n', etc
+    USARE ESTA EXPRESION REGULAR PARA DETECTAR CARACTERES */
+[']\\\\[']|[']\\\"[']|[']\\\'[']|[']\\n[']|[']\\t[']|[']\\r[']|['].?['] { yytext = yytext.substring(1, yytext.length-1); return 'CARACTER'; }
 "'"                         return 'COMILLA';
 "\\\\"                      return 'BARRA'; 
 "/"                         return 'DIV';
@@ -95,12 +101,7 @@
 "["                         return 'CORCHETEI';
 "]"                         return 'CORCHETED';
 ([a-zA-z])[a-zA-Z0-9_]*     return 'ID';
-/* COMO CHAR SERIAN ESTOS CARACTERES DENTRO DE COMILLAS SIMPLES
-a', 'b', 'c',
-'E', '1', '&',
-'\', '\n', etc
-    USARE ESTA EXPRESION REGULAR PARA DETECTAR CARACTERES */
-[']\\\\[']|[']\\\"[']|[']\\\'[']|[']\\n[']|[']\\t[']|[']\\r[']|['].?[']	return 'CARACTER'
+
 
 <<EOF>>                     return 'EOF';
 .					        {console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);}
@@ -163,11 +164,12 @@ tipo : INT
 expresion : NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
           | DECIMAL                              { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.DECIMAL), $1, @1.first_line, @1.first_column);}
           | CADENA                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CADENA), $1, @1.first_line, @1.first_column);}
-          
+          | TRUE                                 { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), true, @1.first_line, @1.first_column);}
+          | FALSE                                { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), false, @1.first_line, @1.first_column);}
           | ID 
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
           | operacion                            { $$ = $1; }
-          | CARACTER
+          | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
 ;
 operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
           | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}

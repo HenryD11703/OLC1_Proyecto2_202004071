@@ -129,16 +129,22 @@ export default class Aritmetica extends Instruccion {
         // Aca se pueden validar los tipos de datos
         switch(Tipo1){
             case TipoDato.ENTERO:
-                switch(Tipo2){ 
-                    case TipoDato.ENTERO: //Entero mas entero es entero
+                switch(Tipo2){
+                    case TipoDato.ENTERO:
                         this.Tipo = new Tipo(TipoDato.ENTERO);
                         return parseInt(operadorIzq) + parseInt(operadorDer);
                     case TipoDato.DECIMAL:
-                        this.Tipo = new Tipo(TipoDato.DECIMAL); // Entero mas decimal es decimal
+                        this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return parseFloat(operadorIzq) + parseFloat(operadorDer);
-                    case TipoDato.BOOLEANO: // Entero mas booleano es entero
+                    case TipoDato.BOOLEANO:
                         this.Tipo = new Tipo(TipoDato.ENTERO);
-                        return parseInt(operadorIzq) + (operadorDer ? 1 : 0); // Si es verdadero se suma 1, si es falso se suma 0
+                        return parseInt(operadorIzq) + (operadorDer ? 1 : 0);
+                    case TipoDato.CARACTER: //al sumar un int con un char se suma el int al ascii del char
+                        this.Tipo = new Tipo(TipoDato.ENTERO);
+                        return parseInt(operadorIzq) + operadorDer.charCodeAt(0);
+                    case TipoDato.CADENA: //al sumar un int con un string se concatena el int al string
+                        this.Tipo = new Tipo(TipoDato.CADENA);
+                        return operadorIzq + operadorDer;                        
                     default:
                         return new Errores('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                 break; 
@@ -151,11 +157,38 @@ export default class Aritmetica extends Instruccion {
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return parseFloat(operadorIzq) + parseFloat(operadorDer);
+                    case TipoDato.BOOLEANO:
+                        this.Tipo = new Tipo(TipoDato.DECIMAL);
+                        return parseFloat(operadorIzq) + (operadorDer ? 1 : 0);
+                    case TipoDato.CARACTER: //al sumar un double con un char se suma el double al ascii del char
+                        this.Tipo = new Tipo(TipoDato.DECIMAL);
+                        return parseFloat(operadorIzq) + operadorDer.charCodeAt(0);
+                    case TipoDato.CADENA: //al sumar un double con un string se concatena el double al string
+                        this.Tipo = new Tipo(TipoDato.CADENA);
+                        return operadorIzq + operadorDer;
                     default:
                         return new Errores('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                 break;
                 }
-            //case TipoDato.CARACTER: Aca hacer las operaciones de suma segun el tipo de dato segun el enunciado del proyecto
+            case TipoDato.BOOLEANO:
+                switch(Tipo2){
+                    case TipoDato.ENTERO:
+                        this.Tipo = new Tipo(TipoDato.ENTERO);
+                        return (operadorIzq ? 1 : 0) + parseInt(operadorDer);
+                    case TipoDato.DECIMAL:
+                        this.Tipo = new Tipo(TipoDato.DECIMAL);
+                        return (operadorIzq ? 1 : 0) + parseFloat(operadorDer);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sumar Booleano con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER: //al sumar un boolean con un char se suma el boolean al ascii del char
+                        return new Errores('Error Semantico', `No se puede sumar Booleano con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA: //al sumar un boolean con un string se concatena el boolean al string
+                        this.Tipo = new Tipo(TipoDato.CADENA);
+                        return operadorIzq + operadorDer;
+                    default:
+                        return new Errores('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                break;
+                }
             default:
                 return new Errores('Error Semantico', `No se puede sumar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
             }
@@ -222,7 +255,7 @@ export default class Aritmetica extends Instruccion {
                 switch(Tipo2){
                     case TipoDato.ENTERO:
                         this.Tipo = new Tipo(TipoDato.ENTERO);
-                        return Math.pow(parseInt(operadorIzq), parseInt(operadorDer));
+                        return Math.pow(parseInt(operadorIzq), parseInt(operadorDer));  
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return Math.pow(parseInt(operadorIzq), parseFloat(operadorDer));
@@ -242,7 +275,7 @@ export default class Aritmetica extends Instruccion {
                         return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                 break;
                 }
-            //case TipoDato.CARACTER: Aca hacer las operaciones de potencia segun el tipo de dato segun el enunciado del proyecto
+            
             default:
                 return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
             }
