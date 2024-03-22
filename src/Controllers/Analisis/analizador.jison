@@ -166,16 +166,25 @@ expresion : NUMERO                               { $$ = new Nativo.default(new T
           | CADENA                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CADENA), $1, @1.first_line, @1.first_column);}
           | TRUE                                 { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), true, @1.first_line, @1.first_column);}
           | FALSE                                { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), false, @1.first_line, @1.first_column);}
-          | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
           | ID 
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
-          | expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
+          | operacion                            { $$ = $1; }
+          | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
+          | operacionRelacional                  { $$ = $1; }
+;
+operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
           | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}
           | expresion MUL expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MULTIPLICACION,@1.first_line, @1.first_column, $1, $3);}
           | expresion DIV expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.DIVISION,@1.first_line, @1.first_column, $1, $3);}
           | expresion MOD expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MODULO,@1.first_line, @1.first_column, $1, $3);}
           | POW PARENTESISI expresion COMA expresion PARENTESISD { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.POTENCIA,@1.first_line, @1.first_column, $3, $5);}
-          | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}
-         
-
+          | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}        
 ;
+
+operacionRelacional : expresion IGUALIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.IGUALIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion DIFERENTE expresion  { $$ = new Logica.default(Logica.OperadorRelacional.DIFERENTE,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MENOR expresion      { $$ = new Logica.default(Logica.OperadorRelacional.MENOR,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MENORIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.MENORIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MAYOR expresion      { $$ = new Logica.default(Logica.OperadorRelacional.MAYOR,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MAYORIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.MAYORIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    

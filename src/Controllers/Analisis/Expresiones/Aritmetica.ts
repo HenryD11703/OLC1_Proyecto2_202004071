@@ -465,25 +465,6 @@ export default class Aritmetica extends Instruccion {
         }
     }
 
-    
-    
-
-    
-    negacion(operadorUnico: any) {
-        let Tipo1 = this.operandoUnico?.Tipo.getTipo();
-        // Aca se pueden validar los tipos de datos
-        switch (Tipo1) {
-            case TipoDato.ENTERO:
-                this.Tipo = new Tipo(TipoDato.ENTERO);
-                return -parseInt(operadorUnico);
-            case TipoDato.DECIMAL:
-                this.Tipo = new Tipo(TipoDato.DECIMAL);
-                return -parseFloat(operadorUnico);
-            default:
-                return new Errores('Error Semantico', `No se puede negar ${Tipo1}`, this.Linea, this.Columna);
-        }
-    }
-
     potencia(operadorIzq: any, operadorDer: any) {
         let Tipo1 = this.Operando1?.Tipo.getTipo();
         let Tipo2 = this.Operando2?.Tipo.getTipo();
@@ -497,6 +478,12 @@ export default class Aritmetica extends Instruccion {
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return Math.pow(parseInt(operadorIzq), parseFloat(operadorDer));
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede elevar Entero con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER: 
+                        return new Errores('Error Semantico', `No se puede elevar Entero con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede elevar un Entero y una cadena`, this.Linea, this.Columna);
                     default:
                         return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                         break;
@@ -509,17 +496,70 @@ export default class Aritmetica extends Instruccion {
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return Math.pow(parseFloat(operadorIzq), parseFloat(operadorDer));
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede elevar Decimal con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede elevar Decimal con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede elevar un Decimal y una cadena`, this.Linea, this.Columna);
                     default:
                         return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                         break;
                 }
-
+            case TipoDato.BOOLEANO:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO:
+                        return new Errores('Error Semantico', `No se puede elevar Booleano con Entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL:
+                        return new Errores('Error Semantico', `No se puede elevar Booleano con Decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede elevar Booleano con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede elevar Booleano con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede elevar un Booleano y una cadena`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case TipoDato.CARACTER:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO: 
+                        return new Errores('Error Semantico', `No se puede elevar Char con Entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL: 
+                        return new Errores('Error Semantico', `No se puede elevar Char con Decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO: 
+                        return new Errores('Error Semantico', `No se puede elevar Char con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:  
+                        return new Errores('Error Semantico', `No se puede elevar dos caracteres`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede elevar un Char y una cadena`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case TipoDato.CADENA:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO:
+                        return new Errores('Error Semantico', `No se puede elevar una cadena con un entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL:
+                        return new Errores('Error Semantico', `No se puede elevar una cadena con un decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede elevar una cadena con un booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede elevar una cadena con un caracter`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede elevar dos cadenas`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
             default:
                 return new Errores('Error Semantico', `No se puede elevar ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
         }
     }
 
-    modulo(operadorIzq: any, operadorDer: any) {
+    modulo(operadorIzq: any, operadorDer: any) {//modulo igual que la potencia
         let Tipo1 = this.Operando1?.Tipo.getTipo();
         let Tipo2 = this.Operando2?.Tipo.getTipo();
         // Aca se pueden validar los tipos de datos
@@ -532,6 +572,12 @@ export default class Aritmetica extends Instruccion {
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return parseFloat(operadorIzq) % parseFloat(operadorDer);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Entero con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Entero con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede sacar modulo un Entero y una cadena`, this.Linea, this.Columna);
                     default:
                         return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                         break;
@@ -544,15 +590,91 @@ export default class Aritmetica extends Instruccion {
                     case TipoDato.DECIMAL:
                         this.Tipo = new Tipo(TipoDato.DECIMAL);
                         return parseFloat(operadorIzq) % parseFloat(operadorDer);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Decimal con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Decimal con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede sacar modulo un Decimal y una cadena`, this.Linea, this.Columna);
                     default:
                         return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
                         break;
                 }
-            //case TipoDato.CARACTER: Aca hacer las operaciones de modulo segun el tipo de dato segun el enunciado del proyecto
+            case TipoDato.BOOLEANO:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Booleano con Entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Booleano con Decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Booleano con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Booleano con Char`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede sacar modulo un Booleano y una cadena`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case TipoDato.CARACTER:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Char con Entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Char con Decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo Char con Booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede sacar modulo dos caracteres`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede sacar modulo un Char y una cadena`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
+            case TipoDato.CADENA:
+                switch (Tipo2) {
+                    case TipoDato.ENTERO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo una cadena con un entero`, this.Linea, this.Columna);
+                    case TipoDato.DECIMAL:
+                        return new Errores('Error Semantico', `No se puede sacar modulo una cadena con un decimal`, this.Linea, this.Columna);
+                    case TipoDato.BOOLEANO:
+                        return new Errores('Error Semantico', `No se puede sacar modulo una cadena con un booleano`, this.Linea, this.Columna);
+                    case TipoDato.CARACTER:
+                        return new Errores('Error Semantico', `No se puede sacar modulo una cadena con un caracter`, this.Linea, this.Columna);
+                    case TipoDato.CADENA:
+                        return new Errores('Error Semantico', `No se puede sacar modulo dos cadenas`, this.Linea, this.Columna);
+                    default:
+                        return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
+                        break;
+                }
             default:
                 return new Errores('Error Semantico', `No se puede sacar modulo ${Tipo1} con ${Tipo2}`, this.Linea, this.Columna);
         }
     }
+
+    negacion(operadorUnico: any) {
+        let Tipo1 = this.operandoUnico?.Tipo.getTipo();
+        // Aca se pueden validar los tipos de datos
+        switch (Tipo1) {
+            case TipoDato.ENTERO:
+                this.Tipo = new Tipo(TipoDato.ENTERO);
+                return -parseInt(operadorUnico);
+            case TipoDato.DECIMAL:
+                this.Tipo = new Tipo(TipoDato.DECIMAL);
+                return -parseFloat(operadorUnico);
+            case TipoDato.BOOLEANO:
+                return new Errores('Error Semantico', `No se puede negar un Booleano`, this.Linea, this.Columna);
+            case TipoDato.CARACTER:
+                return new Errores('Error Semantico', `No se puede negar un Char`, this.Linea, this.Columna);
+            case TipoDato.CADENA:
+                return new Errores('Error Semantico', `No se puede negar una cadena`, this.Linea, this.Columna);            
+            default:
+                return new Errores('Error Semantico', `No se puede negar ${Tipo1}`, this.Linea, this.Columna);
+        }
+    }
+
+    
 
 }
 export enum OperadorAritmetico {
