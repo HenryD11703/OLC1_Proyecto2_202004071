@@ -3,6 +3,7 @@
     const Tipo = require('./Analisis/Simbolo/Tipo');
     const Nativo = require('./Analisis/Expresiones/Nativo');
     const Aritmetica = require('./Analisis/Expresiones/Aritmetica');
+    const Logica = require('./Analisis/Expresiones/Logica');
 %}
 
 %lex 
@@ -181,10 +182,13 @@ operacion : expresion MAS expresion              { $$ = new Aritmetica.default(A
           | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}        
 ;
 
-operacionRelacional : expresion IGUALIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.IGUALIGUAL,@1.first_line, @1.first_column, $1, $3);}
-                    | expresion DIFERENTE expresion  { $$ = new Logica.default(Logica.OperadorRelacional.DIFERENTE,@1.first_line, @1.first_column, $1, $3);}
-                    | expresion MENOR expresion      { $$ = new Logica.default(Logica.OperadorRelacional.MENOR,@1.first_line, @1.first_column, $1, $3);}
-                    | expresion MENORIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.MENORIGUAL,@1.first_line, @1.first_column, $1, $3);}
-                    | expresion MAYOR expresion      { $$ = new Logica.default(Logica.OperadorRelacional.MAYOR,@1.first_line, @1.first_column, $1, $3);}
-                    | expresion MAYORIGUAL expresion { $$ = new Logica.default(Logica.OperadorRelacional.MAYORIGUAL,@1.first_line, @1.first_column, $1, $3);}
-                    
+operacionRelacional : expresion IGUALIGUAL expresion { $$ = new Logica.default(Logica.OperadorLogico.IGUALIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion DIFERENTE expresion  { $$ = new Logica.default(Logica.OperadorLogico.DIFERENTE,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MENOR expresion      { $$ = new Logica.default(Logica.OperadorLogico.MENOR,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MENORIGUAL expresion { $$ = new Logica.default(Logica.OperadorLogico.MENORIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MAYOR expresion      { $$ = new Logica.default(Logica.OperadorLogico.MAYOR,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion MAYORIGUAL expresion { $$ = new Logica.default(Logica.OperadorLogico.MAYORIGUAL,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion OR expresion         { $$ = new Logica.default(Logica.OperadorLogico.OR,@1.first_line, @1.first_column, $1, $3);}
+                    | expresion AND expresion        { $$ = new Logica.default(Logica.OperadorLogico.AND,@1.first_line, @1.first_column, $1, $3);}
+                    | NOT expresion                  { $$ = new Logica.default(Logica.OperadorLogico.NOT,@1.first_line, @1.first_column, $2);}
+;                    
