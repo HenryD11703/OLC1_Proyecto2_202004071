@@ -19,8 +19,7 @@ export default class Declaracion extends Instruccion {
         let valorFinal = this.valor.interpretar(ArbolS, tabla);
         if (valorFinal instanceof Errores) return valorFinal;
      //Cuando se declare una variable sin valor, se le asigna un valor por defecto
-     console.log("valorFinal: "+valorFinal)
-     console.log("tipo: "+this.Tipo.getTipo())
+ 
         if (valorFinal == "nada") {
             if (this.Tipo.getTipo() == TipoDato.ENTERO) {
                 valorFinal = 0;

@@ -393,12 +393,17 @@ class Aritmetica extends Instruccion_1.Instruccion {
         let Tipo1 = (_a = this.Operando1) === null || _a === void 0 ? void 0 : _a.Tipo.getTipo();
         let Tipo2 = (_b = this.Operando2) === null || _b === void 0 ? void 0 : _b.Tipo.getTipo();
         // Aca se pueden validar los tipos de datos
+        //Division entre 0
+        if (operadorDer == 0) {
+            return new Errores_1.default('Error Semantico', `No se puede dividir entre 0`, this.Linea, this.Columna);
+        }
         switch (Tipo1) {
             case Tipo_1.TipoDato.ENTERO:
                 switch (Tipo2) {
                     case Tipo_1.TipoDato.ENTERO:
                         this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
-                        return parseInt(operadorIzq) / parseInt(operadorDer);
+                        console.log("El operador Izquierdo es:" + operadorIzq);
+                        return parseFloat(operadorIzq) / parseFloat(operadorDer);
                     case Tipo_1.TipoDato.DECIMAL:
                         this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
                         return parseFloat(operadorIzq) / parseFloat(operadorDer);

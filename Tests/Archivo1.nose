@@ -1,0 +1,50 @@
+// Comentario de una línea
+/* 
+    Comentario
+    de
+    múltiples
+    líneas
+*/
+
+int a = 5 + 3 * 2; // 11
+int b = 10 / 2 - 4; // 1
+double c = 3.14 + 2.7; // 5.84
+double d = 10.0 / 3; // 3.33333...
+
+int e = a * b; // 11
+int f = 2 + a - b * 3; // 9
+double g = c / 2.0; // 2.92
+
+bool h = true; // true
+bool i = false; // false
+bool j = 5 > 3; // true
+bool k = 10 <= 5; // false
+bool l = !j; // false
+
+std::string m = "Hola"; // "Hola"
+std::string n = "Mundo" + "!"; // "Mundo!"
+std::string o = m + " " + n; // "Hola Mundo!"
+
+int p = 42; // 42
+double q = 3.14 + p; // 45.14
+std::string r = "El resultado es: " + q;  
+
+cout << "Valor de a: " + a + "\n"; // Imprime: Valor de a: 11
+cout <<"Valor de b: " + b + "\n"; // Imprime: Valor de b: 1
+cout << "Valor de c: " + c + "\n"; // Imprime: Valor de c: 5.84
+cout << "Valor de d: " + d + "\n"; // Imprime: Valor de d: 3.33333
+cout << "Valor de e: " + e + "\n"; // Imprime: Valor de e: 11
+cout << "Valor de f: " + f + "\n"; // Imprime: Valor de f: 9
+cout << "Valor de g: " + g + "\n"; // Imprime: Valor de g: 2.92
+cout << "Valor de h: " + h + "\n"; // Imprime: Valor de h: 1 (true)
+cout << "Valor de i: " + i + "\n"; // Imprime: Valor de i: 0 (false)
+cout << "Valor de j: " + j + "\n"; // Imprime: Valor de j: 1 (true)
+cout << "Valor de k: " + k + "\n"; // Imprime: Valor de k: 0 (false)
+cout << "Valor de l: " + l + "\n"; // Imprime: Valor de l: 0 (false)
+cout << "Valor de m: " + m + "\n"; // Imprime: Valor de m: Hola
+cout << "Valor de n: " + n + "\n"; // Imprime: Valor de n: Mundo!
+cout << "Valor de o: " + o + "\n"; // Imprime: Valor de o: Hola Mundo!
+cout << "Valor de p: " + p + "\n"; // Imprime: Valor de p: 42
+cout << "Valor de q: " + q + "\n"; // Imprime: Valor de q: 45.14
+cout << "Prueba de concatenación: " + "El resultado es: " + q + "\n"; // Imprime: Prueba de concatenación: El resultado es: 45.14
+cout << r + "\n"; // Imprime: El resultado es: 45.14

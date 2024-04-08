@@ -6,6 +6,7 @@
     const Aritmetica = require('./Analisis/Expresiones/Aritmetica');
     const Logica = require('./Analisis/Expresiones/Logica');
     const AccesoVar = require('./Analisis/Expresiones/AccessVar');  
+    const OpTernaria = require('./Analisis/Expresiones/OperacionTernaria');
 
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
@@ -78,7 +79,7 @@
 [']\\\\[']|[']\\\"[']|[']\\\'[']|[']\\n[']|[']\\t[']|[']\\r[']|['].?['] { yytext = yytext.substring(1, yytext.length-1); return 'CARACTER'; }
 "'"                         return 'COMILLA';
 "\\\\"                      return 'BARRA'; 
-"/"                         return 'DIV';
+
 "*"                         return 'MUL';
 ":"                         return 'DOSPUNTOS';
 "+"                         return 'MAS';
@@ -105,7 +106,7 @@
 "["                         return 'CORCHETEI';
 "]"                         return 'CORCHETED';
 ([a-zA-z])[a-zA-Z0-9_]*     return 'ID';
-
+"/"                         return 'DIV';
 
 <<EOF>>                     return 'EOF';
 .					        {console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);}
@@ -117,6 +118,7 @@
 /lex
 
 // precedencia
+%left 'INTERROGACION'
 %left 'OR'
 %left 'AND'
 %right 'NOT'
@@ -206,5 +208,8 @@ Para la impresion la primera regla es para imprimir sin salto de linea, la segun
 impresion : COUT MENORMENOR expresion   PYC                     {$$ = new Imprimir.default($3,"", @1.first_line, @1.first_column);}
            |COUT MENORMENOR expresion MENORMENOR ENDL PYC       {$$ = new Imprimir.default($3,"\n", @1.first_line, @1.first_column);}     
 ;
- 
+
+//Basicamente toca eveluar la expresion si es verdadera retorna un true y se asigna el valor de la primera expresion, sino la segunda
+ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion { $$ = new OpTernaria.default($1, $3, $5, @2.first_line, @2.first_column); }
+;
  
