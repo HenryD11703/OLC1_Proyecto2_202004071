@@ -32,7 +32,7 @@ const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 class Logica extends Instruccion_1.Instruccion {
     constructor(operador, linea, columna, Expresion1, Expresion2) {
-        super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
+        super(new Tipo_1.default(Tipo_1.TipoDato.BOOLEANO), linea, columna);
         this.Operador = operador;
         if (!Expresion2)
             this.ExpresionUnica = Expresion1;

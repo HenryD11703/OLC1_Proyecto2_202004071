@@ -402,7 +402,6 @@ class Aritmetica extends Instruccion_1.Instruccion {
                 switch (Tipo2) {
                     case Tipo_1.TipoDato.ENTERO:
                         this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);
-                        console.log("El operador Izquierdo es:" + operadorIzq);
                         return parseFloat(operadorIzq) / parseFloat(operadorDer);
                     case Tipo_1.TipoDato.DECIMAL:
                         this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.DECIMAL);

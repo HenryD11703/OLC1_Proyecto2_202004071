@@ -6,10 +6,10 @@ import TablaSimbolos from '../SimboloC/TablaSimbolos';
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 
 export default class Declaracion extends Instruccion {
-    private id: string;
+    private id: string[];
     private valor: Instruccion;
 
-    constructor(tipo: Tipo, linea: number, columna: number, id: string, valor: Instruccion) {
+    constructor(tipo: Tipo, linea: number, columna: number, id: string[], valor: Instruccion) {
         super(tipo, linea, columna);
         this.id = id;
         this.valor = valor;
@@ -39,10 +39,11 @@ export default class Declaracion extends Instruccion {
             return new Errores('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
         }
 
-        if (!tabla.setVariable(new Simbolo(this.Tipo, this.id, valorFinal))) {
-            return new Errores('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
+        for (let ide of this.id) {
+            if (!tabla.setVariable(new Simbolo(this.Tipo, ide, valorFinal))) {
+                return new Errores('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
+            }
         }
-   
         
         
     }

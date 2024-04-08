@@ -38,8 +38,10 @@ class Declaracion extends Instruccion_1.Instruccion {
         if (this.valor.Tipo.getTipo() != this.Tipo.getTipo()) {
             return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
         }
-        if (!tabla.setVariable(new Simbolo_1.default(this.Tipo, this.id, valorFinal))) {
-            return new Errores_1.default('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
+        for (let ide of this.id) {
+            if (!tabla.setVariable(new Simbolo_1.default(this.Tipo, ide, valorFinal))) {
+                return new Errores_1.default('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
+            }
         }
     }
 }

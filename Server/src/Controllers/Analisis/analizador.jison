@@ -11,6 +11,7 @@
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
     const AsignacionVar = require('./Analisis/Instrucciones/VariablesA');
+    const Incremento = require('./Analisis/Instrucciones/Incremento');
 %}
 
 %lex 
@@ -148,21 +149,23 @@ inicio : codigos EOF                       {return $1;}
 ;
 
 codigos : codigos codigo                        { $1.push($2); $$ = $1;}
-              | codigo                      { $$ = [$1]; }
+              | codigo                          { $$ = [$1]; }
 
 ;
-codigo : declaracionv  PYC                      { $$ = $1; }
+codigo : declaracionv  PYC                 { $$ = $1; }
        | impresion                         { $$ = $1; }   
-       | funcionIf                         { $$ = $1; }   
+       | incrementoDec PYC                    { $$ = $1; }   
+       
  
   
 ;
-declaracionv: tipo ids                          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, "nada"); }                  
+declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
             | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
             | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
+                                 
 ;
-ids : ID
-    | ids COMA ID       
+ids : ID                                    { $$ = [$1]; }                                                                   
+    | ids COMA ID                           { $1.push($3); $$ = $1; }                         
 ;
 tipo : INT                                      { $$ = new Tipo.default(Tipo.TipoDato.ENTERO); } 
      | DOUBLE                                   { $$ = new Tipo.default(Tipo.TipoDato.DECIMAL); }
@@ -179,10 +182,10 @@ expresion : NUMERO                               { $$ = new Nativo.default(new T
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
           | operacion                            { $$ = $1; }
           | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
-          | operacionRelacional                  { $$ = $1; }
           | ternaryOp                            { $$ = $1; }
- 
+          | operacionRelacional                  { $$ = $1; } 
 ;
+
 operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
           | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}
           | expresion MUL expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MULTIPLICACION,@1.first_line, @1.first_column, $1, $3);}
@@ -210,6 +213,9 @@ impresion : COUT MENORMENOR expresion   PYC                     {$$ = new Imprim
 ;
 
 //Basicamente toca eveluar la expresion si es verdadera retorna un true y se asigna el valor de la primera expresion, sino la segunda
-ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion { $$ = new OpTernaria.default($1, $3, $5, @2.first_line, @2.first_column); }
+ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion  { $$ = new OpTernaria.default($1, $3, $5, @1.first_line, @1.first_column); }
 ;
  
+incrementoDec : ID MASMAS                              { $$ = new Incremento.default($1, "++", @1.first_line, @1.first_column); } 
+              | ID MENOSMENOS                          { $$ = new Incremento.default($1, "--", @1.first_line, @1.first_column); }
+;

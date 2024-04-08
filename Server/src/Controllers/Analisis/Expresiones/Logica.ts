@@ -14,7 +14,7 @@ export default class Logica extends Instruccion {
     private ExpresionUnica: Instruccion | undefined; //Para el caso de not
 
     constructor(operador: OperadorLogico, linea: number, columna: number, Expresion1?: Instruccion, Expresion2?: Instruccion) {
-        super(new Tipo(TipoDato.VOID), linea, columna);
+        super(new Tipo(TipoDato.BOOLEANO), linea, columna);
         this.Operador = operador;
         if (!Expresion2) this.ExpresionUnica = Expresion1;
         else {

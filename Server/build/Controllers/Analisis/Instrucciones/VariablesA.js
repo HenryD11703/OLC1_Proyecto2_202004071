@@ -30,22 +30,24 @@ const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class VariablesA extends Instruccion_1.Instruccion {
-    constructor(id, exp, fila, columna) {
+    constructor(ids, exp, fila, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), fila, columna);
-        this.id = id;
+        this.ids = ids;
         this.exp = exp;
     }
     interpretar(ArbolS, tabla) {
         let NewValue = this.exp.interpretar(ArbolS, tabla);
         if (NewValue instanceof Errores_1.default)
             return NewValue;
-        let valor = tabla.getVariable(this.id.toLowerCase());
-        if (valor == null)
-            return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
-        if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo())
-            return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
-        this.Tipo = valor.getTipoSimbolo();
-        valor.setValor(NewValue);
+        for (let id of this.ids) {
+            let valor = tabla.getVariable(id.toLowerCase());
+            if (valor == null)
+                return new Errores_1.default('Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);
+            if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo())
+                return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
+            this.Tipo = valor.getTipoSimbolo();
+            valor.setValor(NewValue);
+        }
     }
 }
 exports.default = VariablesA;

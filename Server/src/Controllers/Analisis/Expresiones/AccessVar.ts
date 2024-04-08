@@ -5,7 +5,7 @@ import Simbolo from "../SimboloC/Simbolo";
 import TablaSimbolos from '../SimboloC/TablaSimbolos';
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 
-export default class Declaracion extends Instruccion {
+export default class AccessVar extends Instruccion {
     private id: string;
 
     constructor(id: string, linea: number, columna: number) {
@@ -14,10 +14,8 @@ export default class Declaracion extends Instruccion {
     }
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
-        let ValueVar = tabla.getVariable(this.id);
-        if (ValueVar == null) {
-            return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
-        }
+        let ValueVar: Simbolo = tabla.getVariable(this.id);
+        if (ValueVar == null) return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         this.Tipo = ValueVar.getTipoSimbolo();
         return ValueVar.getValor();
     }

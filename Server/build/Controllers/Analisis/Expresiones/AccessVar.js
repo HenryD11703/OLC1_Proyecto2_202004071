@@ -29,18 +29,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-class Declaracion extends Instruccion_1.Instruccion {
+class AccessVar extends Instruccion_1.Instruccion {
     constructor(id, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
         this.id = id;
     }
     interpretar(ArbolS, tabla) {
         let ValueVar = tabla.getVariable(this.id);
-        if (ValueVar == null) {
+        if (ValueVar == null)
             return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
-        }
         this.Tipo = ValueVar.getTipoSimbolo();
         return ValueVar.getValor();
     }
 }
-exports.default = Declaracion;
+exports.default = AccessVar;
