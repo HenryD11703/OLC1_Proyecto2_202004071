@@ -7,6 +7,7 @@
     const Logica = require('./Analisis/Expresiones/Logica');
     const AccesoVar = require('./Analisis/Expresiones/AccessVar');  
     const OpTernaria = require('./Analisis/Expresiones/OperacionTernaria');
+    const Casteos = require('./Analisis/Expresiones/Casteos');
 
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
@@ -39,12 +40,16 @@
 [0-9]+("."[0-9]+)+\b        return 'DECIMAL';
 [0-9]+                      return 'NUMERO';
 "EXEC"                      return 'EXEC';
+"(int)"                      return 'PINTP';
 "int"                       return 'INT';
+"(double)"                   return 'PDOUBLEP';
 "double"                    return 'DOUBLE';
 "bool"                      return 'BOOL';
 "char"                      return 'CHAR';
+"(char)"                    return 'PCHARP';
 "std"                       return 'STD';
 "string"                    return 'STRING';
+"(string)"                  return 'PSTRINGP';
 "pow"                       return 'POW';
 "new"                       return 'NEW';
 "true"                      return 'TRUE';
@@ -119,13 +124,14 @@
 /lex
 
 // precedencia
+ 
 %left 'INTERROGACION'
 %left 'OR'
 %left 'AND'
-%right 'NOT'
+%right 'NOT','IGUAL'  
 %left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
 %right 'RES'
-%nonassoc 'POW'
+%nonassoc 'POW'  
 %left 'MAS','RES'
 %left 'MUL','DIV','MOD'
 %right 'UMENOS'
@@ -152,16 +158,16 @@ codigos : codigos codigo                        { $1.push($2); $$ = $1;}
               | codigo                          { $$ = [$1]; }
 
 ;
-codigo : declaracionv  PYC                 { $$ = $1; }
+codigo : declaracionv PYC                     { $$ = $1; }
        | impresion                         { $$ = $1; }   
        | incrementoDec PYC                    { $$ = $1; }   
        
  
   
 ;
-declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
-            | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
-            | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
+declaracionv: tipo ids  PYC                        { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
+            | tipo ids IGUAL expresion  PYC         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
+            | ids IGUAL expresion PYC               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
                                  
 ;
 ids : ID                                    { $$ = [$1]; }                                                                   
@@ -173,17 +179,19 @@ tipo : INT                                      { $$ = new Tipo.default(Tipo.Tip
      | CHAR                                     { $$ = new Tipo.default(Tipo.TipoDato.CARACTER); }
      | STD DOSPUNTOS DOSPUNTOS STRING           { $$ = new Tipo.default(Tipo.TipoDato.CADENA); }
 ;
-expresion : NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
+expresion : Casteos                             { $$ = $1; }
+          | NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
           | DECIMAL                              { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.DECIMAL), $1, @1.first_line, @1.first_column);}
           | CADENA                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CADENA), $1, @1.first_line, @1.first_column);}
           | TRUE                                 { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), true, @1.first_line, @1.first_column);}
           | FALSE                                { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.BOOLEANO), false, @1.first_line, @1.first_column);}
-          | ID                                   { $$ = new AccesoVar.default($1, @1.first_line, @1.first_column);}
+          | ID                                   { $$ = new AccesoVar.default($1, @1.first_line, @1.first_column);} 
           | PARENTESISI expresion PARENTESISD    { $$ = $2; }
           | operacion                            { $$ = $1; }
           | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
           | ternaryOp                            { $$ = $1; }
           | operacionRelacional                  { $$ = $1; } 
+        
 ;
 
 operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}     
@@ -218,4 +226,13 @@ ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion  { $$ = new Op
  
 incrementoDec : ID MASMAS                              { $$ = new Incremento.default($1, "++", @1.first_line, @1.first_column); } 
               | ID MENOSMENOS                          { $$ = new Incremento.default($1, "--", @1.first_line, @1.first_column); }
+;
+ 
+Casteos :   tipoDestino  expresion { $$ = new Casteos.default($1, $2, @1.first_line, @1.first_column); }
+;
+
+tipoDestino : PINTP                                      { $$ = Casteos.TipoCasteo.aENTERO; }
+            | PDOUBLEP                                   { $$ = Casteos.TipoCasteo.aDECIMAL; } 
+            | PCHARP                                     { $$ = Casteos.TipoCasteo.aCARACTER; }
+            | PSTRINGP                                   { $$ = Casteos.TipoCasteo.aCADENA; }
 ;

@@ -26,13 +26,13 @@ class Declaracion extends Instruccion_1.Instruccion {
                 valorFinal = "";
             }
             else if (this.Tipo.getTipo() == Tipo_1.TipoDato.BOOLEANO) {
-                valorFinal = false;
+                valorFinal = true;
             }
             else if (this.Tipo.getTipo() == Tipo_1.TipoDato.DECIMAL) {
                 valorFinal = 0.0;
             }
             else if (this.Tipo.getTipo() == Tipo_1.TipoDato.CARACTER) {
-                valorFinal = '';
+                valorFinal = '0';
             }
         }
         if (this.valor.Tipo.getTipo() != this.Tipo.getTipo()) {

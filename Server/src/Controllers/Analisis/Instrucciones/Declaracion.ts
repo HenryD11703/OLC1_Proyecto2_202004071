@@ -26,11 +26,11 @@ export default class Declaracion extends Instruccion {
             } else if (this.Tipo.getTipo() == TipoDato.CADENA) {
                 valorFinal = "";
             } else if (this.Tipo.getTipo() == TipoDato.BOOLEANO) {
-                valorFinal = false;
+                valorFinal = true;
             } else if (this.Tipo.getTipo() == TipoDato.DECIMAL) {
                 valorFinal = 0.0;
             } else if (this.Tipo.getTipo() == TipoDato.CARACTER) {
-                valorFinal = '';
+                valorFinal = '0';
             }
 
         }
