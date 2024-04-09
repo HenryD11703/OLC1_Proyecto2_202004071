@@ -161,6 +161,7 @@ codigos : codigos codigo                        { $1.push($2); $$ = $1;}
 codigo : declaracionv  PYC                 { $$ = $1; }
        | impresion                         { $$ = $1; }   
        | incrementoDec PYC                    { $$ = $1; }   
+       | funcionIf                         { $$ = $1; }
        
  
   
@@ -234,4 +235,13 @@ tipoDestino : PINTP                                      { $$ = Casteos.TipoCast
             | PDOUBLEP                                   { $$ = Casteos.TipoCasteo.aDECIMAL; } 
             | PCHARP                                     { $$ = Casteos.TipoCasteo.aCARACTER; }
             | PSTRINGP                                   { $$ = Casteos.TipoCasteo.aCADENA; }
+;
+
+funcionIf :   IF PARENTESISI expresion PARENTESISD bloqueCodigo 
+            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE bloqueCodigo
+            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE funcionIf
+;
+
+bloqueCodigo : LLAVEI codigos LLAVED
+             | LLAVEI LLAVED
 ;
