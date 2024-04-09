@@ -40,6 +40,13 @@ class FuncionIf extends Instruccion_1.Instruccion {
         const condicionResultado = this.condicion.interpretar(arbolS, tabla);
         if (condicionResultado instanceof Errores_1.default)
             return condicionResultado;
+        if (condicionResultado) {
+            this.bloqueIf.interpretar(arbolS, tabla);
+        }
+        else if (this.BloqueElse != null) {
+            this.BloqueElse.interpretar(arbolS, tabla);
+        }
+        return null;
     }
 }
 exports.default = FuncionIf;

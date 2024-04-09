@@ -4,7 +4,7 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
- 
+
 
 export default class FuncionIf extends Instruccion {
     condicion: Instruccion;
@@ -21,8 +21,12 @@ export default class FuncionIf extends Instruccion {
     public interpretar(arbolS: ArbolS, tabla: TablaSimbolos) {
         const condicionResultado = this.condicion.interpretar(arbolS, tabla);
         if (condicionResultado instanceof Errores) return condicionResultado;
-     
 
-
+        if (condicionResultado) {
+            this.bloqueIf.interpretar(arbolS, tabla);
+        }else if(this.BloqueElse != null){
+            this.BloqueElse.interpretar(arbolS, tabla);
+        }
+        return null;
     }
 }

@@ -5,14 +5,15 @@
     múltiples
     líneas
 */
-
-int a = 5 + 3 * 2; // 11
-int b = 10 / 2 - 4; // 1
+ double a;
+ 
+ a = 100/10 ; // 11
+int b = 5; // 1
 double c = 3.14 + 2.7; // 5.84
 double d = 10.0 / 3; // 3.33333...
 
-int e = a * b; // 11
-int f = 2 + a - b * 3; // 9
+double e = a * b; // 11
+double f = 2 + a - b * 3; // 9
 double g = c / 2.0; // 2.92
 
 bool h = true; // true
@@ -27,7 +28,7 @@ std::string o = m + " " + n; // "Hola Mundo!"
 
 int p = 42; // 42
 double q = 3.14 + p; // 45.14
-std::string r = "El resultado es: " + q;  
+std::string r = "El resultado es: " + q; // Error: No se puede concatenar string con double
 
 cout << "Valor de a: " + a + "\n"; // Imprime: Valor de a: 11
 cout <<"Valor de b: " + b + "\n"; // Imprime: Valor de b: 1
@@ -48,3 +49,68 @@ cout << "Valor de p: " + p + "\n"; // Imprime: Valor de p: 42
 cout << "Valor de q: " + q + "\n"; // Imprime: Valor de q: 45.14
 cout << "Prueba de concatenación: " + "El resultado es: " + q + "\n"; // Imprime: Prueba de concatenación: El resultado es: 45.14
 cout << r + "\n"; // Imprime: El resultado es: 45.14
+
+int numero = 10;
+bool esPositivo = numero > 0 ? true : false;
+cout << "=========="<<endl;
+cout << esPositivo << endl; // Salida: true
+ 
+double temperatura = 25.5;
+std::string clima = "asdasd";
+clima = temperatura < 20 ? "Caluroso" : "Frio";
+cout << "=========="<<endl;
+cout << clima << endl; // Salida: Caluroso
+ 
+
+int edad = 17;
+bool mayorDeEdad = edad >= 18 ? true : false;
+cout << "=========="<<endl;
+cout << mayorDeEdad << endl; // Salida: false
+ 
+
+char letra = 'a';
+std::string resultado = letra == 'a' ? "Es una a" : "No es una a";
+cout << "=========="<<endl;
+cout << resultado << endl; // Salida: Es una a
+ 
+
+int x = 8;
+int y = 3;
+int z = x > y ? x : y;
+cout << "=========="<<endl;
+cout << z << endl; // Salida: 8
+cout << "=========="<<endl;
+int algo,otroa = 2;
+otroa = otroa + 1;
+cout << "El valor de algo es: " + algo + " y el valor de otra es: "+ otroa << endl;
+double sola;
+sola = 1223.321231233;
+int convert  = (int) sola;
+
+cout << "El valor convertido a int es: "+convert <<endl;
+sola++;
+sola++;
+cout << "El valor de sola es: "+ sola <<endl;
+
+
+std::string pruebaSt = (string) sola ;
+cout << "El valor de "+sola+" convertido a stinrg es: "+pruebaSt << endl;
+
+int edad = (int) 18.6; // toma el valor entero de 18
+cout << "La edad es: "+ edad << endl;
+char letras = (char) 70; // toma el valor 'F' ya que el 70 en ascii es F
+cout << "El valor ascii de la letra es: " + letras <<endl;
+double numero2 = (double) 16; // toma el valor de 16.0
+cout << "El numero es: " +numero2 <<endl;
+double numero3 = numero2 + 12.4;
+cout << numero3 << endl;
+
+numero3 = numero3 - 25;
+
+if( numero3 < 10){
+    
+    cout << "El numero3 es menor que 10"  << endl;
+}else{
+     
+    cout << "El numero3 es mayor que 10" << endl;
+}

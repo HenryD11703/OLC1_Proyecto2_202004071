@@ -13,6 +13,8 @@
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
     const AsignacionVar = require('./Analisis/Instrucciones/VariablesA');
     const Incremento = require('./Analisis/Instrucciones/Incremento');
+    const Bloque = require('./Analisis/Instrucciones/Bloque');
+    const funcionIf = require('./Analisis/Instrucciones/FuncionIf');
 %}
 
 %lex 
@@ -237,11 +239,11 @@ tipoDestino : PINTP                                      { $$ = Casteos.TipoCast
             | PSTRINGP                                   { $$ = Casteos.TipoCasteo.aCADENA; }
 ;
 
-funcionIf :   IF PARENTESISI expresion PARENTESISD bloqueCodigo 
-            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE bloqueCodigo
-            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE funcionIf
+funcionIf :   IF PARENTESISI expresion PARENTESISD bloqueCodigo                     { $$ = new funcionIf.default($3, $5, null, @1.first_line, @1.first_column); } 
+            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE bloqueCodigo   { $$ = new funcionIf.default($3, $5, $7, @1.first_line, @1.first_column); }
+            | IF PARENTESISI expresion PARENTESISD bloqueCodigo ELSE funcionIf      { $$ = new funcionIf.default($3, $5, $7, @1.first_line, @1.first_column); }
 ;
 
-bloqueCodigo : LLAVEI codigos LLAVED
-             | LLAVEI LLAVED
+bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line, @1.first_column); }
+             | LLAVEI LLAVED          { $$ = new Bloque.default([], @1.first_line, @1.first_column); }
 ;
