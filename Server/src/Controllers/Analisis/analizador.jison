@@ -128,7 +128,7 @@
 %left 'INTERROGACION'
 %left 'OR'
 %left 'AND'
-%right 'NOT','IGUAL'  
+%right 'NOT' ,'tipoDestino' 
 %left 'IGUALIGUAL','DIFERENTE','MENOR','MENORIGUAL','MAYOR','MAYORIGUAL'
 %right 'RES'
 %nonassoc 'POW'  
@@ -158,16 +158,16 @@ codigos : codigos codigo                        { $1.push($2); $$ = $1;}
               | codigo                          { $$ = [$1]; }
 
 ;
-codigo : declaracionv PYC                     { $$ = $1; }
+codigo : declaracionv  PYC                 { $$ = $1; }
        | impresion                         { $$ = $1; }   
        | incrementoDec PYC                    { $$ = $1; }   
        
  
   
 ;
-declaracionv: tipo ids  PYC                        { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
-            | tipo ids IGUAL expresion  PYC         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
-            | ids IGUAL expresion PYC               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
+declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
+            | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
+            | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
                                  
 ;
 ids : ID                                    { $$ = [$1]; }                                                                   
@@ -230,7 +230,6 @@ incrementoDec : ID MASMAS                              { $$ = new Incremento.def
  
 Casteos :   tipoDestino  expresion { $$ = new Casteos.default($1, $2, @1.first_line, @1.first_column); }
 ;
-
 tipoDestino : PINTP                                      { $$ = Casteos.TipoCasteo.aENTERO; }
             | PDOUBLEP                                   { $$ = Casteos.TipoCasteo.aDECIMAL; } 
             | PCHARP                                     { $$ = Casteos.TipoCasteo.aCARACTER; }
