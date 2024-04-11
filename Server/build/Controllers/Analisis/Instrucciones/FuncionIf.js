@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class FuncionIf extends Instruccion_1.Instruccion {
     constructor(condicion, bloqueIf, BloqueElse, linea, columna) {
@@ -40,11 +41,13 @@ class FuncionIf extends Instruccion_1.Instruccion {
         const condicionResultado = this.condicion.interpretar(arbolS, tabla);
         if (condicionResultado instanceof Errores_1.default)
             return condicionResultado;
+        let newTabla = new TablaSimbolos_1.default(tabla);
+        newTabla.setNombre("Bloque");
         if (condicionResultado) {
-            this.bloqueIf.interpretar(arbolS, tabla);
+            this.bloqueIf.interpretar(arbolS, newTabla);
         }
         else if (this.BloqueElse != null) {
-            this.BloqueElse.interpretar(arbolS, tabla);
+            this.BloqueElse.interpretar(arbolS, newTabla);
         }
         return null;
     }

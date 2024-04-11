@@ -7,7 +7,7 @@ export default class Simbolo {
 
     constructor(tipoSimbolo: Tipo, identificador: string, valor?: any){
         this.tipoSimbolo = tipoSimbolo;
-        this.identificador = identificador.toLowerCase();
+        this.identificador = identificador.toLocaleLowerCase()
         this.valor = valor;
     }
     public getTipoSimbolo(): Tipo {

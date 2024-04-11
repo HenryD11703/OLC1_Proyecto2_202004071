@@ -96,7 +96,7 @@ cout << "El valor de sola es: "+ sola <<endl;
 std::string pruebaSt = (string) sola ;
 cout << "El valor de "+sola+" convertido a stinrg es: "+pruebaSt << endl;
 
-int edad = (int) 18.6; // toma el valor entero de 18
+int edad = (string) 18.6; // toma el valor entero de 18
 cout << "La edad es: "+ edad << endl;
 char letras = (char) 70; // toma el valor 'F' ya que el 70 en ascii es F
 cout << "El valor ascii de la letra es: " + letras <<endl;

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Simbolo {
     constructor(tipoSimbolo, identificador, valor) {
         this.tipoSimbolo = tipoSimbolo;
-        this.identificador = identificador.toLowerCase();
+        this.identificador = identificador.toLocaleLowerCase();
         this.valor = valor;
     }
     getTipoSimbolo() {

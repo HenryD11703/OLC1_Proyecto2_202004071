@@ -12,7 +12,7 @@
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
     const AsignacionVar = require('./Analisis/Instrucciones/VariablesA');
-    const Incremento = require('./Analisis/Instrucciones/Incremento');
+    const Incremento = require('./Analisis/Instrucciones/Incremento'); 
     const Bloque = require('./Analisis/Instrucciones/Bloque');
     const funcionIf = require('./Analisis/Instrucciones/FuncionIf');
 %}

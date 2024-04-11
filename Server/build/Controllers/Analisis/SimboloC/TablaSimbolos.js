@@ -19,12 +19,18 @@ class TablaSimbolos {
         this.tablaActual = tablaActual;
     }
     getVariable(identificador) {
-        return this.getTablaActual().get(identificador.toLowerCase());
+        for (let i = this; i != null; i = i.getTablaAnterior()) {
+            let buscar = i.getTablaActual().get(identificador.toLowerCase());
+            if (buscar != null) {
+                return buscar;
+            }
+            return null;
+        }
     }
     setVariable(Simbolo) {
         let buscar = this.getTablaActual().get(Simbolo.getIdentificador().toLowerCase());
         if (buscar == null) {
-            this.getTablaActual().set(Simbolo.getIdentificador().toLowerCase(), Simbolo);
+            this.getTablaActual().set(Simbolo.getIdentificador().toLocaleLowerCase(), Simbolo);
             return true;
         }
         return false;

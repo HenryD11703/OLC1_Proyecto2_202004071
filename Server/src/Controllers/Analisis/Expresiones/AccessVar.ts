@@ -14,7 +14,7 @@ export default class AccessVar extends Instruccion {
     }
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
-        let ValueVar: Simbolo = tabla.getVariable(this.id);
+        let ValueVar: Simbolo = <Simbolo> tabla.getVariable(this.id);
         if (ValueVar == null) return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         this.Tipo = ValueVar.getTipoSimbolo();
         return ValueVar.getValor();

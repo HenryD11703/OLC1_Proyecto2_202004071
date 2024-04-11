@@ -6,8 +6,7 @@ import Errores from "../Excepciones/Errores";
 import e from "express";
 
 export default class Logica extends Instruccion {
-    //Aca en logica esta complicado por que se tiene que hacer un analisis de la expresion ya que no solo pueden venir numeros dentro de 
-    //la expresion sino que tambien pueden venir variables o funciones incluso anidadas algo asi como 1<3 || 3>2 && 2<4 o 2<3 && 3>2}
+
     private Expresion1: Instruccion | undefined;
     private Expresion2: Instruccion | undefined;
     private Operador: OperadorLogico;

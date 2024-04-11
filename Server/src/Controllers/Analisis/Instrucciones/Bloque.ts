@@ -13,6 +13,8 @@ export default class Bloque extends Instruccion {
     }
 
     interpretar(arbolS: ArbolS, tabla: TablaSimbolos) {
+
+       
         for (let instruccion of this.instrucciones) {
             const result = instruccion.interpretar(arbolS, tabla);
             if (result instanceof Errores) return result;

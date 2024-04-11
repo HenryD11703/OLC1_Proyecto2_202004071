@@ -22,10 +22,14 @@ export default class FuncionIf extends Instruccion {
         const condicionResultado = this.condicion.interpretar(arbolS, tabla);
         if (condicionResultado instanceof Errores) return condicionResultado;
 
+
+        let newTabla = new TablaSimbolos(tabla);
+        newTabla.setNombre("Bloque");
+
         if (condicionResultado) {
-            this.bloqueIf.interpretar(arbolS, tabla);
+            this.bloqueIf.interpretar(arbolS, newTabla);
         }else if(this.BloqueElse != null){
-            this.BloqueElse.interpretar(arbolS, tabla);
+            this.BloqueElse.interpretar(arbolS, newTabla);
         }
         return null;
     }
