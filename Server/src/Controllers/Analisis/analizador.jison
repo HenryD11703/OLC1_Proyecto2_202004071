@@ -16,6 +16,10 @@
     const Bloque = require('./Analisis/Instrucciones/Bloque');
     const funcionIf = require('./Analisis/Instrucciones/FuncionIf'); 
     const Break = require('./Analisis/Instrucciones/Break');
+    const FuncionWhile = require('./Analisis/Instrucciones/FuncionWhile');
+    const FuncionFor = require('./Analisis/Instrucciones/FuncionFor');
+    const FuncionDo = require('./Analisis/Instrucciones/FuncionDo');
+    const Continue = require('./Analisis/Instrucciones/Continue');
 %}
 
 %lex 
@@ -166,6 +170,10 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | incrementoDec PYC                    { $$ = $1; }   
        | funcionIf                         { $$ = $1; }
        | funcionBreak                      { $$ = $1; }
+       | funcionWhile                      { $$ = $1; }
+       | funcionFor                        { $$ = $1; }
+       | funciondo                         { $$ = $1; }
+       | funcionContinue                   { $$ = $1; }
        
  
   
@@ -253,4 +261,18 @@ bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line
 funcionBreak : BREAK PYC { $$ = new Break.default(@1.first_line, @1.first_column); }
 ;
 
-funcionWhile : WHILE PARENTESISI expresion PARENTESISD bloqueCodigo { $$ = new funcionWhile.default($3, $5, @1.first_line, @1.first_column); }
+funcionWhile : WHILE PARENTESISI expresion PARENTESISD bloqueCodigo { $$ = new FuncionWhile.default($3, $5, @1.first_line, @1.first_column); }
+;
+
+funcionFor : FOR PARENTESISI declaracionv PYC expresion PYC forActualizacion bloqueCodigo   { $$ = new FuncionFor.default($3, $5, $7, $8, @1.first_line, @1.first_column); }          
+ ;
+
+forActualizacion : ID MASMAS  PARENTESISD   { $$ = new Incremento.default($1, "++", @1.first_line, @1.first_column); }
+                 | ID MENOSMENOS  PARENTESISD   { $$ = new Incremento.default($1, "--", @1.first_line, @1.first_column); } 
+;
+
+funciondo: DO bloqueCodigo WHILE PARENTESISI expresion PARENTESISD PYC { $$ = new FuncionDo.default($2, $5, @1.first_line, @1.first_column); }
+;
+
+funcionContinue : CONTINUE PYC { $$ = new Continue.default(@1.first_line, @1.first_column); }
+;

@@ -26,7 +26,7 @@ export default class TablaSimbolos {
     }
     public getVariable(identificador: string) {
         for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
-            console.log(i.getNombre());
+ 
             let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
             if (buscar != null) return buscar;
         }

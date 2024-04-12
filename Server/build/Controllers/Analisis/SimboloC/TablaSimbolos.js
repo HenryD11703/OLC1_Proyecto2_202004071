@@ -20,7 +20,6 @@ class TablaSimbolos {
     }
     getVariable(identificador) {
         for (let i = this; i != null; i = i.getTablaAnterior()) {
-            console.log(i.getNombre());
             let buscar = i.getTablaActual().get(identificador.toLocaleLowerCase());
             if (buscar != null)
                 return buscar;

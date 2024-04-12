@@ -28,23 +28,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-const Break_1 = __importDefault(require("./Break"));
-class Bloque extends Instruccion_1.Instruccion {
-    constructor(instrucciones, linea, columna) {
+class FuncionFor extends Instruccion_1.Instruccion {
+    constructor(declaracion, condicion, incremento, bloque, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
-        this.instrucciones = instrucciones;
+        this.declaracion = declaracion;
+        this.condicion = condicion;
+        this.incremento = incremento;
+        this.bloque = bloque;
     }
-    interpretar(arbolS, tabla) {
-        for (let instruccion of this.instrucciones) {
-            if (instruccion instanceof Break_1.default)
-                return;
-            let result = instruccion.interpretar(arbolS, tabla);
-            if (result instanceof Break_1.default)
-                return;
-            if (result instanceof Errores_1.default)
-                return result;
+    interpretar(ArbolS, tabla) {
+        // Interpretar la declaración
+        this.declaracion.interpretar(ArbolS, tabla);
+        // Evaluar la condición
+        let condicionResultado = this.condicion.interpretar(ArbolS, tabla);
+        if (condicionResultado instanceof Errores_1.default)
+            return condicionResultado;
+        if (this.condicion.Tipo.getTipo() !== Tipo_1.TipoDato.BOOLEANO) {
+            return new Errores_1.default('Semantico', `La condición del for tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
+        // Ejecutar el bloque de código mientras se cumpla la condición
+        while (this.condicion.interpretar(ArbolS, tabla)) {
+            let newTabla = new TablaSimbolos_1.default(tabla);
+            newTabla.setNombre("Bloque For");
+            this.bloque.interpretar(ArbolS, newTabla);
+            // Ejecutar el incremento
+            this.incremento.interpretar(ArbolS, tabla);
+        }
+        return null;
     }
 }
-exports.default = Bloque;
+exports.default = FuncionFor;
