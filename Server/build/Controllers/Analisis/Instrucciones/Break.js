@@ -22,27 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
-const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-const Break_1 = __importDefault(require("./Break"));
-class Bloque extends Instruccion_1.Instruccion {
-    constructor(instrucciones, linea, columna) {
+class Break extends Instruccion_1.Instruccion {
+    constructor(linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
-        this.instrucciones = instrucciones;
     }
-    interpretar(arbolS, tabla) {
-        for (let instruccion of this.instrucciones) {
-            if (instruccion instanceof Break_1.default)
-                return instruccion;
-            const result = instruccion.interpretar(arbolS, tabla);
-            if (result instanceof Errores_1.default)
-                return result;
-        }
+    interpretar(ArbolS, tabla) {
+        return;
     }
 }
-exports.default = Bloque;
+exports.default = Break;

@@ -6,6 +6,7 @@ import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
 
 
+
 export default class FuncionIf extends Instruccion {
     condicion: Instruccion;
     bloqueIf: Bloque;

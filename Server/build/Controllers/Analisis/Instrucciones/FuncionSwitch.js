@@ -28,21 +28,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-const Break_1 = __importDefault(require("./Break"));
-class Bloque extends Instruccion_1.Instruccion {
-    constructor(instrucciones, linea, columna) {
+class FuncionSwitch extends Instruccion_1.Instruccion {
+    constructor(expresion, casos, defaultCase, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
-        this.instrucciones = instrucciones;
+        this.expresion = expresion;
+        this.casos = casos;
+        this.defaultCase = defaultCase;
     }
-    interpretar(arbolS, tabla) {
-        for (let instruccion of this.instrucciones) {
-            if (instruccion instanceof Break_1.default)
-                return instruccion;
-            const result = instruccion.interpretar(arbolS, tabla);
-            if (result instanceof Errores_1.default)
-                return result;
+    interpretar(ArbolS, tabla) {
+        let resultadoExpresion = this.expresion.interpretar(ArbolS, tabla);
+        if (resultadoExpresion instanceof Errores_1.default)
+            return resultadoExpresion;
+        let encontrado = false;
+        for (let caso of this.casos) {
+            let resultadoCaso = caso.condicion.interpretar(ArbolS, tabla);
+            if (resultadoCaso instanceof Errores_1.default)
+                return resultadoCaso;
+            if (resultadoExpresion == resultadoCaso) {
+                encontrado = true;
+                let nuevaTabla = new TablaSimbolos_1.default(tabla);
+                nuevaTabla.setNombre("Bloque");
+                caso.bloque.interpretar(ArbolS, nuevaTabla);
+                break;
+            }
         }
+        if (!encontrado && this.defaultCase != null) {
+            let nuevaTabla = new TablaSimbolos_1.default(tabla);
+            nuevaTabla.setNombre("Bloque");
+            this.defaultCase.interpretar(ArbolS, nuevaTabla);
+        }
+        return null;
     }
 }
-exports.default = Bloque;
+exports.default = FuncionSwitch;
+class Caso {
+    constructor(condicion, bloque) {
+        this.condicion = condicion;
+        this.bloque = bloque;
+    }
+}

@@ -14,7 +14,8 @@
     const AsignacionVar = require('./Analisis/Instrucciones/VariablesA');
     const Incremento = require('./Analisis/Instrucciones/Incremento'); 
     const Bloque = require('./Analisis/Instrucciones/Bloque');
-    const funcionIf = require('./Analisis/Instrucciones/FuncionIf');
+    const funcionIf = require('./Analisis/Instrucciones/FuncionIf'); 
+    const Break = require('./Analisis/Instrucciones/Break');
 %}
 
 %lex 
@@ -164,6 +165,7 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | impresion                         { $$ = $1; }   
        | incrementoDec PYC                    { $$ = $1; }   
        | funcionIf                         { $$ = $1; }
+       | funcionBreak                      { $$ = $1; }
        
  
   
@@ -248,18 +250,7 @@ bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line
              | LLAVEI LLAVED          { $$ = new Bloque.default([], @1.first_line, @1.first_column); }
 ;
 
-funcionSwitch : SWITCH PARENTESISI expresion PARENTESISD LLAVEI casos defaultC LLAVED
-              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI casos LLAVED
-              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI defaultC LLAVED
+funcionBreak : BREAK PYC { $$ = new Break.default(@1.first_line, @1.first_column); }
 ;
 
-casos : casos caso
-      | caso
-;
-
-caso : CASE expresion DOSPUNTOS codigos
-;
-
-defaultC : DEFAULT DOSPUNTOS codigos
-         | DEFAULT DOSPUNTOS
-;
+funcionWhile : WHILE PARENTESISI expresion PARENTESISD bloqueCodigo { $$ = new funcionWhile.default($3, $5, @1.first_line, @1.first_column); }
