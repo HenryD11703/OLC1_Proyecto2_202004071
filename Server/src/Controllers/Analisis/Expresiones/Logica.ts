@@ -65,19 +65,19 @@ export default class Logica extends Instruccion {
         return false;
     }
     MenorQ(Expresion1: any, Expresion2: any) {
-        if (Expresion1 < Expresion2) return true;
-        return false;
-    }
-    MenorIgualQ(Expresion1: any, Expresion2: any) {
-        if (Expresion1 <= Expresion2) return true;
-        return false;
-    }
-    MayorQ(Expresion1: any, Expresion2: any) {
         if (Expresion1 > Expresion2) return true;
         return false;
     }
-    MayorIgualQ(Expresion1: any, Expresion2: any) {
+    MenorIgualQ(Expresion1: any, Expresion2: any) {
         if (Expresion1 >= Expresion2) return true;
+        return false;
+    }
+    MayorQ(Expresion1: any, Expresion2: any) {
+        if (Expresion1 < Expresion2) return true;
+        return false;
+    }
+    MayorIgualQ(Expresion1: any, Expresion2: any) {
+        if (Expresion1 <= Expresion2) return true;
         return false;
     }
     Or(Expresion1: any, Expresion2: any) {

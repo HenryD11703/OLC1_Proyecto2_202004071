@@ -12,7 +12,7 @@ export default class TablaSimbolos {
         this.nombre = "";
     }
 
-    public getTablaAnterior(): TablaSimbolos{
+    public getTablaAnterior(): TablaSimbolos {
         return this.tablaAnterior;
     }
     public setTablaAnterior(tablaAnterior: TablaSimbolos): void {
@@ -26,12 +26,12 @@ export default class TablaSimbolos {
     }
     public getVariable(identificador: string) {
         for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
-            let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLowerCase());
-            if (buscar != null) {
-                return buscar;
-            }
-            return null;
+            console.log(i.getNombre());
+            let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
+            if (buscar != null) return buscar;
         }
+            return null;
+        
     }
     public setVariable(Simbolo: Simbolo) {
         let buscar: Simbolo = <Simbolo>this.getTablaActual().get(Simbolo.getIdentificador().toLowerCase());

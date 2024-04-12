@@ -20,12 +20,12 @@ class TablaSimbolos {
     }
     getVariable(identificador) {
         for (let i = this; i != null; i = i.getTablaAnterior()) {
-            let buscar = i.getTablaActual().get(identificador.toLowerCase());
-            if (buscar != null) {
+            console.log(i.getNombre());
+            let buscar = i.getTablaActual().get(identificador.toLocaleLowerCase());
+            if (buscar != null)
                 return buscar;
-            }
-            return null;
         }
+        return null;
     }
     setVariable(Simbolo) {
         let buscar = this.getTablaActual().get(Simbolo.getIdentificador().toLowerCase());

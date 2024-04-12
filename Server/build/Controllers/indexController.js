@@ -20,13 +20,13 @@ class Controller {
             let parser = require('./Analizador.js');
             let ast = new ArbolS_1.default(parser.parse(req.body.Entrada));
             let Tabla = new TablaSimbolos_1.default();
-            Tabla.setNombre("Prueba 1");
+            Tabla.setNombre("Tabla Global");
             ast.setTablaGlobal(Tabla);
             ast.setConsola("");
             for (let i of ast.getInstrucciones()) {
                 console.log(i);
                 var resultado = i.interpretar(ast, Tabla);
-                console.log(resultado);
+                //console.log(resultado);
             }
             res.send({ message: 'Analizado :D', consola: ast.getConsola(), errores: ast.getErrores() });
         }

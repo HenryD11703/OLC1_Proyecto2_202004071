@@ -91,22 +91,22 @@ class Logica extends Instruccion_1.Instruccion {
         return false;
     }
     MenorQ(Expresion1, Expresion2) {
-        if (Expresion1 < Expresion2)
-            return true;
-        return false;
-    }
-    MenorIgualQ(Expresion1, Expresion2) {
-        if (Expresion1 <= Expresion2)
-            return true;
-        return false;
-    }
-    MayorQ(Expresion1, Expresion2) {
         if (Expresion1 > Expresion2)
             return true;
         return false;
     }
-    MayorIgualQ(Expresion1, Expresion2) {
+    MenorIgualQ(Expresion1, Expresion2) {
         if (Expresion1 >= Expresion2)
+            return true;
+        return false;
+    }
+    MayorQ(Expresion1, Expresion2) {
+        if (Expresion1 < Expresion2)
+            return true;
+        return false;
+    }
+    MayorIgualQ(Expresion1, Expresion2) {
+        if (Expresion1 <= Expresion2)
             return true;
         return false;
     }

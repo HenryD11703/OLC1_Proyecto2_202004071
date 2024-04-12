@@ -247,3 +247,19 @@ funcionIf :   IF PARENTESISI expresion PARENTESISD bloqueCodigo                 
 bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line, @1.first_column); }
              | LLAVEI LLAVED          { $$ = new Bloque.default([], @1.first_line, @1.first_column); }
 ;
+
+funcionSwitch : SWITCH PARENTESISI expresion PARENTESISD LLAVEI casos defaultC LLAVED
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI casos LLAVED
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI defaultC LLAVED
+;
+
+casos : casos caso
+      | caso
+;
+
+caso : CASE expresion DOSPUNTOS codigos
+;
+
+defaultC : DEFAULT DOSPUNTOS codigos
+         | DEFAULT DOSPUNTOS
+;
