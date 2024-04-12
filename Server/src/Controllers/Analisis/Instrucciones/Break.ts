@@ -9,6 +9,6 @@ export default class Break extends Instruccion {
         super(new Tipo(TipoDato.VOID), linea, columna);
     }
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
-        return;
+        return ;
     }
 }

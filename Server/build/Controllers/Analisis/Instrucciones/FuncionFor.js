@@ -30,13 +30,16 @@ const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
+const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
+const Return_1 = __importDefault(require("./Return"));
 class FuncionFor extends Instruccion_1.Instruccion {
-    constructor(declaracion, condicion, incremento, bloque, linea, columna) {
+    constructor(declaracion, condicion, incremento, instrucciones, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
         this.declaracion = declaracion;
         this.condicion = condicion;
         this.incremento = incremento;
-        this.bloque = bloque;
+        this.instrucciones = instrucciones;
     }
     interpretar(ArbolS, tabla) {
         // Interpretar la declaración
@@ -52,7 +55,23 @@ class FuncionFor extends Instruccion_1.Instruccion {
         while (this.condicion.interpretar(ArbolS, tabla)) {
             let newTabla = new TablaSimbolos_1.default(tabla);
             newTabla.setNombre("Bloque For");
-            this.bloque.interpretar(ArbolS, newTabla);
+            for (let instruccion of this.instrucciones) {
+                if (instruccion instanceof Break_1.default)
+                    return;
+                if (instruccion instanceof Continue_1.default)
+                    break;
+                if (instruccion instanceof Return_1.default)
+                    return instruccion;
+                let result = instruccion.interpretar(ArbolS, newTabla);
+                if (result instanceof Break_1.default)
+                    return;
+                if (result instanceof Continue_1.default)
+                    break;
+                if (result instanceof Errores_1.default)
+                    return result;
+                if (result instanceof Return_1.default)
+                    return result;
+            }
             // Ejecutar el incremento
             this.incremento.interpretar(ArbolS, tabla);
         }

@@ -30,6 +30,9 @@ const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
+const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
+const Return_1 = __importDefault(require("./Return"));
 class FuncionIf extends Instruccion_1.Instruccion {
     constructor(condicion, bloqueIf, BloqueElse, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -44,10 +47,26 @@ class FuncionIf extends Instruccion_1.Instruccion {
         let newTabla = new TablaSimbolos_1.default(tabla);
         newTabla.setNombre("Bloque");
         if (condicionResultado) {
-            this.bloqueIf.interpretar(arbolS, newTabla);
+            let result = this.bloqueIf.interpretar(arbolS, newTabla);
+            if (result instanceof Errores_1.default)
+                return result;
+            if (result instanceof Break_1.default)
+                return result;
+            if (result instanceof Continue_1.default)
+                return result;
+            if (result instanceof Return_1.default)
+                return result;
         }
         else if (this.BloqueElse != null) {
-            this.BloqueElse.interpretar(arbolS, newTabla);
+            let result = this.BloqueElse.interpretar(arbolS, newTabla);
+            if (result instanceof Errores_1.default)
+                return result;
+            if (result instanceof Break_1.default)
+                return result;
+            if (result instanceof Continue_1.default)
+                return result;
+            if (result instanceof Return_1.default)
+                return result;
         }
         return null;
     }

@@ -30,16 +30,31 @@ const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
+const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
+const Return_1 = __importDefault(require("./Return"));
 class FuncionDo extends Instruccion_1.Instruccion {
-    constructor(bloque, condicion, linea, columna) {
+    constructor(instrucciones, condicion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
-        this.bloque = bloque;
+        this.instrucciones = instrucciones;
         this.condicion = condicion;
     }
     interpretar(ArbolS, tabla) {
         let newTabla = new TablaSimbolos_1.default(tabla);
         newTabla.setNombre("Bloque Do-While");
-        this.bloque.interpretar(ArbolS, newTabla); //En este caso se ejecuta el bloque de código al menos una vez
+        for (let instruccion of this.instrucciones) {
+            if (instruccion instanceof Break_1.default)
+                return;
+            if (instruccion instanceof Continue_1.default)
+                break;
+            let result = instruccion.interpretar(ArbolS, newTabla);
+            if (result instanceof Continue_1.default)
+                break;
+            if (result instanceof Break_1.default)
+                return;
+            if (result instanceof Errores_1.default)
+                return result;
+        }
         let condicionResultado = this.condicion.interpretar(ArbolS, newTabla);
         if (condicionResultado instanceof Errores_1.default)
             return condicionResultado;
@@ -50,7 +65,23 @@ class FuncionDo extends Instruccion_1.Instruccion {
         while (this.condicion.interpretar(ArbolS, newTabla)) {
             newTabla = new TablaSimbolos_1.default(tabla);
             newTabla.setNombre("Bloque Do-While");
-            this.bloque.interpretar(ArbolS, newTabla);
+            for (let instruccion of this.instrucciones) {
+                if (instruccion instanceof Break_1.default)
+                    return;
+                if (instruccion instanceof Continue_1.default)
+                    break;
+                if (instruccion instanceof Return_1.default)
+                    return instruccion;
+                let result = instruccion.interpretar(ArbolS, newTabla);
+                if (result instanceof Break_1.default)
+                    return;
+                if (result instanceof Continue_1.default)
+                    break;
+                if (result instanceof Errores_1.default)
+                    return result;
+                if (result instanceof Return_1.default)
+                    return result;
+            }
             condicionResultado = this.condicion.interpretar(ArbolS, newTabla);
             if (condicionResultado instanceof Errores_1.default)
                 return condicionResultado;

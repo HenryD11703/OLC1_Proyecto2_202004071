@@ -5,6 +5,9 @@ import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Break from "./Break";
 import Continue from "./Continue";
+import Return from "./Return";
+ 
+ 
 export default class Bloque extends Instruccion {
     private instrucciones: Instruccion[];
 
@@ -17,11 +20,11 @@ export default class Bloque extends Instruccion {
 
        
         for (let instruccion of this.instrucciones) {
-            if (instruccion instanceof Break) return;
-      
+            if (instruccion instanceof Break) return instruccion;
+            if (instruccion instanceof Continue) return instruccion;
+            if (instruccion instanceof Return) return instruccion;
             let result = instruccion.interpretar(arbolS, tabla);
- 
-            if (result instanceof Break) return;
+
             if (result instanceof Errores) return result;
         }
     }

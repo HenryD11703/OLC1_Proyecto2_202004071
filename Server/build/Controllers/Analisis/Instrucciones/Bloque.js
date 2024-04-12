@@ -30,6 +30,8 @@ const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
+const Continue_1 = __importDefault(require("./Continue"));
+const Return_1 = __importDefault(require("./Return"));
 class Bloque extends Instruccion_1.Instruccion {
     constructor(instrucciones, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -38,10 +40,12 @@ class Bloque extends Instruccion_1.Instruccion {
     interpretar(arbolS, tabla) {
         for (let instruccion of this.instrucciones) {
             if (instruccion instanceof Break_1.default)
-                return;
+                return instruccion;
+            if (instruccion instanceof Continue_1.default)
+                return instruccion;
+            if (instruccion instanceof Return_1.default)
+                return instruccion;
             let result = instruccion.interpretar(arbolS, tabla);
-            if (result instanceof Break_1.default)
-                return;
             if (result instanceof Errores_1.default)
                 return result;
         }

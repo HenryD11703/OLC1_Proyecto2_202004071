@@ -4,19 +4,21 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
-
+import Break from "./Break";
+import Continue from "./Continue";
+import Return from './Return';
 export default class FuncionFor extends Instruccion {
     private declaracion: Instruccion;
     private condicion: Instruccion;
     private incremento: Instruccion;
-    private bloque: Bloque;
+    private instrucciones: Instruccion[];
 
-    constructor(declaracion: Instruccion, condicion: Instruccion, incremento: Instruccion, bloque: Bloque, linea: number, columna: number) {
+    constructor(declaracion: Instruccion, condicion: Instruccion, incremento: Instruccion, instrucciones: Instruccion[], linea: number, columna: number) {
         super(new Tipo(TipoDato.VOID), linea, columna);
         this.declaracion = declaracion;
         this.condicion = condicion;
         this.incremento = incremento;
-        this.bloque = bloque;
+        this.instrucciones = instrucciones;
     }
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos): any {
@@ -34,7 +36,16 @@ export default class FuncionFor extends Instruccion {
         while (this.condicion.interpretar(ArbolS, tabla)) {
             let newTabla = new TablaSimbolos(tabla);
             newTabla.setNombre("Bloque For");
-            this.bloque.interpretar(ArbolS, newTabla);
+            for(let instruccion of this.instrucciones){
+                if(instruccion instanceof Break) return;
+                if(instruccion instanceof Continue) break;
+                if(instruccion instanceof Return) return instruccion;
+                let result = instruccion.interpretar(ArbolS, newTabla);
+                if (result instanceof Break) return;
+                if (result instanceof Continue) break;
+                if (result instanceof Errores) return result;
+                if (result instanceof Return) return result;
+            }
 
             // Ejecutar el incremento
             this.incremento.interpretar(ArbolS, tabla);

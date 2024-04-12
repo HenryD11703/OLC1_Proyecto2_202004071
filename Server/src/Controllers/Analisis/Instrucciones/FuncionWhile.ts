@@ -1,18 +1,21 @@
-import { Instruccion } from "../Abstracto/Instruccion";
+import { Instruccion } from '../Abstracto/Instruccion';
 import Errores from "../Excepciones/Errores";
 import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
+import Break from './Break';
+import Continue from './Continue';
+import Return from './Return';
 
 export default class FuncionWhile extends Instruccion {
     private condicion: Instruccion;
-    private bloque: Bloque;
+    private Instrucciones: Instruccion[];
 
-    constructor(condicion: Instruccion, bloque: Bloque, linea: number, columna: number) {
+    constructor(condicion: Instruccion, instrucciones: Instruccion[], linea: number, columna: number) {
         super(new Tipo(TipoDato.VOID), linea, columna);
         this.condicion = condicion;
-        this.bloque = bloque;
+        this.Instrucciones = instrucciones;
     }
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
@@ -26,7 +29,16 @@ export default class FuncionWhile extends Instruccion {
         while (this.condicion.interpretar(ArbolS, tabla)) {
             let newTabla2 = new TablaSimbolos(tabla);
             newTabla2.setNombre("Bloque While");
-            this.bloque.interpretar(ArbolS, newTabla2);
+            for(let instruccion of this.Instrucciones){
+                if(instruccion instanceof Break) return;
+                if(instruccion instanceof Continue) break;
+                if(instruccion instanceof Return) return instruccion;
+                let result = instruccion.interpretar(ArbolS, newTabla2);
+                if (result instanceof Break) return;
+                if (result instanceof Continue) break;       
+                if (result instanceof Return) return result;       
+                if (result instanceof Errores) return result;
+            }
         }
     }
 }

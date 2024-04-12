@@ -16,10 +16,12 @@
     const Bloque = require('./Analisis/Instrucciones/Bloque');
     const funcionIf = require('./Analisis/Instrucciones/FuncionIf'); 
     const Break = require('./Analisis/Instrucciones/Break');
+    const Continue = require('./Analisis/Instrucciones/Continue');
     const FuncionWhile = require('./Analisis/Instrucciones/FuncionWhile');
     const FuncionFor = require('./Analisis/Instrucciones/FuncionFor');
     const FuncionDo = require('./Analisis/Instrucciones/FuncionDo');
-    const Continue = require('./Analisis/Instrucciones/Continue');
+    const Return = require('./Analisis/Instrucciones/Return');
+
 %}
 
 %lex 
@@ -152,11 +154,7 @@
 
 // Parte sintáctica  - Definición de la gramática
 %%
-//Expresión
-//resultado = 2 + 3
-
-// Instrucción
-//print(resultado)
+ 
 
 inicio : codigos EOF                       {return $1;}
 ;
@@ -173,8 +171,9 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | funcionWhile                      { $$ = $1; }
        | funcionFor                        { $$ = $1; }
        | funciondo                         { $$ = $1; }
-       | funcionContinue                   { $$ = $1; }
-       
+       | funcionContinue                   { $$ = $1; }    
+       | funcionReturn                     { $$ = $1; }
+       | declaracionArr                    { $$ = $1; }
  
   
 ;
@@ -261,18 +260,31 @@ bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line
 funcionBreak : BREAK PYC { $$ = new Break.default(@1.first_line, @1.first_column); }
 ;
 
-funcionWhile : WHILE PARENTESISI expresion PARENTESISD bloqueCodigo { $$ = new FuncionWhile.default($3, $5, @1.first_line, @1.first_column); }
+funcionContinue : CONTINUE PYC { $$ = new Continue.default(@1.first_line, @1.first_column); }
 ;
 
-funcionFor : FOR PARENTESISI declaracionv PYC expresion PYC forActualizacion bloqueCodigo   { $$ = new FuncionFor.default($3, $5, $7, $8, @1.first_line, @1.first_column); }          
+funcionReturn : RETURN expresion PYC { $$ = new Return.default($2, @1.first_line, @1.first_column); }
+              | RETURN PYC { $$ = new Return.default(null, @1.first_line, @1.first_column); }
+;
+
+funcionWhile : WHILE PARENTESISI expresion PARENTESISD LLAVEI codigos LLAVED { $$ = new FuncionWhile.default($3, $6, @1.first_line, @1.first_column); }
+;
+
+funcionFor : FOR PARENTESISI declaracionv PYC expresion PYC forActualizacion LLAVEI codigos LLAVED   { $$ = new FuncionFor.default($3, $5, $7, $9, @1.first_line, @1.first_column); }          
  ;
 
 forActualizacion : ID MASMAS  PARENTESISD   { $$ = new Incremento.default($1, "++", @1.first_line, @1.first_column); }
                  | ID MENOSMENOS  PARENTESISD   { $$ = new Incremento.default($1, "--", @1.first_line, @1.first_column); } 
 ;
 
-funciondo: DO bloqueCodigo WHILE PARENTESISI expresion PARENTESISD PYC { $$ = new FuncionDo.default($2, $5, @1.first_line, @1.first_column); }
+funciondo: DO LLAVEI codigos LLAVED  WHILE PARENTESISI expresion PARENTESISD PYC  { $$ = new FuncionDo.default($3, $7, @1.first_line, @1.first_column); }
 ;
 
-funcionContinue : CONTINUE PYC { $$ = new Continue.default(@1.first_line, @1.first_column); }
+declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED PYC
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC
+               | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED CORCHETEI lista_valores CORCHETED PYC
 ;
+
+lista_valores : lista_valores COMA expresion
+              | expresion

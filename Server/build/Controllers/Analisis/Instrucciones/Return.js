@@ -25,12 +25,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-class Continue extends Instruccion_1.Instruccion {
-    constructor(linea, columna) {
+class Return extends Instruccion_1.Instruccion {
+    constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
+        this.expresion = expresion;
     }
-    interpretar(ArbolS, tabla) {
-        return;
+    interpretar(arbolS, tabla) {
+        if (this.expresion) {
+            const resultado = this.expresion.interpretar(arbolS, tabla);
+            return resultado;
+        }
+        return this;
     }
 }
-exports.default = Continue;
+exports.default = Return;

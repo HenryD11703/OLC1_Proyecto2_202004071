@@ -4,7 +4,10 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
-
+import Break from "./Break";
+import Continue from "./Continue";
+import Return from "./Return";
+ 
 
 
 export default class FuncionIf extends Instruccion {
@@ -28,9 +31,17 @@ export default class FuncionIf extends Instruccion {
         newTabla.setNombre("Bloque");
 
         if (condicionResultado) {
-            this.bloqueIf.interpretar(arbolS, newTabla);
+            let result = this.bloqueIf.interpretar(arbolS, newTabla);
+            if (result instanceof Errores) return result;
+            if (result instanceof Break) return result;
+            if (result instanceof Continue) return result;
+            if (result instanceof Return) return result;           
         }else if(this.BloqueElse != null){
-            this.BloqueElse.interpretar(arbolS, newTabla);
+            let result = this.BloqueElse.interpretar(arbolS, newTabla);
+            if (result instanceof Errores) return result;
+            if (result instanceof Break) return result;
+            if (result instanceof Continue) return result;
+            if (result instanceof Return) return result;    
         }
         return null;
     }
