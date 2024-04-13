@@ -9,6 +9,13 @@
     const OpTernaria = require('./Analisis/Expresiones/OperacionTernaria');
     const Casteos = require('./Analisis/Expresiones/Casteos');
     const AccesoVec = require('./Analisis/Expresiones/AccesoVec');
+    const toLower = require('./Analisis/Expresiones/toLower');
+    const toUpper = require('./Analisis/Expresiones/toUpper');
+    const Round = require('./Analisis/Expresiones/Round');
+    const Length = require('./Analisis/Expresiones/Length');
+    const TypeOf = require('./Analisis/Expresiones/TypeOf');
+    const toStr = require('./Analisis/Expresiones/toString');
+ 
 
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
@@ -24,6 +31,8 @@
     const Return = require('./Analisis/Instrucciones/Return');
     const DeclaracionArr = require('./Analisis/Instrucciones/DeclaracionArr');
     const VectorA = require('./Analisis/Instrucciones/VectorA');
+     
+
 
 %}
 
@@ -177,7 +186,7 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | funcionContinue                   { $$ = $1; }    
        | funcionReturn                     { $$ = $1; }
        | declaracionArr                    { $$ = $1; }
-       | modificacionVector  PYC           { $$ = $1; }
+       | modificacionVector  PYC           { $$ = $1; } 
  
   
 ;
@@ -208,6 +217,13 @@ expresion : Casteos                             { $$ = $1; }
           | ternaryOp                            { $$ = $1; }
           | operacionRelacional                  { $$ = $1; } 
           | accesoVector                         { $$ = $1; }
+          | funcToLower                          { $$ = $1; }
+          | funcToUpper                          { $$ = $1; }
+          | funcionRound                         { $$ = $1; }
+          | funcionLength                        { $$ = $1; }
+          | funcionTypeOf                        { $$ = $1; }
+          | funciontoString                      { $$ = $1; }
+ 
         
 ;
 
@@ -289,10 +305,12 @@ declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion
                | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC        { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $11,$14,$9,null,null); }
                | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC     { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$7,null); }
                | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI CORCHETEI lista_valores CORCHETED COMA  CORCHETEI lista_valores CORCHETED CORCHETED PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$10,$14); }
+               //| tipo ids CORCHETEI CORCHETED IGUAL funcioncstr PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null, null, null, null, null,$6); }               
 ;
 
 lista_valores : lista_valores COMA expresion        { $1.push($3); $$ = $1; }
               | expresion                           { $$ = [$1]; }
+ 
 ;
 
 accesoVector : ID CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1, @1.first_line, @1.first_column, $3); }
@@ -302,3 +320,17 @@ accesoVector : ID CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1,
 modificacionVector : ID CORCHETEI expresion CORCHETED IGUAL expresion   { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $6); } 
                    | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); } 
 ;
+ 
+funcToLower : TOLOWER PARENTESISI expresion PARENTESISD     { $$ = new toLower.default($3, @1.first_line, @1.first_column); }	
+;
+funcToUpper : TOUPPER PARENTESISI expresion PARENTESISD     { $$ = new toUpper.default($3, @1.first_line, @1.first_column); }	
+;
+funcionRound : ROUND PARENTESISI expresion PARENTESISD     { $$ = new Round.default($3, @1.first_line, @1.first_column); }
+;
+funcionLength: ID PUNTO LENGTH PARENTESISI PARENTESISD { $$ = new Length.default(new AccesoVar.default($1, @1.first_line, @1.first_column), @1.first_line, @1.first_column); }
+;
+funcionTypeOf: TYPEOF PARENTESISI expresion PARENTESISD { $$ = new TypeOf.default($3, @1.first_line, @1.first_column); }
+;
+funciontoString: STD DOSPUNTOS DOSPUNTOS TOSTRING PARENTESISI expresion PARENTESISD { $$ = new toStr.default($6, @1.first_line, @1.first_column); }
+;
+ 
