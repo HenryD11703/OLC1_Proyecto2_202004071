@@ -8,6 +8,7 @@
     const AccesoVar = require('./Analisis/Expresiones/AccessVar');  
     const OpTernaria = require('./Analisis/Expresiones/OperacionTernaria');
     const Casteos = require('./Analisis/Expresiones/Casteos');
+    const AccesoVec = require('./Analisis/Expresiones/AccesoVec');
 
     const Imprimir = require('./Analisis/Instrucciones/Impresion');
     const DeclaracionVar = require('./Analisis/Instrucciones/Declaracion');
@@ -21,6 +22,7 @@
     const FuncionFor = require('./Analisis/Instrucciones/FuncionFor');
     const FuncionDo = require('./Analisis/Instrucciones/FuncionDo');
     const Return = require('./Analisis/Instrucciones/Return');
+    const DeclaracionArr = require('./Analisis/Instrucciones/DeclaracionArr');
 
 %}
 
@@ -203,6 +205,7 @@ expresion : Casteos                             { $$ = $1; }
           | CARACTER                             { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.CARACTER), $1, @1.first_line, @1.first_column);}
           | ternaryOp                            { $$ = $1; }
           | operacionRelacional                  { $$ = $1; } 
+          | accesoVector                         { $$ = $1; }
         
 ;
 
@@ -280,11 +283,16 @@ forActualizacion : ID MASMAS  PARENTESISD   { $$ = new Incremento.default($1, "+
 funciondo: DO LLAVEI codigos LLAVED  WHILE PARENTESISI expresion PARENTESISD PYC  { $$ = new FuncionDo.default($3, $7, @1.first_line, @1.first_column); }
 ;
 
-declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED PYC
-               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC
-               | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC
-               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED CORCHETEI lista_valores CORCHETED PYC
+declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED PYC  { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $9,null,$7,null,null); }
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC        { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $11,$14,$9,null,null); }
+               | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC     { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$7,null); }
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI CORCHETEI lista_valores CORCHETED COMA  CORCHETEI lista_valores CORCHETED CORCHETED PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$10,$14); }
 ;
 
-lista_valores : lista_valores COMA expresion
-              | expresion
+lista_valores : lista_valores COMA expresion        { $1.push($3); $$ = $1; }
+              | expresion                           { $$ = [$1]; }
+;
+
+accesoVector : ID CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1, @1.first_line, @1.first_column, $3); }
+            
+;

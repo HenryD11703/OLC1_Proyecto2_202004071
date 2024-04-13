@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const Simbolo_1 = __importDefault(require("./Simbolo"));
 class TablaSimbolos {
     constructor(tablaAnterior) {
         this.tablaAnterior = tablaAnterior;
@@ -23,6 +27,18 @@ class TablaSimbolos {
             let buscar = i.getTablaActual().get(identificador.toLocaleLowerCase());
             if (buscar != null)
                 return buscar;
+        }
+        return null;
+    }
+    getVariableVector(identificador, posicion) {
+        for (let i = this; i != null; i = i.getTablaAnterior()) {
+            let buscar = i.getTablaActual().get(identificador.toLocaleLowerCase());
+            if (buscar != null) {
+                let valor = buscar.getValor();
+                if (Array.isArray(valor) && posicion >= 0 && posicion < valor.length) {
+                    return new Simbolo_1.default(buscar.getTipoSimbolo(), `${buscar.getIdentificador()}[${posicion}]`, valor[posicion]);
+                }
+            }
         }
         return null;
     }

@@ -24,9 +24,9 @@ class Controller {
             ast.setTablaGlobal(Tabla);
             ast.setConsola("");
             for (let i of ast.getInstrucciones()) {
-                console.log(i);
+                //console.log(i);
                 var resultado = i.interpretar(ast, Tabla);
-                //console.log(resultado);
+                console.log(resultado);
             }
             res.send({ message: 'Analizado :D', consola: ast.getConsola(), errores: ast.getErrores() });
         }

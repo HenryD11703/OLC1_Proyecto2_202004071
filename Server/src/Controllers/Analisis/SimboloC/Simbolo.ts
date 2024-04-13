@@ -13,6 +13,7 @@ export default class Simbolo {
     public getTipoSimbolo(): Tipo {
         return this.tipoSimbolo;
     }
+     
     public setTipoSimbolo(tipoSimbolo: Tipo): void {
         this.tipoSimbolo = tipoSimbolo;
     }

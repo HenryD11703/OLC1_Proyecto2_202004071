@@ -33,6 +33,19 @@ export default class TablaSimbolos {
             return null;
         
     }
+
+    public getVariableVector(identificador: string, posicion: number)  {
+        for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
+            let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
+            if (buscar != null) {
+                let valor: any = buscar.getValor();
+                if (Array.isArray(valor) && posicion >= 0 && posicion < valor.length) {
+                    return new Simbolo(buscar.getTipoSimbolo(), `${buscar.getIdentificador()}[${posicion}]`, valor[posicion]);
+                }
+            }
+        }
+        return null;
+    }
     public setVariable(Simbolo: Simbolo) {
         let buscar: Simbolo = <Simbolo>this.getTablaActual().get(Simbolo.getIdentificador().toLowerCase());
         if (buscar == null) {
