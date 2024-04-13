@@ -46,6 +46,20 @@ export default class TablaSimbolos {
         }
         return null;
     }
+
+    public getVariableVector2(identificador: string, posicion1: number, posicion2: number) {
+        for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
+          let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
+          if (buscar != null) {
+            let valor: any = buscar.getValor();
+            if (Array.isArray(valor) && Array.isArray(valor[0]) && posicion1 >= 0 && posicion1 < valor.length && posicion2 >= 0 && posicion2 < valor[0].length) {
+              return new Simbolo(buscar.getTipoSimbolo(), `${buscar.getIdentificador()}[${posicion1}][${posicion2}]`, valor[posicion1][posicion2]);
+            }
+          }
+        }
+        return null;
+      }
+
     public setVariable(Simbolo: Simbolo) {
         let buscar: Simbolo = <Simbolo>this.getTablaActual().get(Simbolo.getIdentificador().toLowerCase());
         if (buscar == null) {
@@ -54,6 +68,41 @@ export default class TablaSimbolos {
         }
         return false;
     }
+
+    public setVariableVector(identificador: string, posicion: number, valor: any): boolean {
+        for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
+          let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
+          if (buscar != null) {
+            let valorActual: any = buscar.getValor();
+            if (Array.isArray(valorActual) && posicion >= 0 && posicion < valorActual.length) {
+              valorActual[posicion] = valor;
+              buscar.setValor(valorActual);
+              i.getTablaActual().set(identificador.toLocaleLowerCase(), buscar);
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      
+      public setVariableVector2(identificador: string, posicion1: number, posicion2: number, valor: any): boolean {
+        for (let i: TablaSimbolos = this; i != null; i = i.getTablaAnterior()) {
+          let buscar: Simbolo = <Simbolo>i.getTablaActual().get(identificador.toLocaleLowerCase());
+          if (buscar != null) {
+            let valorActual: any = buscar.getValor();
+            if (Array.isArray(valorActual) && Array.isArray(valorActual[0]) && posicion1 >= 0 && posicion1 < valorActual.length && posicion2 >= 0 && posicion2 < valorActual[0].length) {
+              valorActual[posicion1][posicion2] = valor;
+              buscar.setValor(valorActual);
+              i.getTablaActual().set(identificador.toLocaleLowerCase(), buscar);
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+
+
+
     public getNombre(): string {
         return this.nombre;
     }

@@ -23,6 +23,7 @@
     const FuncionDo = require('./Analisis/Instrucciones/FuncionDo');
     const Return = require('./Analisis/Instrucciones/Return');
     const DeclaracionArr = require('./Analisis/Instrucciones/DeclaracionArr');
+    const VectorA = require('./Analisis/Instrucciones/VectorA');
 
 %}
 
@@ -176,6 +177,7 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | funcionContinue                   { $$ = $1; }    
        | funcionReturn                     { $$ = $1; }
        | declaracionArr                    { $$ = $1; }
+       | modificacionVector  PYC           { $$ = $1; }
  
   
 ;
@@ -294,5 +296,9 @@ lista_valores : lista_valores COMA expresion        { $1.push($3); $$ = $1; }
 ;
 
 accesoVector : ID CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1, @1.first_line, @1.first_column, $3); }
-            
+             | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1, @1.first_line, @1.first_column, $3, $6); } 
+;
+
+modificacionVector : ID CORCHETEI expresion CORCHETED IGUAL expresion   { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $6); } 
+                   | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); } 
 ;

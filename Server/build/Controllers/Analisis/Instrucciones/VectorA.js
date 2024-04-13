@@ -29,36 +29,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
-class AccesoVec extends Instruccion_1.Instruccion {
-    constructor(id, linea, columna, numero, numero2) {
+//Para modificar y asignar valores a un vector en una posicion especifica
+class AsignacionVec extends Instruccion_1.Instruccion {
+    constructor(id, linea, columna, numero, valor, numero2) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
         this.id = id;
         this.numero = numero;
         this.numero2 = numero2;
+        this.valor = valor;
     }
     interpretar(ArbolS, tabla) {
-        if (this.numero2 == undefined) {
-            const variable = tabla.getVariable(this.id);
-            if (variable != null) {
-                let simboloVar = tabla.getVariableVector(this.id, this.numero.interpretar(ArbolS, tabla));
-                if (simboloVar === null) {
+        //verificar si es de una o dos dimensiones
+        let newValor = this.valor.interpretar(ArbolS, tabla);
+        if (newValor instanceof Errores_1.default)
+            return newValor;
+        const variable = tabla.getVariable(this.id);
+        if (variable != null) {
+            if (this.numero2 == undefined) {
+                let resultado = tabla.setVariableVector(this.id, this.numero.interpretar(ArbolS, tabla), newValor);
+                if (!resultado) {
                     return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                 }
-                this.Tipo = simboloVar.getTipoSimbolo();
-                return simboloVar.getValor();
+            }
+            else {
+                let resultado = tabla.setVariableVector2(this.id, this.numero.interpretar(ArbolS, tabla), this.numero2.interpretar(ArbolS, tabla), newValor);
+                if (!resultado) {
+                    return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
+                }
             }
         }
         else {
-            const variable = tabla.getVariable(this.id);
-            if (variable != null) {
-                let simboloVar2 = tabla.getVariableVector2(this.id, this.numero.interpretar(ArbolS, tabla), this.numero2.interpretar(ArbolS, tabla));
-                if (simboloVar2 === null) {
-                    return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
-                }
-                this.Tipo = simboloVar2.getTipoSimbolo();
-                return simboloVar2.getValor();
-            }
+            return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         }
     }
 }
-exports.default = AccesoVec;
+exports.default = AsignacionVec;
