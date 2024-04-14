@@ -188,6 +188,7 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | funcionReturn                     { $$ = $1; }
        | declaracionArr                    { $$ = $1; }
        | modificacionVector  PYC           { $$ = $1; } 
+       | funcionSwitch                     { $$ = $1; }
  
   
 ;
@@ -350,4 +351,5 @@ lista_casos : lista_casos caso
 caso : CASE expresion DOSPUNTOS codigos
 ;
 
-casodefault : DEFAULT DOSPUNTOS codigos
+casodefault : DEFAULT DOSPUNTOS codigos { $$ = new }
+;
