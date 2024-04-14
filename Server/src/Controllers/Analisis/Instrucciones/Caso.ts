@@ -5,35 +5,29 @@ import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from "./Bloque";
 import Break from "./Break";
-import Continue from "./Continue";
-import Return from "./Return";
 
 export default class Caso extends Instruccion {
-    private expresion: Instruccion | null;
+    public expresion: Instruccion;
     private instrucciones: Instruccion[];
 
-    constructor(expresion: Instruccion | null, instrucciones: Instruccion[], linea: number, columna: number) {
+    constructor(expresion: Instruccion, instrucciones: Instruccion[], linea: number, columna: number) {
         super(new Tipo(TipoDato.VOID), linea, columna);
         this.expresion = expresion;
         this.instrucciones = instrucciones;
     }
+
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
+        //Casos para el switch
         if (this.expresion != null) {
-            let condicionResultado = this.expresion.interpretar(ArbolS, tabla);
-            if (condicionResultado instanceof Errores) return condicionResultado;
-        }
-        let newTabla2 = new TablaSimbolos(tabla);
-        newTabla2.setNombre("Bloque Switch");
-        for (let instruccion of this.instrucciones) {
-            if (instruccion instanceof Break) return;
-            if (instruccion instanceof Continue) break;
-            if (instruccion instanceof Return) return instruccion;
-            let result = instruccion.interpretar(ArbolS, newTabla2);
-            if (result instanceof Break) return;
-            if (result instanceof Continue) break;
-            if (result instanceof Return) return result;
-            if (result instanceof Errores) return result;
-        }        
+            let valorExpresion = this.expresion.interpretar(ArbolS, tabla);
+            if (valorExpresion instanceof Errores) return valorExpresion;
+            let valorExp = valorExpresion;
+            for (let instruccion of this.instrucciones) {
+                if (instruccion instanceof Break) return instruccion;
+                let result = instruccion.interpretar(ArbolS, tabla);
+                if (result instanceof Errores) return result;
+            }
+        }  
+
     }
 }
-

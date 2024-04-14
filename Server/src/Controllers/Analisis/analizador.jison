@@ -32,6 +32,9 @@
     const DeclaracionArr = require('./Analisis/Instrucciones/DeclaracionArr');
     const VectorA = require('./Analisis/Instrucciones/VectorA');
     const DeclaracionCstr = require('./Analisis/Instrucciones/DeclaracionCstr');
+    const Caso = require('./Analisis/Instrucciones/Caso');
+    const funcionSwitch = require('./Analisis/Instrucciones/FuncionSwitch');
+    const Default = require('./Analisis/Instrucciones/Default');
      
 
 
@@ -339,17 +342,18 @@ funciontoString: STD DOSPUNTOS DOSPUNTOS TOSTRING PARENTESISI expresion PARENTES
 ;
 funcioncstr : expresion C_STR PARENTESISI PARENTESISD   { $$ = $1; }
 ;
-funcionSwitch : SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos casodefault LLAVED
-              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos LLAVED
-              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI casodefault LLAVED
+funcionSwitch : SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos casodefault LLAVED { $$ = new funcionSwitch.default($3, $6, $7, @1.first_line, @1.first_column);}
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos LLAVED { $$ = new funcionSwitch.default($3, $6, null, @1.first_line, @1.first_column);}
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI casodefault LLAVED { $$ = new funcionSwitch.default($3, null, $6, @1.first_line, @1.first_column);}
 ;
 
-lista_casos : lista_casos caso
-            | caso
+lista_casos : lista_casos caso                { $1.push($2); $$ = $1; }
+            | caso                            { $$ = [$1]; }
 ;
 
-caso : CASE expresion DOSPUNTOS codigos
+caso : CASE expresion DOSPUNTOS codigos     { $$ = new Caso.default($2, $4, @1.first_line, @1.first_column); }
 ;
 
-casodefault : DEFAULT DOSPUNTOS codigos { $$ = new }
+casodefault : DEFAULT DOSPUNTOS codigos   { $$ = new Default.default($3, @1.first_line, @1.first_column); }
+            
 ;
