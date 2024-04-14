@@ -43,17 +43,19 @@ class FuncionFor extends Instruccion_1.Instruccion {
     }
     interpretar(ArbolS, tabla) {
         // Interpretar la declaración
-        this.declaracion.interpretar(ArbolS, tabla);
+        let TablaFor = new TablaSimbolos_1.default(tabla);
+        TablaFor.setNombre("Bloque For");
+        this.declaracion.interpretar(ArbolS, TablaFor);
         // Evaluar la condición
-        let condicionResultado = this.condicion.interpretar(ArbolS, tabla);
+        let condicionResultado = this.condicion.interpretar(ArbolS, TablaFor);
         if (condicionResultado instanceof Errores_1.default)
             return condicionResultado;
         if (this.condicion.Tipo.getTipo() !== Tipo_1.TipoDato.BOOLEANO) {
             return new Errores_1.default('Semantico', `La condición del for tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
         // Ejecutar el bloque de código mientras se cumpla la condición
-        while (this.condicion.interpretar(ArbolS, tabla)) {
-            let newTabla = new TablaSimbolos_1.default(tabla);
+        while (this.condicion.interpretar(ArbolS, TablaFor)) {
+            let newTabla = new TablaSimbolos_1.default(TablaFor);
             newTabla.setNombre("Bloque For");
             for (let instruccion of this.instrucciones) {
                 if (instruccion instanceof Break_1.default)
@@ -73,7 +75,7 @@ class FuncionFor extends Instruccion_1.Instruccion {
                     return result;
             }
             // Ejecutar el incremento
-            this.incremento.interpretar(ArbolS, tabla);
+            this.incremento.interpretar(ArbolS, TablaFor);
         }
         return null;
     }

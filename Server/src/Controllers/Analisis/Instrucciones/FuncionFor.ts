@@ -23,18 +23,21 @@ export default class FuncionFor extends Instruccion {
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos): any {
         // Interpretar la declaración
-        this.declaracion.interpretar(ArbolS, tabla);
+        let TablaFor = new TablaSimbolos(tabla);
+        TablaFor.setNombre("Bloque For");
+
+        this.declaracion.interpretar(ArbolS, TablaFor);
 
         // Evaluar la condición
-        let condicionResultado = this.condicion.interpretar(ArbolS, tabla);
+        let condicionResultado = this.condicion.interpretar(ArbolS, TablaFor);
         if (condicionResultado instanceof Errores) return condicionResultado;
         if (this.condicion.Tipo.getTipo() !== TipoDato.BOOLEANO) {
             return new Errores('Semantico', `La condición del for tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
 
         // Ejecutar el bloque de código mientras se cumpla la condición
-        while (this.condicion.interpretar(ArbolS, tabla)) {
-            let newTabla = new TablaSimbolos(tabla);
+        while (this.condicion.interpretar(ArbolS, TablaFor)) {
+            let newTabla = new TablaSimbolos(TablaFor);
             newTabla.setNombre("Bloque For");
             for(let instruccion of this.instrucciones){
                 if(instruccion instanceof Break) return;
@@ -48,7 +51,7 @@ export default class FuncionFor extends Instruccion {
             }
 
             // Ejecutar el incremento
-            this.incremento.interpretar(ArbolS, tabla);
+            this.incremento.interpretar(ArbolS, TablaFor);
         }
 
         return null;

@@ -31,6 +31,7 @@
     const Return = require('./Analisis/Instrucciones/Return');
     const DeclaracionArr = require('./Analisis/Instrucciones/DeclaracionArr');
     const VectorA = require('./Analisis/Instrucciones/VectorA');
+    const DeclaracionCstr = require('./Analisis/Instrucciones/DeclaracionCstr');
      
 
 
@@ -95,7 +96,7 @@
 "round"                     return 'ROUND';
 "typeof"                    return 'TYPEOF';
 "toString"                  return 'TOSTRING';
-"c_str"                     return 'C_STR';
+".c_str"                     return 'C_STR';
 "execute"                   return 'EXECUTE';
 // Simbolos para la gramática
 "++"                        return 'MASMAS';
@@ -146,7 +147,7 @@
 
 // precedencia
  
-%left 'INTERROGACION'
+%left 'INTERROGACION', 'PUNTO'
 %left 'OR'
 %left 'AND'
 %right 'NOT' ,'tipoDestino' 
@@ -301,11 +302,13 @@ forActualizacion : ID MASMAS  PARENTESISD   { $$ = new Incremento.default($1, "+
 funciondo: DO LLAVEI codigos LLAVED  WHILE PARENTESISI expresion PARENTESISD PYC  { $$ = new FuncionDo.default($3, $7, @1.first_line, @1.first_column); }
 ;
 
+
 declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED PYC  { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $9,null,$7,null,null); }
                | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC        { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $11,$14,$9,null,null); }
                | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC     { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$7,null); }
                | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI CORCHETEI lista_valores CORCHETED COMA  CORCHETEI lista_valores CORCHETED CORCHETED PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$10,$14); }
-               //| tipo ids CORCHETEI CORCHETED IGUAL funcioncstr PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null, null, null, null, null,$6); }               
+               | tipo ids CORCHETEI CORCHETED IGUAL funcioncstr PYC { $$ = new DeclaracionCstr.default($1,$2,$6,@1.first_line,@1.first_column); }
+
 ;
 
 lista_valores : lista_valores COMA expresion        { $1.push($3); $$ = $1; }
@@ -333,4 +336,18 @@ funcionTypeOf: TYPEOF PARENTESISI expresion PARENTESISD { $$ = new TypeOf.defaul
 ;
 funciontoString: STD DOSPUNTOS DOSPUNTOS TOSTRING PARENTESISI expresion PARENTESISD { $$ = new toStr.default($6, @1.first_line, @1.first_column); }
 ;
- 
+funcioncstr : expresion C_STR PARENTESISI PARENTESISD   { $$ = $1; }
+;
+funcionSwitch : SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos casodefault LLAVED
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI lista_casos LLAVED
+              | SWITCH PARENTESISI expresion PARENTESISD LLAVEI casodefault LLAVED
+;
+
+lista_casos : lista_casos caso
+            | caso
+;
+
+caso : CASE expresion DOSPUNTOS codigos
+;
+
+casodefault : DEFAULT DOSPUNTOS codigos
