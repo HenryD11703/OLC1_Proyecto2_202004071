@@ -52,8 +52,8 @@ class Controller {
                 }
                 if(i instanceof Declaracion){
                     i.interpretar(ast, Tabla);
-                
                 }
+
                 if(i instanceof DeclaracionArr){
                     i.interpretar(ast, Tabla);
                 }
@@ -64,11 +64,12 @@ class Controller {
                 if(i instanceof Execute){
                     execute = i
                 }
+               
             }
             if(execute != null){
                 execute.interpretar(ast, Tabla);
             }
-            //console.log(Tabla);
+             
             res.send({message: 'Analizado :D', consola: ast.getConsola(), errores: ast.getErrores()});
 
         }catch(e: any){

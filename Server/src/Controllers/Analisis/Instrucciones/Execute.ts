@@ -22,7 +22,7 @@ export default class Execute extends Instruccion{
         }
 
         if (buscarFuncion instanceof Funcion){
-            let newTabla = new TablaSimbolos(ArbolS.getTablaGlobal());
+            let newTabla = new TablaSimbolos(tabla);
             newTabla.setNombre("Tabla Execute");
 
             if(buscarFuncion.parametros.length != this.parametros.length){
@@ -31,7 +31,7 @@ export default class Execute extends Instruccion{
                 for(let i = 0; i < this.parametros.length; i++){
                     let declaracionParametro = new Declaracion(
                         buscarFuncion.parametros[i].tipo, this.Linea, this.Columna,
-                        buscarFuncion.parametros[i].id, this.parametros[i]
+                        [buscarFuncion.parametros[i].id], this.parametros[i]
                     );
                     let resultado = declaracionParametro.interpretar(ArbolS, newTabla);
                     if(resultado instanceof Errores) return resultado;

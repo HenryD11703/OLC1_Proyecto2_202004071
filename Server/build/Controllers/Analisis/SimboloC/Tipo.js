@@ -21,4 +21,5 @@ var TipoDato;
     TipoDato[TipoDato["CARACTER"] = 3] = "CARACTER";
     TipoDato[TipoDato["CADENA"] = 4] = "CADENA";
     TipoDato[TipoDato["VOID"] = 5] = "VOID";
+    TipoDato[TipoDato["ARREGLO"] = 6] = "ARREGLO";
 })(TipoDato || (exports.TipoDato = TipoDato = {}));

@@ -32,6 +32,7 @@ const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Declaracion_1 = __importDefault(require("./Declaracion"));
 const Funcion_1 = __importDefault(require("./Funcion"));
+const Return_1 = __importDefault(require("./Return"));
 class Llamada extends Instruccion_1.Instruccion {
     constructor(id, parametros, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -44,18 +45,25 @@ class Llamada extends Instruccion_1.Instruccion {
             return new Errores_1.default('Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
         }
         if (buscarFuncion instanceof Funcion_1.default) {
-            let newTabla = new TablaSimbolos_1.default(ArbolS.getTablaGlobal());
+            let newTabla = new TablaSimbolos_1.default(tabla);
             newTabla.setNombre("Llamada de función" + this.id);
             if (buscarFuncion.parametros.length != this.parametros.length) {
                 return new Errores_1.default('Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
             }
             for (let i = 0; i < buscarFuncion.parametros.length; i++) {
-                let declaracionParametro = new Declaracion_1.default(buscarFuncion.parametros[i].tipo, this.Linea, this.Columna, buscarFuncion.parametros[i].id, this.parametros[i]);
+                let declaracionParametro = new Declaracion_1.default(buscarFuncion.parametros[i].tipo, this.Linea, this.Columna, [buscarFuncion.parametros[i].id], this.parametros[i]);
                 let resultado = declaracionParametro.interpretar(ArbolS, newTabla);
                 if (resultado instanceof Errores_1.default)
                     return resultado;
             }
             let resultadoFuncion = buscarFuncion.interpretar(ArbolS, newTabla);
+            if (resultadoFuncion instanceof Return_1.default) {
+                let result = resultadoFuncion.interpretar(ArbolS, newTabla);
+                if (result instanceof Errores_1.default)
+                    return result;
+                console.log("Resultado de la llamada a la función: ", result);
+                return result;
+            }
             if (resultadoFuncion instanceof Errores_1.default)
                 return resultadoFuncion;
         }

@@ -50,7 +50,6 @@ class Controller {
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }
-            //console.log(Tabla);
             res.send({ message: 'Analizado :D', consola: ast.getConsola(), errores: ast.getErrores() });
         }
         catch (e) {

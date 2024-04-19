@@ -16,6 +16,9 @@ class Funcion extends Instruccion_1.Instruccion {
     }
     interpretar(ArbolS, tabla) {
         for (let instruccion of this.instrucciones) {
+            if (instruccion instanceof Return_1.default) {
+                return instruccion;
+            }
             let result = instruccion.interpretar(ArbolS, tabla);
             if (result instanceof Errores_1.default)
                 return result;

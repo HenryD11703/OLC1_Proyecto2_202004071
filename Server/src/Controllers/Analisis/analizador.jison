@@ -209,7 +209,7 @@ funciones : tipo ID PARENTESISI parametros PARENTESISD LLAVEI codigos LLAVED { $
 ;
 
 parametros : parametros COMA tipo ID       {$1.push({tipo:$3, id:$4}); $$ = $1;}
-           | tipo ID                       { $$ = [{tipo:$1, id:$2}]; }
+           | tipo ID                     { $$ = [{tipo:$1, id:$2}]; }
 ; 
 
 llamada : ID PARENTESISI parametros_llamada PARENTESISD        { $$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}

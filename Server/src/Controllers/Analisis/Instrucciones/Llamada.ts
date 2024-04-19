@@ -5,6 +5,7 @@ import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Declaracion from "./Declaracion";
 import Funcion from "./Funcion";
+import Return from "./Return";
 
 export default class Llamada extends Instruccion {
     private id: string;
@@ -24,7 +25,7 @@ export default class Llamada extends Instruccion {
 
         if (buscarFuncion instanceof Funcion) {
 
-            let newTabla = new TablaSimbolos(ArbolS.getTablaGlobal());
+            let newTabla = new TablaSimbolos(tabla);
             newTabla.setNombre("Llamada de función" + this.id );
 
             if (buscarFuncion.parametros.length != this.parametros.length) {
@@ -35,16 +36,23 @@ export default class Llamada extends Instruccion {
                  
                 let declaracionParametro = new Declaracion(
                     buscarFuncion.parametros[i].tipo, this.Linea, this.Columna,
-                    buscarFuncion.parametros[i].id, this.parametros[i]
+                    [buscarFuncion.parametros[i].id], this.parametros[i]
                 );
-
                 
 
                 let resultado = declaracionParametro.interpretar(ArbolS, newTabla);
                 if (resultado instanceof Errores) return resultado;
             }
             let resultadoFuncion: any = buscarFuncion.interpretar(ArbolS, newTabla);
+            if( resultadoFuncion instanceof Return) {
+                let result = resultadoFuncion.interpretar(ArbolS, newTabla);
+                if (result instanceof Errores) return result;
+                console.log("Resultado de la llamada a la función: ", result);
+                return result;
+                
+            }
             if (resultadoFuncion instanceof Errores) return resultadoFuncion;
+             
         }
     }
 }

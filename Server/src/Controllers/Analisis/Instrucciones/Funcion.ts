@@ -19,8 +19,14 @@ export default class Funcion extends Instruccion {
     }
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
         for (let instruccion of this.instrucciones) {
-             
+            
+            if (instruccion instanceof Return) {
+                
+                return instruccion;
+            }
+          
             let result = instruccion.interpretar(ArbolS, tabla);
+
             if (result instanceof Errores) return result;
             if (result instanceof Return) return result;
         }
