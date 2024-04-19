@@ -12,8 +12,8 @@ export default class Return extends Instruccion {
   }
 
   interpretar(arbolS: ArbolS, tabla: TablaSimbolos): any {
-    if (this.expresion) {
-      const resultado = this.expresion.interpretar(arbolS, tabla);
+    if (this.expresion != null) {
+      let resultado = this.expresion.interpretar(arbolS, tabla);
       return resultado;
     }
     return this;

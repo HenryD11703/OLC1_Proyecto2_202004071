@@ -29,7 +29,7 @@ function App() {
         consolaRef.current.setValue(data.consola);
       })
       .catch((error) => {
-        alert("Ya no sale comp1")
+        alert("Ya no sale compi")
         console.error('Error:', error);
       });
   }
@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <div class='text-center'>
-        <h1>Proyecto 2 - OLC1</h1>
+        <h1>Proyecto2 Compi</h1>
       </div>
       <br></br>
       <div class='text-center'>

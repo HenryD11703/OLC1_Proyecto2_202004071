@@ -18,7 +18,7 @@ class Declaracion extends Instruccion_1.Instruccion {
         if (valorFinal instanceof Errores_1.default)
             return valorFinal;
         //Cuando se declare una variable sin valor, se le asigna un valor por defecto
-        if (valorFinal == "nada") {
+        if (valorFinal == null) {
             if (this.Tipo.getTipo() == Tipo_1.TipoDato.ENTERO) {
                 valorFinal = 0;
             }

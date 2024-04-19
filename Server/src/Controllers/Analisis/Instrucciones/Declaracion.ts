@@ -20,7 +20,7 @@ export default class Declaracion extends Instruccion {
         if (valorFinal instanceof Errores) return valorFinal;
      //Cuando se declare una variable sin valor, se le asigna un valor por defecto
  
-        if (valorFinal == "nada") {
+        if (valorFinal == null) {
             if (this.Tipo.getTipo() == TipoDato.ENTERO) {
                 valorFinal = 0;
             } else if (this.Tipo.getTipo() == TipoDato.CADENA) {

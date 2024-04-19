@@ -5,7 +5,7 @@ import Tipo, { TipoDato } from "../SimboloC/Tipo";
 
 //enteros, variables, booleanos, decimales, caracteres, cadenas ,etc
 export default class Nativo extends Instruccion {
-    valor: any;
+    valor: any | undefined;
 
     constructor(tipo: Tipo, valor: any, linea: number, columna: number) {
         super(tipo, linea, columna);

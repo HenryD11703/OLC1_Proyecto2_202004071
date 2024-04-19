@@ -35,6 +35,9 @@
     const Caso = require('./Analisis/Instrucciones/Caso');
     const funcionSwitch = require('./Analisis/Instrucciones/FuncionSwitch');
     const Default = require('./Analisis/Instrucciones/Default');
+    const Funcion = require('./Analisis/Instrucciones/Funcion');
+    const Llamada = require('./Analisis/Instrucciones/Llamada');
+    const Execute = require('./Analisis/Instrucciones/Execute');
      
 
 
@@ -192,13 +195,34 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | declaracionArr                    { $$ = $1; }
        | modificacionVector  PYC           { $$ = $1; } 
        | funcionSwitch                     { $$ = $1; }
- 
-  
+       | funciones                         { $$ = $1; }
+       | llamada PYC                       { $$ = $1; }
+       | execute                            { $$ = $1; }
 ;
-declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, "nada", @1.first_line, @1.first_column)); }                 
+//constructor(id: string, parametros: Instruccion[], linea: number, columna: number){
+execute: EXECUTE ID PARENTESISI PARENTESISD PYC                      { $$ = new Execute.default($2, [], @1.first_line, @1.first_column); }
+       | EXECUTE ID PARENTESISI parametros_llamada PARENTESISD PYC   { $$ = new Execute.default($2, $4, @1.first_line, @1.first_column); }
+;
+
+funciones : tipo ID PARENTESISI parametros PARENTESISD LLAVEI codigos LLAVED { $$ = new Funcion.default($1, $2, $4, $7, @1.first_line, @1.first_column); }
+          | tipo ID PARENTESISI PARENTESISD LLAVEI codigos LLAVED            { $$ = new Funcion.default($1, $2, [], $6, @1.first_line, @1.first_column); }
+;
+
+parametros : parametros COMA tipo ID       {$1.push({tipo:$3, id:$4}); $$ = $1;}
+           | tipo ID                       { $$ = [{tipo:$1, id:$2}]; }
+; 
+
+llamada : ID PARENTESISI parametros_llamada PARENTESISD        { $$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
+        | ID PARENTESISI PARENTESISD                           { $$ = new Llamada.default($1, [], @1.first_line, @1.first_column); }
+;
+
+parametros_llamada : parametros_llamada COMA expresion      { $1.push($3); $$ = $1; }
+                   | expresion                              { $$ = [$1]; }
+;
+
+declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, null, @1.first_line, @1.first_column)); }                 
             | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
-            | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }
-                                 
+            | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }                                
 ;
 ids : ID                                    { $$ = [$1]; }                                                                   
     | ids COMA ID                           { $1.push($3); $$ = $1; }                         
@@ -208,6 +232,7 @@ tipo : INT                                      { $$ = new Tipo.default(Tipo.Tip
      | BOOL                                     { $$ = new Tipo.default(Tipo.TipoDato.BOOLEANO); }
      | CHAR                                     { $$ = new Tipo.default(Tipo.TipoDato.CARACTER); }
      | STD DOSPUNTOS DOSPUNTOS STRING           { $$ = new Tipo.default(Tipo.TipoDato.CADENA); }
+     | VOID                                     { $$ = new Tipo.default(Tipo.TipoDato.VOID); }
 ;
 expresion : Casteos                             { $$ = $1; }
           | NUMERO                               { $$ = new Nativo.default(new Tipo.default(Tipo.TipoDato.ENTERO), $1, @1.first_line, @1.first_column);}
@@ -228,6 +253,7 @@ expresion : Casteos                             { $$ = $1; }
           | funcionLength                        { $$ = $1; }
           | funcionTypeOf                        { $$ = $1; }
           | funciontoString                      { $$ = $1; }
+          | llamada                              { $$ = $1; } //lamada puede ser una expresion por que puede retornar un valor que sea asignado a una variable o sera retornado
  
         
 ;
@@ -325,7 +351,7 @@ accesoVector : ID CORCHETEI expresion CORCHETED { $$ = new AccesoVec.default($1,
 ;
 
 modificacionVector : ID CORCHETEI expresion CORCHETED IGUAL expresion   { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $6); } 
-                   | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); } 
+                   | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); }
 ;
  
 funcToLower : TOLOWER PARENTESISI expresion PARENTESISD     { $$ = new toLower.default($3, @1.first_line, @1.first_column); }	

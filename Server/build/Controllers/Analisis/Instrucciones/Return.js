@@ -31,8 +31,8 @@ class Return extends Instruccion_1.Instruccion {
         this.expresion = expresion;
     }
     interpretar(arbolS, tabla) {
-        if (this.expresion) {
-            const resultado = this.expresion.interpretar(arbolS, tabla);
+        if (this.expresion != null) {
+            let resultado = this.expresion.interpretar(arbolS, tabla);
             return resultado;
         }
         return this;
