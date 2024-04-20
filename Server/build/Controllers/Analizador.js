@@ -126,7 +126,7 @@ case 28: case 34: case 106:
  $$[$0-2].push($$[$0]); this.$ = $$[$0-2]; 
 break;
 case 30:
- this.$ = new DeclaracionVar.default($$[$0-1], _$[$0-1].first_line, _$[$0-1].first_column, $$[$0], new Nativo.default($$[$0-1], null, _$[$0-1].first_line, _$[$0-1].first_column)); 
+ this.$ = new DeclaracionVar.default($$[$0-1], _$[$0-1].first_line, _$[$0-1].first_column, $$[$0]); 
 break;
 case 31:
  this.$ = new DeclaracionVar.default($$[$0-3], _$[$0-3].first_line, _$[$0-3].first_column, $$[$0-2], $$[$0]); 

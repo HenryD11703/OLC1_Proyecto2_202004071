@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Nativo_1 = __importDefault(require("../Expresiones/Nativo"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Declaracion_1 = __importDefault(require("./Declaracion"));
@@ -59,10 +60,11 @@ class Llamada extends Instruccion_1.Instruccion {
             let resultadoFuncion = buscarFuncion.interpretar(ArbolS, newTabla);
             if (resultadoFuncion instanceof Return_1.default) {
                 let result = resultadoFuncion.interpretar(ArbolS, newTabla);
-                if (result instanceof Errores_1.default)
-                    return result;
-                console.log("Resultado de la llamada a la función: ", result);
-                return result;
+                if (result instanceof Nativo_1.default) {
+                    this.Tipo.setTipo(result.Tipo.getTipo());
+                    result.Tipo.setTipo(buscarFuncion.Tipo.getTipo());
+                    return result.interpretar(ArbolS, tabla);
+                }
             }
             if (resultadoFuncion instanceof Errores_1.default)
                 return resultadoFuncion;

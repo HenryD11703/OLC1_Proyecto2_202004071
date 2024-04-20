@@ -18,17 +18,25 @@ export default class Funcion extends Instruccion {
         this.instrucciones = instrucciones;
     }
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
+        let nuevaTabla = new TablaSimbolos(tabla);
+        nuevaTabla.setNombre("Funcion" + this.id);
+
         for (let instruccion of this.instrucciones) {
             
             if (instruccion instanceof Return) {
+                instruccion.Tipo.setTipo(this.Tipo.getTipo());
                 
                 return instruccion;
             }
           
-            let result = instruccion.interpretar(ArbolS, tabla);
+            let result = instruccion.interpretar(ArbolS, nuevaTabla);
 
             if (result instanceof Errores) return result;
-            if (result instanceof Return) return result;
+            if (result instanceof Return){
+                result.Tipo.setTipo(this.Tipo.getTipo());
+        
+                return result;
+            }
         }
     }
 }

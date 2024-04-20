@@ -14,35 +14,59 @@ class Declaracion extends Instruccion_1.Instruccion {
         this.valor = valor;
     }
     interpretar(ArbolS, tabla) {
-        let valorFinal = this.valor.interpretar(ArbolS, tabla);
-        if (valorFinal instanceof Errores_1.default)
-            return valorFinal;
-        //Cuando se declare una variable sin valor, se le asigna un valor por defecto
-        if (valorFinal == null) {
-            if (this.Tipo.getTipo() == Tipo_1.TipoDato.ENTERO) {
-                valorFinal = 0;
+        if (this.valor) {
+            let valorFinal = this.valor.interpretar(ArbolS, tabla);
+            if (valorFinal instanceof Errores_1.default)
+                return valorFinal;
+            if (this.valor.Tipo.getTipo() != this.Tipo.getTipo()) {
+                return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
             }
-            else if (this.Tipo.getTipo() == Tipo_1.TipoDato.CADENA) {
-                valorFinal = "";
-            }
-            else if (this.Tipo.getTipo() == Tipo_1.TipoDato.BOOLEANO) {
-                valorFinal = true;
-            }
-            else if (this.Tipo.getTipo() == Tipo_1.TipoDato.DECIMAL) {
-                valorFinal = 0.0;
-            }
-            else if (this.Tipo.getTipo() == Tipo_1.TipoDato.CARACTER) {
-                valorFinal = '0';
+            for (let ide of this.id) {
+                if (!tabla.setVariable(new Simbolo_1.default(this.Tipo, ide, valorFinal))) {
+                    return new Errores_1.default('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
+                }
             }
         }
-        if (this.valor.Tipo.getTipo() != this.Tipo.getTipo()) {
-            return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
-        }
-        for (let ide of this.id) {
-            if (!tabla.setVariable(new Simbolo_1.default(this.Tipo, ide, valorFinal))) {
-                return new Errores_1.default('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
+        else {
+            for (let ide of this.id) {
+                if (!tabla.setVariable(new Simbolo_1.default(this.Tipo, ide, this.valorDefecto(this.Tipo.getTipo())))) {
+                    return new Errores_1.default('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
+                }
             }
+        }
+    }
+    valorDefecto(tipo) {
+        switch (tipo) {
+            case Tipo_1.TipoDato.ENTERO:
+                return 0;
+            case Tipo_1.TipoDato.DECIMAL:
+                return 0.0;
+            case Tipo_1.TipoDato.BOOLEANO:
+                return true;
+            case Tipo_1.TipoDato.CADENA:
+                return "";
+            case Tipo_1.TipoDato.CARACTER:
+                return '0';
         }
     }
 }
 exports.default = Declaracion;
+/*
+
+  //Cuando se declare una variable sin valor, se le asigna un valor por defecto
+ 
+        if (valorFinal == null) {
+            if (this.Tipo.getTipo() == TipoDato.ENTERO) {
+                valorFinal = 0;
+            } else if (this.Tipo.getTipo() == TipoDato.CADENA) {
+                valorFinal = "";
+            } else if (this.Tipo.getTipo() == TipoDato.BOOLEANO) {
+                valorFinal = true;
+            } else if (this.Tipo.getTipo() == TipoDato.DECIMAL) {
+                valorFinal = 0.0;
+            } else if (this.Tipo.getTipo() == TipoDato.CARACTER) {
+                valorFinal = '0';
+            }
+
+
+*/ 

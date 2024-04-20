@@ -22,9 +22,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
+const Nativo_1 = __importDefault(require("../Expresiones/Nativo"));
 class Return extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -33,7 +37,9 @@ class Return extends Instruccion_1.Instruccion {
     interpretar(arbolS, tabla) {
         if (this.expresion != null) {
             let resultado = this.expresion.interpretar(arbolS, tabla);
-            return resultado;
+            let nativoV = new Nativo_1.default(this.Tipo, resultado, this.Linea, this.Columna);
+            console.log("El dato a retornar es: ", nativoV.valor);
+            return nativoV;
         }
         return this;
     }

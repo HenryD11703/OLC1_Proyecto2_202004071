@@ -220,7 +220,7 @@ parametros_llamada : parametros_llamada COMA expresion      { $1.push($3); $$ = 
                    | expresion                              { $$ = [$1]; }
 ;
 
-declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, new Nativo.default($1, null, @1.first_line, @1.first_column)); }                 
+declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2); }                 
             | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
             | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }                                
 ;

@@ -59,6 +59,7 @@ class Aritmetica extends Instruccion_1.Instruccion {
         }
         switch (this.Operador) {
             case OperadorAritmetico.SUMA:
+                console.log(this.suma(operadorIzq, operadorDer));
                 return this.suma(operadorIzq, operadorDer);
             case OperadorAritmetico.RESTA:
                 return this.resta(operadorIzq, operadorDer);

@@ -1,5 +1,6 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import Errores from "../Excepciones/Errores";
+import Nativo from "../Expresiones/Nativo";
 import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
@@ -19,6 +20,7 @@ export default class Llamada extends Instruccion {
 
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
         let buscarFuncion = ArbolS.getFuncion(this.id);
+        
         if (buscarFuncion == null) {
             return new Errores('Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
         }
@@ -44,11 +46,18 @@ export default class Llamada extends Instruccion {
                 if (resultado instanceof Errores) return resultado;
             }
             let resultadoFuncion: any = buscarFuncion.interpretar(ArbolS, newTabla);
+            
             if( resultadoFuncion instanceof Return) {
                 let result = resultadoFuncion.interpretar(ArbolS, newTabla);
-                if (result instanceof Errores) return result;
-                console.log("Resultado de la llamada a la función: ", result);
-                return result;
+                 
+        
+                
+                if (result instanceof Nativo) {
+                    this.Tipo.setTipo(result.Tipo.getTipo());
+                    result.Tipo.setTipo(buscarFuncion.Tipo.getTipo());
+            
+                    return result.interpretar(ArbolS, tabla);
+                }
                 
             }
             if (resultadoFuncion instanceof Errores) return resultadoFuncion;

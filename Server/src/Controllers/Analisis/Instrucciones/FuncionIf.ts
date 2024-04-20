@@ -35,7 +35,8 @@ export default class FuncionIf extends Instruccion {
             if (result instanceof Errores) return result;
             if (result instanceof Break) return result;
             if (result instanceof Continue) return result;
-            if (result instanceof Return) return result;           
+            if (result instanceof Return) return result;     
+                  
         }else if(this.BloqueElse != null){
             let result = this.BloqueElse.interpretar(arbolS, newTabla);
             if (result instanceof Errores) return result;
