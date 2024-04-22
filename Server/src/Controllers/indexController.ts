@@ -45,7 +45,7 @@ class Controller {
             let execute = null;
 
             for (let i of ast.getInstrucciones()) {
-
+                console.log(i);
         
 
                 if (i instanceof Funcion) {
@@ -66,8 +66,10 @@ class Controller {
                 if (i instanceof Execute) {
                     execute = i
                 }
+                
 
             }
+            console.log(ast.getErrores());
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }

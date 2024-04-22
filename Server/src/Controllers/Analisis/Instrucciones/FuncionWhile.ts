@@ -31,6 +31,7 @@ export default class FuncionWhile extends Instruccion {
             let newTabla2 = new TablaSimbolos(tabla);
             newTabla2.setNombre("Bloque While");
             for(let instruccion of this.Instrucciones){
+                if(instruccion instanceof Errores) return instruccion;
                 if(instruccion instanceof Break) return;
                 if(instruccion instanceof Continue) break;
                 if(instruccion instanceof Return) return instruccion;
@@ -68,6 +69,7 @@ export default class FuncionWhile extends Instruccion {
         resultado += `${nodoWhile} -> ${nodoBloque}\n`;
     
         for (let instruccion of this.Instrucciones) {
+            if (instruccion instanceof Errores) continue;
             resultado += instruccion.buildAst(`${nodoBloque}`);
         }
     

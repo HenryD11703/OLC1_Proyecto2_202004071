@@ -203,7 +203,7 @@ function generarReporteAST() {
               </li>
             </ul>
             {/* Editor actual según la pestaña activa */}
-            <div className="editor-header">Entrada</div>
+        
             <Editor
               height="90vh"
               defaultLanguage="java"

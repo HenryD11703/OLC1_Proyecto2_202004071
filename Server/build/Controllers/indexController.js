@@ -38,6 +38,7 @@ class Controller {
             ast.setConsola("");
             let execute = null;
             for (let i of ast.getInstrucciones()) {
+                console.log(i);
                 if (i instanceof Funcion_1.default) {
                     i.id = i.id.toLocaleLowerCase();
                     ast.addFunciones(i);
@@ -55,6 +56,7 @@ class Controller {
                     execute = i;
                 }
             }
+            console.log(ast.getErrores());
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }
