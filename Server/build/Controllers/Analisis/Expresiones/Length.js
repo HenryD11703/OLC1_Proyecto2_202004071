@@ -61,16 +61,16 @@ class Length extends Instruccion_1.Instruccion {
         let nodoParentesisD = `n${contador.get()}`;
         let resultado = `${nodoLength}[label="Length"]\n`;
         //como ID proviene de AccesoVar se llama a su metodo buildAst
-        resultado += `${nodoID}[label="ID"]\n`;
         resultado += this.expresion.buildAst(nodoID);
+        resultado += `${nodoID}[label="ID"]\n`;
         resultado += `${nodoLength} -> ${nodoID}\n`;
-        resultado += `${nodoPunto}[label="PUNTO"]\n`;
+        resultado += `${nodoPunto}[label="."]`;
         resultado += `${nodoLength} -> ${nodoPunto}\n`;
         resultado += `${Length}[label="LENGTH"]\n`;
         resultado += `${nodoLength} -> ${Length}\n`;
-        resultado += `${nodoParentesisI}[label="PARENTESISI"]\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
         resultado += `${nodoLength} -> ${nodoParentesisI}\n`;
-        resultado += `${nodoParentesisD}[label="PARENTESISD"]\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
         resultado += `${nodoLength} -> ${nodoParentesisD}\n`;
         resultado += `${anterior} -> ${nodoLength}\n`;
         return resultado;

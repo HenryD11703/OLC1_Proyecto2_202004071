@@ -200,162 +200,188 @@ export default class DeclaracionArr extends Instruccion {
         let funcionDeclaracion = `n${contador.get()}`;
         let nodoTipo = `n${contador.get()}`;
         let nodoIds = `n${contador.get()}`;
-        let nodoCorcheteI = `n${contador.get()}`;
-        let nodoCorcheteD = `n${contador.get()}`;
+        let resultado = `${funcionDeclaracion}[label="Declaracion de Arreglo"]\n`;
+        resultado += `${anterior} -> ${funcionDeclaracion}\n`;
 
-        // Para el tipo 1
-        if (this.tamaño1 !== null && this.tamaño2 == null) {
-            let nodoIgual = `n${contador.get()}`;
-            let nodoNew = `n${contador.get()}`;
-            let nodoExpresion = `n${contador.get()}`;
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoIds}[label="Ids"]\n`;
-            for (let id of this.id) {
-                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+        let Tipo = "";
+        //segun el tipo de dato asignar el valor
+
+        if (this.Tipo.getTipo() == TipoDato.ENTERO) {
+            Tipo = "INT";
+        } else if (this.Tipo.getTipo() == TipoDato.DECIMAL) {
+            Tipo = "DOUBLE";
+        } else if (this.Tipo.getTipo() == TipoDato.BOOLEANO) {
+            Tipo = "BOOL";
+        } else if (this.Tipo.getTipo() == TipoDato.CARACTER) {
+            Tipo = "CHAR";
+        } else if (this.Tipo.getTipo() == TipoDato.CADENA) {
+            Tipo = "STD";
+        } else if (this.Tipo.getTipo() == TipoDato.VOID) {
+            Tipo = "VOID";
+        } else if (this.Tipo.getTipo() == TipoDato.ARREGLO) {
+            Tipo = "ARREGLO";
+        }
+        
+
+        resultado += `${nodoTipo}[label="${Tipo}"]\n`;
+        resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+        resultado += `${nodoIds}[label="Ids"]\n`;
+        for (let id of this.id) {
+            let nodoId = `n${contador.get()}`;
+            resultado += `${nodoId}[label="${id}"]\n`;
+            resultado += `${nodoIds} -> ${nodoId}\n`;
+        }
+        resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+
+        //todas las posibles declaraciones de arreglos cuentan con id, tipo, igual y corchetes
+
+        let nodoCORCHETEI = `n${contador.get()}`;
+        let nodoCORCHETED = `n${contador.get()}`;
+        resultado += `${nodoCORCHETEI}[label="["]\n`;
+        resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI}\n`;
+        resultado += `${nodoCORCHETED}[label="]"]\n`;
+        resultado += `${funcionDeclaracion} -> ${nodoCORCHETED}\n`;
+
+        if (this.valores !== null && this.valores2 !== null) {
+            let nodoCORCHETEI1 = `n${contador.get()}`;
+            let nodoCORCHETED1 = `n${contador.get()}`;
+            let nodoIGUAL = `n${contador.get()}`;
+            let nodoCORCHETEI2 = `n${contador.get()}`;
+            let nodoCORCHETEI3 = `n${contador.get()}`;
+            let nodoListaValores = `n${contador.get()}`;
+            let nodoCORCHETED2 = `n${contador.get()}`;
+            let nodoCOMA = `n${contador.get()}`;
+            let nodoCORCHETEI4 = `n${contador.get()}`;
+            let nodoListaValores2 = `n${contador.get()}`;
+            let nodoCORCHETED3 = `n${contador.get()}`;
+            let nodoCORCHETED4 = `n${contador.get()}`;
+            let nodoPYC = `n${contador.get()}`;
+            resultado += `${nodoCORCHETEI1}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI1}\n`;
+            resultado += `${nodoCORCHETED1}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED1}\n`;
+            resultado += `${nodoIGUAL}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIGUAL}\n`;
+            resultado += `${nodoCORCHETEI2}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI2}\n`;
+            resultado += `${nodoCORCHETEI3}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI3}\n`;
+            resultado += `${nodoListaValores}[label="Lista de Valores"]\n`;
+            for (let val of this.valores) {
+                resultado += val.buildAst(nodoListaValores);
             }
-            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoIgual}[label="="]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
-            resultado += `${nodoNew}[label="NEW"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoNew}\n`;
-            resultado += `${nodoTipo}[label="${this.tipo2?.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoListaValores}\n`;
+            resultado += `${nodoCORCHETED2}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED2}\n`;
+            resultado += `${nodoCOMA}[label=","]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCOMA}\n`;
+            resultado += `${nodoCORCHETEI4}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI4}\n`;
+            resultado += `${nodoListaValores2}[label="Lista de Valores"]\n`;
+            for (let val of this.valores2) {
+                resultado += val.buildAst(nodoListaValores2);
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoListaValores2}\n`;
+            resultado += `${nodoCORCHETED3}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED3}\n`;
+            resultado += `${nodoCORCHETED4}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED4}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
+            return resultado;
+        } // es de dos dimensiones pero sin valores
+        else if (this.tamaño1 !== null && this.tamaño2 !== null) {
+           
+            let nodoCORCHETEI2 = `n${contador.get()}`;
+            let nodoCORCHETED2 = `n${contador.get()}`;
+            let nodoIGUAL = `n${contador.get()}`;
+            let nodoNEW = `n${contador.get()}`;
+            let nodoTipo2 = `n${contador.get()}`;
+            let nodoCORCHETEI3 = `n${contador.get()}`;
+            let nodoExpresion = `n${contador.get()}`;
+            let nodoCORCHETED3 = `n${contador.get()}`;
+            let nodoCORCHETEI4 = `n${contador.get()}`;
+            let nodoExpresion2 = `n${contador.get()}`;
+            let nodoCORCHETED4 = `n${contador.get()}`;
+            let nodoPYC = `n${contador.get()}`;
+             
+            resultado += `${nodoCORCHETEI2}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI2}\n`;
+            resultado += `${nodoCORCHETED2}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED2}\n`;
+            resultado += `${nodoIGUAL}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIGUAL}\n`;
+            resultado += `${nodoNEW}[label="NEW"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoNEW}\n`;
+            resultado += `${nodoTipo2}[label="${Tipo}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo2}\n`;
+            resultado += `${nodoCORCHETEI3}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI3}\n`;
+            resultado += `${nodoExpresion}[label="Expresion"]\n`;
             resultado += this.tamaño1.buildAst(nodoExpresion);
             resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
-            return resultado;
-        } else if (this.tamaño1 !== null && this.tamaño2 !== null) {
-            let nodoIgual = `n${contador.get()}`;
-            let nodoNew = `n${contador.get()}`;
-            let nodoExpresion1 = `n${contador.get()}`;
-            let nodoExpresion2 = `n${contador.get()}`;
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoIds}[label="Ids"]\n`;
-            for (let id of this.id) {
-                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
-            }
-            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoIgual}[label="="]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
-            resultado += `${nodoNew}[label="NEW"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoNew}\n`;
-            resultado += `${nodoTipo}[label="${this.tipo2?.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += this.tamaño1.buildAst(nodoExpresion1);
-            resultado += `${funcionDeclaracion} -> ${nodoExpresion1}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCORCHETED3}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED3}\n`;
+            resultado += `${nodoCORCHETEI4}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI4}\n`;
+            resultado += `${nodoExpresion2}[label="Expresion"]\n`;
             resultado += this.tamaño2.buildAst(nodoExpresion2);
             resultado += `${funcionDeclaracion} -> ${nodoExpresion2}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            resultado += `${nodoCORCHETED4}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED4}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
+
             return resultado;
-        } else if (this.valores !== null && this.valores2 == null) {
-            let nodoCorcheteI = `n${contador.get()}`;
-            let nodoCorcheteD = `n${contador.get()}`;
-            let nodoIgual = `n${contador.get()}`;
-            let nodoValores = `n${contador.get()}`;
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoIds}[label="Ids"]\n`;
-            for (let id of this.id) {
-                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
-            }
-            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoIgual}[label="="]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoValores}[label="Valores"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoValores}\n`;
-            for (let valor of this.valores) {
-                let nodoValor = `n${contador.get()}`;
-                resultado += valor.buildAst(nodoValor);
-                resultado += `${nodoValores} -> ${nodoValor}\n`;
-            }
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+
+        }// es de una dimension pero sin valores
+        else if (this.tamaño1 !== null && this.tamaño2 == null){
+            let nodoIGUAL = `n${contador.get()}`;
+            let nodoNEW = `n${contador.get()}`;
+            let nodoTipo2 = `n${contador.get()}`;
+            let nodoCORCHETEI3 = `n${contador.get()}`;
+            let nodoExpresion = `n${contador.get()}`;
+            let nodoCORCHETED3 = `n${contador.get()}`;
+            let nodoPYC = `n${contador.get()}`;
+            resultado += `${nodoIGUAL}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIGUAL}\n`;
+            resultado += `${nodoNEW}[label="NEW"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoNEW}\n`;
+            resultado += `${nodoTipo2}[label="${Tipo}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo2}\n`;
+            resultado += `${nodoCORCHETEI3}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI3}\n`;
+            resultado += `${nodoExpresion}[label="Expresion"]\n`;
+            resultado += this.tamaño1.buildAst(nodoExpresion);
+            resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
+            resultado += `${nodoCORCHETED3}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED3}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
             return resultado;
-        } else if (this.valores !== null && this.valores2 !== null) {
-            let nodoCorcheteI = `n${contador.get()}`;
-            let nodoCorcheteD = `n${contador.get()}`;
-            let nodoIgual = `n${contador.get()}`;
-            let nodoValores = `n${contador.get()}`;
-            let nodoValores2 = `n${contador.get()}`;
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-            resultado += `${nodoIds}[label="Ids"]\n`;
-            for (let id of this.id) {
-                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+        }// es de una dimension con valores
+        else if (this.valores !== null && this.valores2 == null){
+            let nodoIGUAL = `n${contador.get()}`;
+            let nodoCORCHETEI3 = `n${contador.get()}`;
+            let nodoListaValores = `n${contador.get()}`;
+            let nodoCORCHETED3 = `n${contador.get()}`;
+            let nodoPYC = `n${contador.get()}`;
+            resultado += `${nodoIGUAL}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIGUAL}\n`;
+            resultado += `${nodoCORCHETEI3}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETEI3}\n`;
+            resultado += `${nodoListaValores}[label="Lista de Valores"]\n`;
+            for (let val of this.valores) {
+                resultado += val.buildAst(nodoListaValores);
             }
-            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoIgual}[label="="]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoValores}[label="Valores"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoValores}\n`;
-            for (let valor of this.valores) {
-                let nodoValor = `n${contador.get()}`;
-                resultado += valor.buildAst(nodoValor);
-                resultado += `${nodoValores} -> ${nodoValor}\n`;
-            }
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${nodoCorcheteI}[label="["]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-            resultado += `${nodoValores2}[label="Valores"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoValores2}\n`;
-            for (let valor of this.valores2) {
-                let nodoValor = `n${contador.get()}`;
-                resultado += valor.buildAst(nodoValor);
-                resultado += `${nodoValores2} -> ${nodoValor}\n`;
-            }
-            resultado += `${nodoCorcheteD}[label="]"]\n`;
-            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoListaValores}\n`;
+            resultado += `${nodoCORCHETED3}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCORCHETED3}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
             return resultado;
+            
         }
-        return "";
+        return resultado;
     }
 }

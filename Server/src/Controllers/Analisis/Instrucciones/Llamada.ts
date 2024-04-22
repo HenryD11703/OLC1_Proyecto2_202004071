@@ -81,7 +81,7 @@ export default class Llamada extends Instruccion {
         let nodoParametros = null;
         let nodoParentesisD = `n${contador.get()}`;
     
-        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        let resultado = `${nodoRaiz}[label="Funcion llamada"]\n`;
         resultado += `${anterior} -> ${nodoRaiz}\n`;
         resultado += `${nodoLlamada}[label="Llamada"]\n`;
         resultado += `${nodoRaiz} -> ${nodoLlamada}\n`;

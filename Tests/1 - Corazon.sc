@@ -73,5 +73,5 @@ execute metodo1();
 . . . . . . . . . . . . . . * * * . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . * . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-Si la figura es un corazon, estás en el buen camino :D
+Si la figura es un corazón, tas bien :3
 */

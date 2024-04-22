@@ -36,7 +36,7 @@ export default class Impresion extends Instruccion {
         let nodoMenorMenor2 = null;
         let nodoEndl = null;
     
-        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        let resultado = `${nodoRaiz}[label="Impresion"]\n`;
         resultado += `${anterior} -> ${nodoRaiz}\n`;
         resultado += `${nodoImpresion}[label="Impresión"]\n`;
         resultado += `${nodoRaiz} -> ${nodoImpresion}\n`;

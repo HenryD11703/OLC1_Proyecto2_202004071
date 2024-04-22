@@ -58,7 +58,7 @@ class Impresion extends Instruccion_1.Instruccion {
         let nodoExpresion = `n${contador.get()}`;
         let nodoMenorMenor2 = null;
         let nodoEndl = null;
-        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        let resultado = `${nodoRaiz}[label="Impresion"]\n`;
         resultado += `${anterior} -> ${nodoRaiz}\n`;
         resultado += `${nodoImpresion}[label="Impresión"]\n`;
         resultado += `${nodoRaiz} -> ${nodoImpresion}\n`;

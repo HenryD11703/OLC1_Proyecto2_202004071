@@ -714,17 +714,20 @@ class Aritmetica extends Instruccion_1.Instruccion {
         var _a, _b, _c, _d, _e;
         let contador = Contador_1.default.getInstance();
         let resultado = "";
+        let nodoResultado = `nodo${contador.get()}`;
         let nodoOperacion = `nodo${contador.get()}`;
-        resultado += `${nodoOperacion}[label=\"Operacion Aritmetica\"];\n`;
+        resultado += `${nodoOperacion}[label="Operacion Aritmetica"];\n`;
+        if (anterior) {
+            resultado += `${anterior} -> ${nodoOperacion};\n`;
+        }
         //validar para cuando sea una operacion unaria
         if (this.Operador == OperadorAritmetico.NEGACION) {
             let nodoNegacion = `nodo${contador.get()}`;
             let nodoExpresion = `nodo${contador.get()}`;
-            resultado += `${nodoNegacion}[label=\"-\"];\n`;
-            resultado += `${nodoExpresion}[label=\"Expresion\"];\n`;
-            resultado += `${anterior} -> ${nodoNegacion};\n`;
+            resultado += `${nodoNegacion}[label="-"];\n`;
+            resultado += `${nodoExpresion}[label="Expresion"];\n`;
             resultado += `${nodoNegacion} -> ${nodoExpresion};\n`;
-            resultado += (_a = this.Operando1) === null || _a === void 0 ? void 0 : _a.buildAst(nodoExpresion);
+            resultado += (_a = this.operandoUnico) === null || _a === void 0 ? void 0 : _a.buildAst(nodoExpresion);
             resultado += `${nodoOperacion} -> ${nodoNegacion};\n`;
             return resultado;
         }
@@ -735,12 +738,12 @@ class Aritmetica extends Instruccion_1.Instruccion {
             let nodoComa = `nodo${contador.get()}`;
             let nodoExpresion2 = `nodo${contador.get()}`;
             let nodoParentesisD = `nodo${contador.get()}`;
-            resultado += `${nodoPotencia}[label=\"POW\"];\n`;
-            resultado += `${nodoParentesisI}[label=\"(\"];\n`;
-            resultado += `${nodoExpresion1}[label=\"Expresion\"];\n`;
-            resultado += `${nodoComa}[label=\",\"];\n`;
-            resultado += `${nodoExpresion2}[label=\"Expresion\"];\n`;
-            resultado += `${nodoParentesisD}[label=\")\"];\n`;
+            resultado += `${nodoPotencia}[label="POW"];\n`;
+            resultado += `${nodoParentesisI}[label="("];\n`;
+            resultado += `${nodoExpresion1}[label="Expresion"];\n`;
+            resultado += `${nodoComa}[label=","];\n`;
+            resultado += `${nodoExpresion2}[label="Expresion"];\n`;
+            resultado += `${nodoParentesisD}[label=")"];\n`;
             resultado += (_b = this.Operando1) === null || _b === void 0 ? void 0 : _b.buildAst(nodoExpresion1);
             resultado += (_c = this.Operando2) === null || _c === void 0 ? void 0 : _c.buildAst(nodoExpresion2);
             resultado += `${nodoOperacion} -> ${nodoPotencia};\n`;
@@ -749,6 +752,7 @@ class Aritmetica extends Instruccion_1.Instruccion {
             resultado += `${nodoPotencia} -> ${nodoComa};\n`;
             resultado += `${nodoPotencia} -> ${nodoExpresion2};\n`;
             resultado += `${nodoPotencia} -> ${nodoParentesisD};\n`;
+            resultado += `${nodoResultado}[label="${"h"}"];\n`;
             return resultado;
         }
         let signoOperacion = "";
@@ -770,14 +774,14 @@ class Aritmetica extends Instruccion_1.Instruccion {
         let nodoOperador = `nodo${contador.get()}`;
         let nodoExpresion1 = `nodo${contador.get()}`;
         let nodoExpresion2 = `nodo${contador.get()}`;
-        resultado += `${nodoOperador}[label=\"${signoOperacion}\"];\n`;
-        resultado += `${nodoExpresion1}[label=\"Expresion\"];\n`;
-        resultado += `${nodoExpresion2}[label=\"Expresion\"];\n`;
-        resultado += (_d = this.Operando1) === null || _d === void 0 ? void 0 : _d.buildAst(nodoExpresion1);
-        resultado += (_e = this.Operando2) === null || _e === void 0 ? void 0 : _e.buildAst(nodoExpresion2);
+        resultado += `${nodoOperador}[label="${signoOperacion}"];\n`;
+        resultado += `${nodoExpresion1}[label="Expresion"];\n`;
+        resultado += `${nodoExpresion2}[label="Expresion"];\n`;
         resultado += `${nodoOperacion} -> ${nodoOperador};\n`;
         resultado += `${nodoOperador} -> ${nodoExpresion1};\n`;
         resultado += `${nodoOperador} -> ${nodoExpresion2};\n`;
+        resultado += (_d = this.Operando1) === null || _d === void 0 ? void 0 : _d.buildAst(nodoExpresion1);
+        resultado += (_e = this.Operando2) === null || _e === void 0 ? void 0 : _e.buildAst(nodoExpresion2);
         return resultado;
     }
 }

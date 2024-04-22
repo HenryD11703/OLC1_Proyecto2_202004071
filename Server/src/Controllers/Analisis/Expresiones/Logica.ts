@@ -499,9 +499,24 @@ export default class Logica extends Instruccion {
                     | NOT expresion               
     */
    buildAst(anterior: string): string {
+
+        let tipoOperacion = "";
+        if(this.Operador === OperadorLogico.IGUALIGUAL) tipoOperacion = "==";
+        if(this.Operador === OperadorLogico.DIFERENTE) tipoOperacion = "!=";
+        if(this.Operador === OperadorLogico.MENOR) tipoOperacion = "<";
+        if(this.Operador === OperadorLogico.MENORIGUAL) tipoOperacion = "<=";
+        if(this.Operador === OperadorLogico.MAYOR) tipoOperacion = ">";
+        if(this.Operador === OperadorLogico.MAYORIGUAL) tipoOperacion = ">=";
+        if(this.Operador === OperadorLogico.OR) tipoOperacion = "|";
+        if(this.Operador === OperadorLogico.AND) tipoOperacion = "&&";
+        if(this.Operador === OperadorLogico.NOT) tipoOperacion = "!";
+
+        
+
        let contador = Contador.getInstance();
        let OperacionRelacional = `n${contador.get()}`;
        let resultado = `${OperacionRelacional}[label="Operacion Relacional"]\n`;
+         resultado += `${anterior} -> ${OperacionRelacional}\n`;
 
        if(this.Operador === OperadorLogico.NOT){
            let Not = `n${contador.get()}`;
@@ -518,7 +533,7 @@ export default class Logica extends Instruccion {
               let Expresion2 = `n${contador.get()}`;
               let Operador = `n${contador.get()}`;
               resultado += `${Expresion1}[label="Expresion"]\n`;
-              resultado += `${Operador}[label="${this.Operador.toString()}"]\n`;
+              resultado += `${Operador}[label="${tipoOperacion}"]\n`;
               resultado += `${Expresion2}[label="Expresion"]\n`;
               resultado += `${OperacionRelacional} -> ${Expresion1}\n`;
               resultado += `${OperacionRelacional} -> ${Operador}\n`;

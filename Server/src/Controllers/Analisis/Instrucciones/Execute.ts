@@ -53,15 +53,19 @@ export default class Execute extends Instruccion{
         let nodoId = `n${contador.get()}`;
         let nodoParentesisI = `n${contador.get()}`;
         let nodoParentesisD = `n${contador.get()}`;
+        let nodoEXECUTEp = `n${contador.get()}`; 
+        let nodoPYC = `n${contador.get()}`;
         let nodoParametros = null;
     
-        let resultado = `${nodoExecute}[label="Execute"]\n`;
+        let resultado = `${nodoExecute}[label="Funcion Execute"]\n`;
         resultado += `${anterior} -> ${nodoExecute}\n`;
+        resultado += `${nodoExecute} -> ${nodoEXECUTEp}\n`;   
         resultado += `${nodoId}[label="${this.id}"]\n`;
         resultado += `${nodoExecute} -> ${nodoId}\n`;
         resultado += `${nodoParentesisI}[label="("]\n`;
         resultado += `${nodoExecute} -> ${nodoParentesisI}\n`;
-    
+        resultado += `${nodoEXECUTEp}[label="EXECUTE"]\n`;
+         
         if (this.parametros.length > 0) {
             nodoParametros = `n${contador.get()}`;
             resultado += `${nodoParametros}[label="Parametros"]\n`;
@@ -75,6 +79,8 @@ export default class Execute extends Instruccion{
         }
     
         resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${nodoPYC}[label=";"]\n`;
+        resultado += `${nodoExecute} -> ${nodoPYC}\n`;
         resultado += `${nodoExecute} -> ${nodoParentesisD}\n`;
     
         return resultado;

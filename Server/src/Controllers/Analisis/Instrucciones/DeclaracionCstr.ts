@@ -40,34 +40,70 @@ export default class DeclaracionCstr extends Instruccion {
 
     buildAst(anterior: string): string {
         let contador = Contador.getInstance();
-        let funcionDeclaracion = `n${contador.get()}`;
-        let nodoTipo = `n${contador.get()}`;
-        let nodoIds = `n${contador.get()}`;
-        let nodoCorcheteI = `n${contador.get()}`;
-        let nodoCorcheteD = `n${contador.get()}`;
-        let nodoIgual = `n${contador.get()}`;
-        let nodoFuncionCstr = `n${contador.get()}`;
-        let nodoExpresion = `n${contador.get()}`;
-    
-        let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-        resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
-        resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
-        resultado += `${nodoIds}[label="Ids"]\n`;
-        for (let id of this.id) {
-            resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+        let Tipo = "";
+        //segun el tipo de dato asignar el valor
+        if (this.Tipo.getTipo() == TipoDato.ENTERO) {
+            Tipo = "INT";
+        } else if (this.Tipo.getTipo() == TipoDato.DECIMAL) {
+            Tipo = "DOUBLE";
+        } else if (this.Tipo.getTipo() == TipoDato.BOOLEANO) {
+            Tipo = "BOOL";
+        } else if (this.Tipo.getTipo() == TipoDato.CARACTER) {
+            Tipo = "CHAR";
+        } else if (this.Tipo.getTipo() == TipoDato.CADENA) {
+            Tipo = "STD";
+        } else if (this.Tipo.getTipo() == TipoDato.VOID) {
+            Tipo = "VOID";
+        } else if (this.Tipo.getTipo() == TipoDato.ARREGLO) {
+            Tipo = "ARREGLO";
         }
-        resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
-        resultado += `${nodoCorcheteI}[label="["]\n`;
-        resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
-        resultado += `${nodoCorcheteD}[label="]"]\n`;
-        resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
-        resultado += `${nodoIgual}[label="="]\n`;
-        resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
-        resultado += `${nodoFuncionCstr}[label="FuncionCstr"]\n`;
-        resultado += `${funcionDeclaracion} -> ${nodoFuncionCstr}\n`;
-        resultado += this.Instruccion.buildAst(nodoExpresion);
+        let nodoTipo = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoCORCHETEI = `n${contador.get()}`;
+        let nodoCORCHETED = `n${contador.get()}`;
+        let nodoIGUAL = `n${contador.get()}`;
+        let nodoTipoArreglo = `n${contador.get()}`;
+        let nodoFuncionCstr = `n${contador.get()}`;
+        let nodoPYC = `n${contador.get()}`;
+        let resultado = `${nodoTipo}[label="Declaracion Arreglo"]\n`;
+        resultado += `${anterior} -> ${nodoTipo}\n`;
+        resultado += `${nodoTipoArreglo}[label="${Tipo}"]\n`;
+        resultado += `${nodoTipo} -> ${nodoTipoArreglo}\n`;
+        for (let id of this.id) {
+            resultado += `${nodoId}[label="${id}"]\n`;
+            resultado += `${nodoTipo} -> ${nodoId}\n`;
+        }
+        resultado += `${nodoCORCHETEI}[label="["]\n`;
+        resultado += `${nodoTipo} -> ${nodoCORCHETEI}\n`;
+        resultado += `${nodoCORCHETED}[label="]"]\n`;
+        resultado += `${nodoTipo} -> ${nodoCORCHETED}\n`;
+        resultado += `${nodoIGUAL}[label="="]\n`;
+        resultado += `${nodoTipo} -> ${nodoIGUAL}\n`;
+        resultado += `${nodoFuncionCstr}[label="Funcion Cstr"]\n`;
+        resultado += `${nodoTipo} -> ${nodoFuncionCstr}\n`;
+        
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoVALOR = `n${contador.get()}`;
+        let nodoPUNTO = `n${contador.get()}`;
+        let nodoC_STR = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
         resultado += `${nodoFuncionCstr} -> ${nodoExpresion}\n`;
-        resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+        resultado += this.Instruccion.buildAst(nodoExpresion);
+        resultado += `${nodoPUNTO}[label="."]`;
+        resultado += `${nodoFuncionCstr} -> ${nodoPUNTO}\n`;
+        resultado += `${nodoC_STR}[label="C_STR"]\n`;
+        resultado += `${nodoFuncionCstr} -> ${nodoC_STR}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${nodoFuncionCstr} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${nodoFuncionCstr} -> ${nodoParentesisD}\n`;
+        
+        resultado += `${nodoPYC}[label=";"]\n`;
+        resultado += `${nodoFuncionCstr} -> ${nodoPYC}\n`;
+
         return resultado;
+
     }
 }

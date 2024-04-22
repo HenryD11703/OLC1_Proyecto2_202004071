@@ -53,19 +53,80 @@ class Declaracion extends Instruccion_1.Instruccion {
 ;
      */
     buildAst(anterior) {
+        let Tipo = "";
+        //segun el tipo de dato asignar el valor
+        if (this.Tipo.getTipo() == Tipo_1.TipoDato.ENTERO) {
+            Tipo = "INT";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.DECIMAL) {
+            Tipo = "DOUBLE";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.BOOLEANO) {
+            Tipo = "BOOL";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.CARACTER) {
+            Tipo = "CHAR";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.CADENA) {
+            Tipo = "STD";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.VOID) {
+            Tipo = "VOID";
+        }
+        else if (this.Tipo.getTipo() == Tipo_1.TipoDato.ARREGLO) {
+            Tipo = "ARREGLO";
+        }
         let contador = Contador_1.default.getInstance();
         let funcionDeclaracion = `n${contador.get()}`;
         let nodoTipo = `n${contador.get()}`;
         let nodoIds = `n${contador.get()}`;
+        let nodoPYC = `n${contador.get()}`;
+        if (this.Tipo.getTipo() == Tipo_1.TipoDato.CADENA) {
+            let nodoSTD = `n${contador.get()}`;
+            let nodoDOSP = `n${contador.get()}`;
+            let nodoDOSP2 = `n${contador.get()}`;
+            let nodoString = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoSTD}[label="STD"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoSTD}\n`;
+            resultado += `${nodoDOSP}[label=":"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoDOSP}\n`;
+            resultado += `${nodoDOSP2}[label=":"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoDOSP2}\n`;
+            resultado += `${nodoString}[label="STRING"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoString}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                let nodoId = `n${contador.get()}`;
+                resultado += `${nodoId}[label="${id}"]\n`;
+                resultado += `${nodoIds} -> ${nodoId}\n`;
+            }
+            if (this.valor) {
+                let nodoIgual = `n${contador.get()}`;
+                let nodoExpresion = `n${contador.get()}`;
+                resultado += `${nodoIgual}[label="="]\n`;
+                resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+                resultado += `${nodoExpresion}[label="Expresion"]\n`;
+                resultado += this.valor.buildAst(nodoExpresion);
+                resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
         if (this.valor) {
             let nodoIgual = `n${contador.get()}`;
             let nodoExpresion = `n${contador.get()}`;
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.Tipo.getTipo().toString()}"]\n`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion Variable"]\n`;
+            resultado += `${nodoTipo}[label="${Tipo}"]\n`;
             resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
             resultado += `${nodoIds}[label="Ids"]\n`;
             for (let id of this.id) {
-                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+                let nodoId = `n${contador.get()}`;
+                resultado += `${nodoId}[label="${id}"]\n`;
+                resultado += `${nodoIds} -> ${nodoId}\n`;
             }
             resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
             resultado += `${nodoIgual}[label="="]\n`;
@@ -74,11 +135,13 @@ class Declaracion extends Instruccion_1.Instruccion {
             resultado += this.valor.buildAst(nodoExpresion);
             resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
             resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
             return resultado;
         }
         else {
-            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
-            resultado += `${nodoTipo}[label="${this.Tipo.getTipo()}"]\n`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion Variable"]\n`;
+            resultado += `${nodoTipo}[label="${Tipo}"]\n`;
             resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
             resultado += `${nodoIds}[label="Ids"]\n`;
             resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
@@ -88,6 +151,8 @@ class Declaracion extends Instruccion_1.Instruccion {
                 resultado += `${nodoIds} -> ${nodoId}\n`;
             }
             resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoPYC}\n`;
             return resultado;
         }
     }
