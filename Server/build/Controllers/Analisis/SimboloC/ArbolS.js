@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const TablaSimbolos_1 = __importDefault(require("./TablaSimbolos"));
+const Errores_1 = __importDefault(require("../Excepciones/Errores"));
 const Funcion_1 = __importDefault(require("../Instrucciones/Funcion"));
 class ArbolS {
     constructor(instrucciones) {
@@ -36,6 +37,17 @@ class ArbolS {
     }
     getErrores() {
         return this.errores;
+    }
+    setErrores(errores) {
+        this.errores = errores;
+    }
+    addError(error) {
+        this.errores.push(error);
+    }
+    createAndAddError(ArbolS, tipo, descripcion, linea, columna) {
+        let error = new Errores_1.default(tipo, descripcion, linea, columna);
+        ArbolS.addError(error);
+        return error;
     }
     getFunciones() {
         return this.funciones;

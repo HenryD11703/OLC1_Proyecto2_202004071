@@ -66,6 +66,9 @@ class Controller {
                 if (i instanceof Execute) {
                     execute = i
                 }
+                if (i instanceof Errores){
+                    ast.addError(i);
+                }
                 
 
             }
@@ -110,6 +113,58 @@ class Controller {
         });
         
 
+    }
+
+    public reporteErrores(errores: Errores[]) : string {
+        let html = `
+        <html>
+            <head>
+                <title>Reporte de Errores</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 15px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Reporte de Errores</h1>
+                <table>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Línea</th>
+                        <th>Columna</th>
+                    </tr>
+        `;
+    
+        errores.forEach(error => {
+            html += `
+                <tr>
+                    <td>${error.getTipoError}</td>
+                    <td>${error.getDescripcion}</td>
+                    <td>${error.getLinea}</td>
+                    <td>${error.getColumna}</td>
+                </tr>
+            `;
+        });
+    
+        html += `
+                </table>
+            </body>
+        </html>
+        `;
+        console.log(html);
+        return html;
     }
 }
 

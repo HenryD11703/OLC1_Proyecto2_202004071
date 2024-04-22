@@ -42,6 +42,21 @@ export default class ArbolS {
     public getErrores(): any {
         return this.errores;
     }
+
+    public setErrores(errores: any): void {
+        this.errores = errores;
+    }
+
+    public addError(error: Errores): void {
+        this.errores.push(error);
+    }
+    
+    public createAndAddError(ArbolS: ArbolS, tipo: string, descripcion: string, linea: number, columna: number): Errores {
+        let error = new Errores(tipo, descripcion, linea, columna);
+        ArbolS.addError(error);
+        return error;
+    }
+
     public getFunciones(){
         return this.funciones;
     }

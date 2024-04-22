@@ -80,15 +80,17 @@ function App() {
   // Función para generar el reporte AST
  
 function generarReporteAST() {
-  
-
-
   // Lógica para generar el reporte AST
   console.log("Generando reporte AST...");
-
   // Abrir la imagen "reporte"
   window.open('./reporteAST.html', '_blank');
 }
+
+function abrirReporteErrores() {
+  window.open('http://localhost:4000/errores.html', '_blank');
+}
+
+
   return (
     <div className="App">
       {/* Barra de navegación */}
@@ -131,7 +133,8 @@ function generarReporteAST() {
                 {/* Agregado la clase me-2 aquí */}
                 <a
                   className="nav-link btn btn-sm btn-outline-light"
-                  href="errores.html"
+                   
+                  onClick={abrirReporteErrores}
                 >
                   Errores
                 </a>
