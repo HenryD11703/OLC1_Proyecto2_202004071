@@ -33,19 +33,29 @@ export default class VariablesA extends Instruccion {
     //| ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }  
     buildAst(anterior: string): string {
         let contador = Contador.getInstance();
-        let nodoRaiz = `n${contador.get()}`;
-        let nodoVariables = `n${contador.get()}`;
-        let nodoExpresion = this.exp.buildAst(nodoRaiz);
-        let resultado = `${nodoRaiz}[label="Variables"]\n`;
-        resultado += `${anterior} -> ${nodoRaiz}\n`;
-        resultado += `${nodoVariables}[label="Variables"]\n`;
-        resultado += `${nodoRaiz} -> ${nodoVariables}\n`;
+        let nodoVariablesA = `n${contador.get()}`
+        let nodoIds = `n${contador.get()}`
+        let nodoIGUAL = `n${contador.get()}`
+        let nodoExpresion =  `n${contador.get()}`
+        let nodoPYC = `n${contador.get()}`
+        let resultado = `${nodoVariablesA}[label="VariablesA"]\n`
+        resultado += `${nodoIds}[label="IDS"]\n`
+        resultado += `${nodoVariablesA} -> ${nodoIds}\n`
         for (let id of this.ids) {
-            resultado += `${nodoVariables} -> n${contador.get()}[label="${id}"]\n`;
+            let nodoId = `n${contador.get()}`
+            resultado += `${nodoId}[label="${id}"]\n`
+            resultado += `${nodoIds} -> ${nodoId}\n`
         }
-        resultado += `${nodoVariables} -> ${nodoExpresion}\n`;
-        resultado += this.exp.buildAst(nodoExpresion);
+        resultado += `${nodoIGUAL}[label="="]\n`
+        resultado += `${nodoVariablesA} -> ${nodoIGUAL}\n`
+        resultado += `${nodoExpresion}[label="Expresion"]\n`
+        resultado += this.exp.buildAst(nodoExpresion)
+        resultado += `${nodoVariablesA} -> ${nodoExpresion}\n`
+        resultado += `${nodoPYC}[label=";"]\n`
+        resultado += `${nodoVariablesA} -> ${nodoPYC}\n`
+        resultado += `${anterior} -> ${nodoVariablesA}\n`
         return resultado;
+
         
     }
 }
