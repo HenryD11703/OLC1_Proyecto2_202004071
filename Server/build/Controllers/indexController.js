@@ -18,6 +18,9 @@ const child_process_1 = require("child_process");
 var AstGraphviz;
 //para hacer la grafica del ast
 class Controller {
+    constructor() {
+        this.analizar = this.analizar.bind(this);
+    }
     prueba(req, res) {
         res.json({ message: 'Hello World' });
     }
@@ -60,6 +63,7 @@ class Controller {
                 }
             }
             console.log(ast.getErrores());
+            this.reporteErrores(ast.getErrores());
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }

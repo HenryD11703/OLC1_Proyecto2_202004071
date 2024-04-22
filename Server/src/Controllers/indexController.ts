@@ -17,6 +17,11 @@ var AstGraphviz: string;
 //para hacer la grafica del ast
 
 class Controller {
+
+    constructor() {
+        this.analizar = this.analizar.bind(this);
+    }
+
     public prueba(req: Request, res: Response) {
         res.json({ message: 'Hello World' })
     }
@@ -73,6 +78,7 @@ class Controller {
 
             }
             console.log(ast.getErrores());
+            this.reporteErrores(ast.getErrores());
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }
