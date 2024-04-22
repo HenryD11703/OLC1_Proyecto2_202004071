@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Round extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -49,6 +50,27 @@ class Round extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `No se puede redondear un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
+    }
+    //funcionRound : ROUND PARENTESISI expresion PARENTESISD 
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionRound = `n${contador.get()}`;
+        let nodoRound = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionRound}[label="Round"]\n`;
+        resultado += `${nodoRound}[label="ROUND"]\n`;
+        resultado += `${funcionRound} -> ${nodoRound}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionRound} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionRound} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionRound} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionRound}\n`;
+        return resultado;
     }
 }
 exports.default = Round;

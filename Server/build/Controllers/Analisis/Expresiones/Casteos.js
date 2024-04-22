@@ -30,6 +30,7 @@ exports.TipoCasteo = void 0;
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Casteos extends Instruccion_1.Instruccion {
     constructor(TipoCast, valor, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -144,6 +145,31 @@ class Casteos extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `Tipo de dato no valido`, this.Linea, this.Columna);
         }
+    }
+    /*
+    Casteos :   tipoDestino  expresion { $$ = new Casteos.default($1, $2, @1.first_line, @1.first_column); }
+    ;
+    tipoDestino : PINTP                                      { $$ = Casteos.TipoCasteo.aENTERO; }
+                | PDOUBLEP                                   { $$ = Casteos.TipoCasteo.aDECIMAL; }
+                | PCHARP                                     { $$ = Casteos.TipoCasteo.aCARACTER; }
+                | PSTRINGP
+    */
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoCasteos = `n${contador.get()}`;
+        let nodoTipo = `n${contador.get()}`;
+        let nodoTipoDestino = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let resultado = `${nodoCasteos}[label="Casteos"]\n`;
+        resultado += `${nodoTipo}[label="Tipo"]\n`;
+        resultado += `${nodoTipoDestino}[label="${this.TipoCast.toString()}"]\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += `${anterior} -> ${nodoCasteos}\n`;
+        resultado += `${nodoCasteos} -> ${nodoTipo}\n`;
+        resultado += `${nodoTipo} -> ${nodoTipoDestino}\n`;
+        resultado += `${nodoCasteos} -> ${nodoExpresion}\n`;
+        resultado += this.valor.buildAst(nodoExpresion);
+        return resultado;
     }
 }
 exports.default = Casteos;

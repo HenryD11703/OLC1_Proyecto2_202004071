@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Nativo_1 = __importDefault(require("../Expresiones/Nativo"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Return extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -38,10 +39,27 @@ class Return extends Instruccion_1.Instruccion {
         if (this.expresion != null) {
             let resultado = this.expresion.interpretar(arbolS, tabla);
             let nativoV = new Nativo_1.default(this.Tipo, resultado, this.Linea, this.Columna);
-            console.log("El dato a retornar es: ", nativoV.valor);
             return nativoV;
         }
         return this;
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoReturn = `n${contador.get()}`;
+        if (this.expresion != null) {
+            let nodoExpresion = this.expresion.buildAst(nodoRaiz);
+            let resultado = `${nodoRaiz}[label="Return"]\n`;
+            resultado += `${anterior} -> ${nodoRaiz}\n`;
+            resultado += `${nodoRaiz} -> ${nodoExpresion}\n`;
+            resultado += this.expresion.buildAst(nodoExpresion);
+            return resultado;
+        }
+        else {
+            let resultado = `${nodoRaiz}[label="Return"]\n`;
+            resultado += `${anterior} -> ${nodoRaiz}\n`;
+            return resultado;
+        }
     }
 }
 exports.default = Return;

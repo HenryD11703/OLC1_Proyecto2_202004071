@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 //Para modificar y asignar valores a un vector en una posicion especifica
 class AsignacionVec extends Instruccion_1.Instruccion {
@@ -61,6 +62,39 @@ class AsignacionVec extends Instruccion_1.Instruccion {
         else {
             return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         }
+    }
+    /*
+    modificacionVector : ID CORCHETEI expresion CORCHETED IGUAL expresion   { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $6); }
+                   | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); }
+;
+*/
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoAsignacion = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoExpresion2 = `n${contador.get()}`;
+        let nodoValor = `n${contador.get()}`;
+        let nodoValor2 = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Asignacion Vector"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoAsignacion}[label="Asignacion"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoAsignacion}\n`;
+        resultado += `${nodoId}[label="${this.id}"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoId}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoExpresion}\n`;
+        resultado += this.numero.buildAst(nodoExpresion);
+        resultado += `${nodoValor}[label="Valor"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoValor}\n`;
+        resultado += this.valor.buildAst(nodoValor);
+        if (this.numero2 != undefined) {
+            resultado += `${nodoExpresion2}[label="Expresion"]\n`;
+            resultado += `${nodoAsignacion} -> ${nodoExpresion2}\n`;
+            resultado += this.numero2.buildAst(nodoExpresion2);
+        }
+        return resultado;
     }
 }
 exports.default = AsignacionVec;

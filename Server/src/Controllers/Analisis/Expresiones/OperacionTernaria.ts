@@ -3,6 +3,7 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Errores from "../Excepciones/Errores";
+import Contador from "../SimboloC/Contador";
 
 export default class OperacionTernaria extends Instruccion {
     private condicion: Instruccion;
@@ -33,5 +34,31 @@ export default class OperacionTernaria extends Instruccion {
           this.Tipo = this.expresionFalsa.Tipo;
           return valorFalso;
       }
+    }
+    //ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion  { $$ = new OpTernaria.default($1, $3, $5, @1.first_line, @1.first_column); }
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoTernaria = `n${contador.get()}`
+        let nodoExpresion = `n${contador.get()}`
+        let nodoInterrogacion = `n${contador.get()}`
+        let nodoExpresion2 = `n${contador.get()}`
+        let nodoDosPuntos = `n${contador.get()}`
+        let nodoExpresion3 = `n${contador.get()}`
+        let resultado = `${nodoTernaria}[label="Ternaria"]\n`
+        resultado += `${nodoExpresion}[label="Expresion"]\n`
+        resultado += this.condicion.buildAst(nodoExpresion)
+        resultado += `${nodoTernaria} -> ${nodoExpresion}\n`
+        resultado += `${nodoInterrogacion}[label="?"]\n`
+        resultado += `${nodoTernaria} -> ${nodoInterrogacion}\n`
+        resultado += `${nodoExpresion2}[label="Expresion"]\n`
+        resultado += this.expresionVerdadera.buildAst(nodoExpresion2)
+        resultado += `${nodoTernaria} -> ${nodoExpresion2}\n`
+        resultado += `${nodoDosPuntos}[label=":"]\n`
+        resultado += `${nodoTernaria} -> ${nodoDosPuntos}\n`
+        resultado += `${nodoExpresion3}[label="Expresion"]\n`
+        resultado += this.expresionFalsa.buildAst(nodoExpresion3)
+        resultado += `${nodoTernaria} -> ${nodoExpresion3}\n`
+        resultado += `${anterior} -> ${nodoTernaria}\n`
+        return resultado
     }
 }

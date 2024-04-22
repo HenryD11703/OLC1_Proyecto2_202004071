@@ -4,6 +4,7 @@ import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Errores from "../Excepciones/Errores";
 import e from "express";
+import Contador from "../SimboloC/Contador";
 
 export default class Logica extends Instruccion {
 
@@ -242,8 +243,8 @@ export default class Logica extends Instruccion {
             case TipoDato.ENTERO:
                 switch (tipo2) {
                     case TipoDato.ENTERO:
-                        console.log(Expresion1, Expresion2);
-                        console.log(parseInt(Expresion1) < parseInt(Expresion2));
+                    
+                  
                         return parseInt(Expresion1) < parseInt(Expresion2);
                     case TipoDato.DECIMAL:
                         return parseInt(Expresion1) < parseFloat(Expresion2);
@@ -485,6 +486,49 @@ export default class Logica extends Instruccion {
             return new Errores('Semantico', `No se puede realizar la operación lógica NOT sobre un tipo ${tipo}`, this.Linea, this.Columna);
         }
     }
+
+    /*
+    operacionRelacional : expresion IGUALIGUAL expresion  
+                    | expresion DIFERENTE expresion   
+                    | expresion MENOR expresion       
+                    | expresion MENORIGUAL expresion  
+                    | expresion MAYOR expresion      
+                    | expresion MAYORIGUAL expresion 
+                    | expresion OR expresion         
+                    | expresion AND expresion      
+                    | NOT expresion               
+    */
+   buildAst(anterior: string): string {
+       let contador = Contador.getInstance();
+       let OperacionRelacional = `n${contador.get()}`;
+       let resultado = `${OperacionRelacional}[label="Operacion Relacional"]\n`;
+
+       if(this.Operador === OperadorLogico.NOT){
+           let Not = `n${contador.get()}`;
+           let expresionNot = `n${contador.get()}`;
+           resultado += `${Not}[label="NOT"]\n`;
+           resultado += `${OperacionRelacional} -> ${Not}\n`;
+           resultado += `${expresionNot}[label="Expresion"]\n`;
+              resultado += `${Not} -> ${expresionNot}\n`;
+           resultado += this.ExpresionUnica?.buildAst(expresionNot);
+
+           return resultado;
+       } else {
+              let Expresion1 = `n${contador.get()}`;
+              let Expresion2 = `n${contador.get()}`;
+              let Operador = `n${contador.get()}`;
+              resultado += `${Expresion1}[label="Expresion"]\n`;
+              resultado += `${Operador}[label="${this.Operador.toString()}"]\n`;
+              resultado += `${Expresion2}[label="Expresion"]\n`;
+              resultado += `${OperacionRelacional} -> ${Expresion1}\n`;
+              resultado += `${OperacionRelacional} -> ${Operador}\n`;
+              resultado += `${OperacionRelacional} -> ${Expresion2}\n`;
+              resultado += this.Expresion1?.buildAst(Expresion1);
+              resultado += this.Expresion2?.buildAst(Expresion2);
+                return resultado;
+         }
+
+   }
 }
 export enum OperadorLogico {
     IGUALIGUAL,

@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
 class Default extends Instruccion_1.Instruccion {
@@ -43,6 +44,25 @@ class Default extends Instruccion_1.Instruccion {
             if (result instanceof Errores_1.default)
                 return result;
         }
+    }
+    //casodefault : DEFAULT DOSPUNTOS codigos
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoDefault = `n${contador.get()}`;
+        let nodoDosPuntos = `n${contador.get()}`;
+        let nodoInstrucciones = `n${contador.get()}`;
+        let resultado = `${nodoDefault}[label="Default"]\n`;
+        resultado += `${anterior} -> ${nodoDefault}\n`;
+        resultado += `${nodoDosPuntos}[label=":"]\n`;
+        resultado += `${nodoDefault} -> ${nodoDosPuntos}\n`;
+        resultado += `${nodoInstrucciones}[label="Instrucciones"]\n`;
+        resultado += `${nodoDefault} -> ${nodoInstrucciones}\n`;
+        for (let instruccion of this.instrucciones) {
+            let nodoInstruccion = `n${contador.get()}`;
+            resultado += instruccion.buildAst(nodoInstruccion);
+            resultado += `${nodoInstrucciones} -> ${nodoInstruccion}\n`;
+        }
+        return resultado;
     }
 }
 exports.default = Default;

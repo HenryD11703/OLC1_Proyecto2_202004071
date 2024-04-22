@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
@@ -69,6 +70,49 @@ class FuncionIf extends Instruccion_1.Instruccion {
                 return result;
         }
         return null;
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoIf = `n${contador.get()}`;
+        let nodoCondicion = `n${contador.get()}`;
+        let nodoLlaveIIf = `n${contador.get()}`;
+        let nodoBloqueThenIf = `n${contador.get()}`;
+        let nodoLlaveDIf = `n${contador.get()}`;
+        let nodoElse = null;
+        let nodoLlaveIElse = null;
+        let nodoBloqueThenElse = null;
+        let nodoLlaveDElse = null;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoIf}[label="If"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoIf}\n`;
+        resultado += `${nodoCondicion}[label="Condición"]\n`;
+        resultado += `${nodoIf} -> ${nodoCondicion}\n`;
+        resultado += this.condicion.buildAst(`${nodoCondicion}`);
+        resultado += `${nodoLlaveIIf}[label="{"]\n`;
+        resultado += `${nodoIf} -> ${nodoLlaveIIf}\n`;
+        resultado += `${nodoBloqueThenIf}[label="Bloque Then"]\n`;
+        resultado += `${nodoIf} -> ${nodoBloqueThenIf}\n`;
+        resultado += this.bloqueIf.buildAst(`${nodoBloqueThenIf}`);
+        resultado += `${nodoLlaveDIf}[label="}"]\n`;
+        resultado += `${nodoIf} -> ${nodoLlaveDIf}\n`;
+        if (this.BloqueElse !== null) {
+            nodoElse = `n${contador.get()}`;
+            nodoLlaveIElse = `n${contador.get()}`;
+            nodoBloqueThenElse = `n${contador.get()}`;
+            nodoLlaveDElse = `n${contador.get()}`;
+            resultado += `${nodoElse}[label="Else"]\n`;
+            resultado += `${nodoIf} -> ${nodoElse}\n`;
+            resultado += `${nodoLlaveIElse}[label="{"]\n`;
+            resultado += `${nodoElse} -> ${nodoLlaveIElse}\n`;
+            resultado += `${nodoBloqueThenElse}[label="Bloque Then"]\n`;
+            resultado += `${nodoElse} -> ${nodoBloqueThenElse}\n`;
+            resultado += this.BloqueElse.buildAst(`${nodoBloqueThenElse}`);
+            resultado += `${nodoLlaveDElse}[label="}"]\n`;
+            resultado += `${nodoElse} -> ${nodoLlaveDElse}\n`;
+        }
+        return resultado;
     }
 }
 exports.default = FuncionIf;

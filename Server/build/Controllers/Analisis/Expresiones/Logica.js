@@ -30,6 +30,7 @@ exports.OperadorLogico = void 0;
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Logica extends Instruccion_1.Instruccion {
     constructor(operador, linea, columna, Expresion1, Expresion2) {
         super(new Tipo_1.default(Tipo_1.TipoDato.BOOLEANO), linea, columna);
@@ -263,8 +264,6 @@ class Logica extends Instruccion_1.Instruccion {
             case Tipo_1.TipoDato.ENTERO:
                 switch (tipo2) {
                     case Tipo_1.TipoDato.ENTERO:
-                        console.log(Expresion1, Expresion2);
-                        console.log(parseInt(Expresion1) < parseInt(Expresion2));
                         return parseInt(Expresion1) < parseInt(Expresion2);
                     case Tipo_1.TipoDato.DECIMAL:
                         return parseInt(Expresion1) < parseFloat(Expresion2);
@@ -506,6 +505,47 @@ class Logica extends Instruccion_1.Instruccion {
         }
         else {
             return new Errores_1.default('Semantico', `No se puede realizar la operación lógica NOT sobre un tipo ${tipo}`, this.Linea, this.Columna);
+        }
+    }
+    /*
+    operacionRelacional : expresion IGUALIGUAL expresion
+                    | expresion DIFERENTE expresion
+                    | expresion MENOR expresion
+                    | expresion MENORIGUAL expresion
+                    | expresion MAYOR expresion
+                    | expresion MAYORIGUAL expresion
+                    | expresion OR expresion
+                    | expresion AND expresion
+                    | NOT expresion
+    */
+    buildAst(anterior) {
+        var _a, _b, _c;
+        let contador = Contador_1.default.getInstance();
+        let OperacionRelacional = `n${contador.get()}`;
+        let resultado = `${OperacionRelacional}[label="Operacion Relacional"]\n`;
+        if (this.Operador === OperadorLogico.NOT) {
+            let Not = `n${contador.get()}`;
+            let expresionNot = `n${contador.get()}`;
+            resultado += `${Not}[label="NOT"]\n`;
+            resultado += `${OperacionRelacional} -> ${Not}\n`;
+            resultado += `${expresionNot}[label="Expresion"]\n`;
+            resultado += `${Not} -> ${expresionNot}\n`;
+            resultado += (_a = this.ExpresionUnica) === null || _a === void 0 ? void 0 : _a.buildAst(expresionNot);
+            return resultado;
+        }
+        else {
+            let Expresion1 = `n${contador.get()}`;
+            let Expresion2 = `n${contador.get()}`;
+            let Operador = `n${contador.get()}`;
+            resultado += `${Expresion1}[label="Expresion"]\n`;
+            resultado += `${Operador}[label="${this.Operador.toString()}"]\n`;
+            resultado += `${Expresion2}[label="Expresion"]\n`;
+            resultado += `${OperacionRelacional} -> ${Expresion1}\n`;
+            resultado += `${OperacionRelacional} -> ${Operador}\n`;
+            resultado += `${OperacionRelacional} -> ${Expresion2}\n`;
+            resultado += (_b = this.Expresion1) === null || _b === void 0 ? void 0 : _b.buildAst(Expresion1);
+            resultado += (_c = this.Expresion2) === null || _c === void 0 ? void 0 : _c.buildAst(Expresion2);
+            return resultado;
         }
     }
 }

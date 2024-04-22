@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class toString extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.CADENA), linea, columna);
@@ -55,6 +56,36 @@ class toString extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `No se puede convertir a cadena un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
+    }
+    //funciontoString: STD DOSPUNTOS DOSPUNTOS TOSTRING PARENTESISI expresion PARENTESISD
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionToString = `n${contador.get()}`;
+        let nodoStd = `n${contador.get()}`;
+        let nodoDosPuntos1 = `n${contador.get()}`;
+        let nodoDosPuntos2 = `n${contador.get()}`;
+        let nodoToString = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionToString}[label="toString"]\n`;
+        resultado += `${nodoStd}[label="STD"]\n`;
+        resultado += `${funcionToString} -> ${nodoStd}\n`;
+        resultado += `${nodoDosPuntos1}[label=":"]\n`;
+        resultado += `${funcionToString} -> ${nodoDosPuntos1}\n`;
+        resultado += `${nodoDosPuntos2}[label=":"]\n`;
+        resultado += `${funcionToString} -> ${nodoDosPuntos2}\n`;
+        resultado += `${nodoToString}[label="TOSTRING"]\n`;
+        resultado += `${funcionToString} -> ${nodoToString}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionToString} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionToString} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionToString} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionToString}\n`;
+        return resultado;
     }
 }
 exports.default = toString;

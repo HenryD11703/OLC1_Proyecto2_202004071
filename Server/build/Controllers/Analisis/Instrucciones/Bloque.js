@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
 const Continue_1 = __importDefault(require("./Continue"));
@@ -49,6 +50,30 @@ class Bloque extends Instruccion_1.Instruccion {
             if (result instanceof Errores_1.default)
                 return result;
         }
+    }
+    /**
+     * bloqueCodigo : LLAVEI codigos LLAVED { $$ = new Bloque.default($2, @1.first_line, @1.first_column); }
+             | LLAVEI LLAVED          { $$ = new Bloque.default([], @1.first_line, @1.first_column); }
+;
+     */
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoBloqueCodigo = `n${contador.get()}`;
+        let nodoLlaveI = `n${contador.get()}`;
+        let nodoLlaveD = `n${contador.get()}`;
+        let nodoCodigos = `n${contador.get()}`;
+        let resultado = `${nodoBloqueCodigo}[label="Bloque"]\n`;
+        resultado += `${nodoLlaveI}[label="{"]\n`;
+        resultado += `${nodoBloqueCodigo} -> ${nodoLlaveI}\n`;
+        resultado += `${nodoCodigos}[label="Instrucciones"]\n`;
+        for (let instruccion of this.instrucciones) {
+            resultado += instruccion.buildAst(nodoCodigos);
+        }
+        resultado += `${nodoBloqueCodigo} -> ${nodoCodigos}\n`;
+        resultado += `${nodoLlaveD}[label="}"]\n`;
+        resultado += `${nodoBloqueCodigo} -> ${nodoLlaveD}\n`;
+        resultado += `${anterior} -> ${nodoBloqueCodigo}\n`;
+        return resultado;
     }
 }
 exports.default = Bloque;

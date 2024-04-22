@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class Continue extends Instruccion_1.Instruccion {
     constructor(linea, columna) {
@@ -31,6 +35,20 @@ class Continue extends Instruccion_1.Instruccion {
     }
     interpretar(ArbolS, tabla) {
         return;
+    }
+    //funcionContinue : CONTINUE PYC
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionContinue = `n${contador.get()}`;
+        let nodoContinue = `n${contador.get()}`;
+        let nodoPyc = `n${contador.get()}`;
+        let resultado = `${funcionContinue}[label="Continue"]\n`;
+        resultado += `${nodoContinue}[label="CONTINUE"]\n`;
+        resultado += `${funcionContinue} -> ${nodoContinue}\n`;
+        resultado += `${nodoPyc}[label=";"]\n`;
+        resultado += `${funcionContinue} -> ${nodoPyc}\n`;
+        resultado += `${anterior} -> ${funcionContinue}\n`;
+        return resultado;
     }
 }
 exports.default = Continue;

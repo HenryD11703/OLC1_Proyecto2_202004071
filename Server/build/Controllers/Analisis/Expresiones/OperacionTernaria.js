@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class OperacionTernaria extends Instruccion_1.Instruccion {
     constructor(condicion, expresionVerdadera, expresionFalsa, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -54,6 +55,32 @@ class OperacionTernaria extends Instruccion_1.Instruccion {
             this.Tipo = this.expresionFalsa.Tipo;
             return valorFalso;
         }
+    }
+    //ternaryOp : expresion INTERROGACION expresion DOSPUNTOS expresion  { $$ = new OpTernaria.default($1, $3, $5, @1.first_line, @1.first_column); }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoTernaria = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoInterrogacion = `n${contador.get()}`;
+        let nodoExpresion2 = `n${contador.get()}`;
+        let nodoDosPuntos = `n${contador.get()}`;
+        let nodoExpresion3 = `n${contador.get()}`;
+        let resultado = `${nodoTernaria}[label="Ternaria"]\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.condicion.buildAst(nodoExpresion);
+        resultado += `${nodoTernaria} -> ${nodoExpresion}\n`;
+        resultado += `${nodoInterrogacion}[label="?"]\n`;
+        resultado += `${nodoTernaria} -> ${nodoInterrogacion}\n`;
+        resultado += `${nodoExpresion2}[label="Expresion"]\n`;
+        resultado += this.expresionVerdadera.buildAst(nodoExpresion2);
+        resultado += `${nodoTernaria} -> ${nodoExpresion2}\n`;
+        resultado += `${nodoDosPuntos}[label=":"]\n`;
+        resultado += `${nodoTernaria} -> ${nodoDosPuntos}\n`;
+        resultado += `${nodoExpresion3}[label="Expresion"]\n`;
+        resultado += this.expresionFalsa.buildAst(nodoExpresion3);
+        resultado += `${nodoTernaria} -> ${nodoExpresion3}\n`;
+        resultado += `${anterior} -> ${nodoTernaria}\n`;
+        return resultado;
     }
 }
 exports.default = OperacionTernaria;

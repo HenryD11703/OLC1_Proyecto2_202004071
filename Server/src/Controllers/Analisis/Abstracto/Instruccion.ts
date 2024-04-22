@@ -15,5 +15,7 @@ export abstract class Instruccion {
     }
 
     abstract interpretar(ArbolS: ArbolS, tabla: TablaSimbolos): any;
+
+    abstract buildAst(anterior: string): string;
     
 }

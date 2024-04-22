@@ -1,0 +1,1051 @@
+digraph G {
+n0[label="Inicio"]
+nCodigo[label="Codigo"]
+n0 -> nCodigo
+n12354[label="Instruccion"]
+nCodigo -> n12354
+n12355[label="Execute"]
+n12354 -> n12355
+n12356[label="main"]
+n12355 -> n12356
+n12357[label="("]
+n12355 -> n12357
+n12358[label=")"]
+n12355 -> n12358
+n12359[label="Instruccion"]
+nCodigo -> n12359
+n12360[label="Declaracion de Funcion"]
+n12359 -> n12360
+n12361[label="5"]
+n12360 -> n12361
+n12362[label="main"]
+n12360 -> n12362
+n12363[label="("]
+n12360 -> n12363
+n12364[label=")"]
+n12360 -> n12364
+n12365[label="Instrucciones"]
+n12360 -> n12365
+n12366[label="Declaracion"]
+n12367[label="0"]
+n12366 -> n12367
+n12368[label="Ids"]
+n12368 -> n12371[label="n"]
+n12366 -> n12368
+n12369[label="="]
+n12366 -> n12369
+n12370[label="Expresion"]
+n12372[label="Nativo"]
+n12373[label="10"]
+n12372 -> n12373
+n12370 -> n12372
+n12366 -> n12370
+n12365 -> n12366
+n12374[label="Declaracion"]
+n12375[label="4"]
+n12374 -> n12375
+n12376[label="Ids"]
+n12376 -> n12379[label="cadenaFigura"]
+n12374 -> n12376
+n12377[label="="]
+n12374 -> n12377
+n12378[label="Expresion"]
+n12380[label="Nativo"]
+n12381[label=""]
+n12380 -> n12381
+n12378 -> n12380
+n12374 -> n12378
+n12365 -> n12374
+n12382[label="Declaracion"]
+n12383[label="1"]
+n12382 -> n12383
+n12384[label="Ids"]
+n12382 -> n12384
+n12385[label="i"]
+n12384 -> n12385
+n12365 -> n12382
+n12386[label="Variables"]
+n12365 -> n12386
+n12387[label="Variables"]
+n12386 -> n12387
+n12387 -> n12403[label="i"]
+n12387 -> nodo12388[label="Operacion Aritmetica"];
+nodo12389[label="/"];
+nodo12390[label="Expresion"];
+nodo12391[label="Expresion"];
+nodo12392[label="Operacion Aritmetica"];
+nodo12393[label="*"];
+nodo12394[label="Expresion"];
+nodo12395[label="Expresion"];
+nodo12396[label="Operacion Aritmetica"];
+nodo12397[label="-"];
+nodo12398[label="Expresion"];
+nodo12394 -> nodo12397;
+nodo12397 -> nodo12398;
+undefinednodo12396 -> nodo12397;
+n12399[label="AccessVar"]
+n12399 -> n12400
+n12400[label="n"]
+nodo12395 -> n12399
+nodo12392 -> nodo12393;
+nodo12393 -> nodo12394;
+nodo12393 -> nodo12395;
+n12401[label="Nativo"]
+n12402[label="2"]
+n12401 -> n12402
+nodo12391 -> n12401
+nodo12388 -> nodo12389;
+nodo12389 -> nodo12390;
+nodo12389 -> nodo12391;
+
+nodo12404[label="Operacion Aritmetica"];
+nodo12405[label="/"];
+nodo12406[label="Expresion"];
+nodo12407[label="Expresion"];
+nodo12408[label="Operacion Aritmetica"];
+nodo12409[label="*"];
+nodo12410[label="Expresion"];
+nodo12411[label="Expresion"];
+nodo12412[label="Operacion Aritmetica"];
+nodo12413[label="-"];
+nodo12414[label="Expresion"];
+nodo12410 -> nodo12413;
+nodo12413 -> nodo12414;
+undefinednodo12412 -> nodo12413;
+n12415[label="AccessVar"]
+n12415 -> n12416
+n12416[label="n"]
+nodo12411 -> n12415
+nodo12408 -> nodo12409;
+nodo12409 -> nodo12410;
+nodo12409 -> nodo12411;
+n12417[label="Nativo"]
+n12418[label="2"]
+n12417 -> n12418
+nodo12407 -> n12417
+nodo12404 -> nodo12405;
+nodo12405 -> nodo12406;
+nodo12405 -> nodo12407;
+n12419[label="Raiz"]
+n12365 -> n12419
+n12420[label="While"]
+n12419 -> n12420
+n12421[label="Condición"]
+n12420 -> n12421
+n12425[label="Operacion Relacional"]
+n12426[label="Expresion"]
+n12428[label="3"]
+n12427[label="Expresion"]
+n12425 -> n12426
+n12425 -> n12428
+n12425 -> n12427
+n12429[label="AccessVar"]
+n12429 -> n12430
+n12430[label="i"]
+n12426 -> n12429
+n12431[label="AccessVar"]
+n12431 -> n12432
+n12432[label="n"]
+n12427 -> n12431
+n12422[label="{"]
+n12420 -> n12422
+n12423[label="Bloque de Instrucciones"]
+n12420 -> n12423
+n12433[label="Variables"]
+n12423 -> n12433
+n12434[label="Variables"]
+n12433 -> n12434
+n12434 -> n12437[label="cadenaFigura"]
+n12434 -> n12435[label="Nativo"]
+n12436[label=""]
+n12435 -> n12436
+n12433 -> n12435
+
+n12438[label="Nativo"]
+n12439[label=""]
+n12438 -> n12439
+n12435[label="Nativo"]
+n12436[label=""]
+n12435 -> n12436
+n12433 -> n12435
+ -> n12438
+n12440[label="Declaracion"]
+n12441[label="1"]
+n12440 -> n12441
+n12442[label="Ids"]
+n12440 -> n12442
+n12443[label="j"]
+n12442 -> n12443
+n12423 -> n12440
+n12444[label="Variables"]
+n12423 -> n12444
+n12445[label="Variables"]
+n12444 -> n12445
+n12445 -> n12461[label="j"]
+n12445 -> nodo12446[label="Operacion Aritmetica"];
+nodo12447[label="/"];
+nodo12448[label="Expresion"];
+nodo12449[label="Expresion"];
+nodo12450[label="Operacion Aritmetica"];
+nodo12451[label="*"];
+nodo12452[label="Expresion"];
+nodo12453[label="Expresion"];
+nodo12454[label="Operacion Aritmetica"];
+nodo12455[label="-"];
+nodo12456[label="Expresion"];
+nodo12452 -> nodo12455;
+nodo12455 -> nodo12456;
+undefinednodo12454 -> nodo12455;
+n12457[label="AccessVar"]
+n12457 -> n12458
+n12458[label="n"]
+nodo12453 -> n12457
+nodo12450 -> nodo12451;
+nodo12451 -> nodo12452;
+nodo12451 -> nodo12453;
+n12459[label="Nativo"]
+n12460[label="2"]
+n12459 -> n12460
+nodo12449 -> n12459
+nodo12446 -> nodo12447;
+nodo12447 -> nodo12448;
+nodo12447 -> nodo12449;
+
+nodo12462[label="Operacion Aritmetica"];
+nodo12463[label="/"];
+nodo12464[label="Expresion"];
+nodo12465[label="Expresion"];
+nodo12466[label="Operacion Aritmetica"];
+nodo12467[label="*"];
+nodo12468[label="Expresion"];
+nodo12469[label="Expresion"];
+nodo12470[label="Operacion Aritmetica"];
+nodo12471[label="-"];
+nodo12472[label="Expresion"];
+nodo12468 -> nodo12471;
+nodo12471 -> nodo12472;
+undefinednodo12470 -> nodo12471;
+n12473[label="AccessVar"]
+n12473 -> n12474
+n12474[label="n"]
+nodo12469 -> n12473
+nodo12466 -> nodo12467;
+nodo12467 -> nodo12468;
+nodo12467 -> nodo12469;
+n12475[label="Nativo"]
+n12476[label="2"]
+n12475 -> n12476
+nodo12465 -> n12475
+nodo12462 -> nodo12463;
+nodo12463 -> nodo12464;
+nodo12463 -> nodo12465;
+n12477[label="Raiz"]
+n12423 -> n12477
+n12478[label="While"]
+n12477 -> n12478
+n12479[label="Condición"]
+n12478 -> n12479
+n12483[label="Operacion Relacional"]
+n12484[label="Expresion"]
+n12486[label="3"]
+n12485[label="Expresion"]
+n12483 -> n12484
+n12483 -> n12486
+n12483 -> n12485
+n12487[label="AccessVar"]
+n12487 -> n12488
+n12488[label="j"]
+n12484 -> n12487
+nodo12489[label="Operacion Aritmetica"];
+nodo12490[label="*"];
+nodo12491[label="Expresion"];
+nodo12492[label="Expresion"];
+n12493[label="Nativo"]
+n12494[label="3"]
+n12493 -> n12494
+nodo12491 -> n12493
+n12495[label="AccessVar"]
+n12495 -> n12496
+n12496[label="n"]
+nodo12492 -> n12495
+nodo12489 -> nodo12490;
+nodo12490 -> nodo12491;
+nodo12490 -> nodo12492;
+n12480[label="{"]
+n12478 -> n12480
+n12481[label="Bloque de Instrucciones"]
+n12478 -> n12481
+n12497[label="Declaracion"]
+n12498[label="1"]
+n12497 -> n12498
+n12499[label="Ids"]
+n12497 -> n12499
+n12500[label="absolutoi"]
+n12499 -> n12500
+n12481 -> n12497
+n12501[label="Variables"]
+n12481 -> n12501
+n12502[label="Variables"]
+n12501 -> n12502
+n12502 -> n12505[label="absolutoi"]
+n12502 -> n12503[label="AccessVar"]
+n12503 -> n12504
+n12504[label="i"]
+n12501 -> n12503
+
+n12506[label="AccessVar"]
+n12506 -> n12507
+n12507[label="i"]
+n12503[label="AccessVar"]
+n12503 -> n12504
+n12504[label="i"]
+n12501 -> n12503
+ -> n12506
+n12508[label="Declaracion"]
+n12509[label="1"]
+n12508 -> n12509
+n12510[label="Ids"]
+n12508 -> n12510
+n12511[label="absolutoj"]
+n12510 -> n12511
+n12481 -> n12508
+n12512[label="Variables"]
+n12481 -> n12512
+n12513[label="Variables"]
+n12512 -> n12513
+n12513 -> n12516[label="absolutoj"]
+n12513 -> n12514[label="AccessVar"]
+n12514 -> n12515
+n12515[label="j"]
+n12512 -> n12514
+
+n12517[label="AccessVar"]
+n12517 -> n12518
+n12518[label="j"]
+n12514[label="AccessVar"]
+n12514 -> n12515
+n12515[label="j"]
+n12512 -> n12514
+ -> n12517
+n12519[label="Raiz"]
+n12481 -> n12519
+n12520[label="If"]
+n12519 -> n12520
+n12521[label="Condición"]
+n12520 -> n12521
+n12525[label="Operacion Relacional"]
+n12526[label="Expresion"]
+n12528[label="2"]
+n12527[label="Expresion"]
+n12525 -> n12526
+n12525 -> n12528
+n12525 -> n12527
+n12529[label="AccessVar"]
+n12529 -> n12530
+n12530[label="i"]
+n12526 -> n12529
+n12531[label="Nativo"]
+n12532[label="0"]
+n12531 -> n12532
+n12527 -> n12531
+n12522[label="{"]
+n12520 -> n12522
+n12523[label="Bloque Then"]
+n12520 -> n12523
+n12533[label="Bloque"]
+n12534[label="{"]
+n12533 -> n12534
+n12536[label="Instrucciones"]
+n12537[label="Variables"]
+n12536 -> n12537
+n12538[label="Variables"]
+n12537 -> n12538
+n12538 -> n12548[label="absolutoi"]
+n12538 -> nodo12539[label="Operacion Aritmetica"];
+nodo12540[label="*"];
+nodo12541[label="Expresion"];
+nodo12542[label="Expresion"];
+n12543[label="AccessVar"]
+n12543 -> n12544
+n12544[label="i"]
+nodo12541 -> n12543
+nodo12545[label="Operacion Aritmetica"];
+nodo12546[label="-"];
+nodo12547[label="Expresion"];
+nodo12542 -> nodo12546;
+nodo12546 -> nodo12547;
+undefinednodo12545 -> nodo12546;
+nodo12539 -> nodo12540;
+nodo12540 -> nodo12541;
+nodo12540 -> nodo12542;
+
+nodo12549[label="Operacion Aritmetica"];
+nodo12550[label="*"];
+nodo12551[label="Expresion"];
+nodo12552[label="Expresion"];
+n12553[label="AccessVar"]
+n12553 -> n12554
+n12554[label="i"]
+nodo12551 -> n12553
+nodo12555[label="Operacion Aritmetica"];
+nodo12556[label="-"];
+nodo12557[label="Expresion"];
+nodo12552 -> nodo12556;
+nodo12556 -> nodo12557;
+undefinednodo12555 -> nodo12556;
+nodo12549 -> nodo12550;
+nodo12550 -> nodo12551;
+nodo12550 -> nodo12552;
+n12533 -> n12536
+n12535[label="}"]
+n12533 -> n12535
+n12523 -> n12533
+n12524[label="}"]
+n12520 -> n12524
+n12558[label="Raiz"]
+n12481 -> n12558
+n12559[label="If"]
+n12558 -> n12559
+n12560[label="Condición"]
+n12559 -> n12560
+n12564[label="Operacion Relacional"]
+n12565[label="Expresion"]
+n12567[label="2"]
+n12566[label="Expresion"]
+n12564 -> n12565
+n12564 -> n12567
+n12564 -> n12566
+n12568[label="AccessVar"]
+n12568 -> n12569
+n12569[label="j"]
+n12565 -> n12568
+n12570[label="Nativo"]
+n12571[label="0"]
+n12570 -> n12571
+n12566 -> n12570
+n12561[label="{"]
+n12559 -> n12561
+n12562[label="Bloque Then"]
+n12559 -> n12562
+n12572[label="Bloque"]
+n12573[label="{"]
+n12572 -> n12573
+n12575[label="Instrucciones"]
+n12576[label="Variables"]
+n12575 -> n12576
+n12577[label="Variables"]
+n12576 -> n12577
+n12577 -> n12587[label="absolutoj"]
+n12577 -> nodo12578[label="Operacion Aritmetica"];
+nodo12579[label="*"];
+nodo12580[label="Expresion"];
+nodo12581[label="Expresion"];
+n12582[label="AccessVar"]
+n12582 -> n12583
+n12583[label="j"]
+nodo12580 -> n12582
+nodo12584[label="Operacion Aritmetica"];
+nodo12585[label="-"];
+nodo12586[label="Expresion"];
+nodo12581 -> nodo12585;
+nodo12585 -> nodo12586;
+undefinednodo12584 -> nodo12585;
+nodo12578 -> nodo12579;
+nodo12579 -> nodo12580;
+nodo12579 -> nodo12581;
+
+nodo12588[label="Operacion Aritmetica"];
+nodo12589[label="*"];
+nodo12590[label="Expresion"];
+nodo12591[label="Expresion"];
+n12592[label="AccessVar"]
+n12592 -> n12593
+n12593[label="j"]
+nodo12590 -> n12592
+nodo12594[label="Operacion Aritmetica"];
+nodo12595[label="-"];
+nodo12596[label="Expresion"];
+nodo12591 -> nodo12595;
+nodo12595 -> nodo12596;
+undefinednodo12594 -> nodo12595;
+nodo12588 -> nodo12589;
+nodo12589 -> nodo12590;
+nodo12589 -> nodo12591;
+n12572 -> n12575
+n12574[label="}"]
+n12572 -> n12574
+n12562 -> n12572
+n12563[label="}"]
+n12559 -> n12563
+n12597[label="Raiz"]
+n12481 -> n12597
+n12598[label="If"]
+n12597 -> n12598
+n12599[label="Condición"]
+n12598 -> n12599
+n12603[label="Operacion Relacional"]
+n12604[label="Expresion"]
+n12606[label="6"]
+n12605[label="Expresion"]
+n12603 -> n12604
+n12603 -> n12606
+n12603 -> n12605
+n12607[label="Operacion Relacional"]
+n12608[label="Expresion"]
+n12610[label="6"]
+n12609[label="Expresion"]
+n12607 -> n12608
+n12607 -> n12610
+n12607 -> n12609
+n12611[label="Operacion Relacional"]
+n12612[label="Expresion"]
+n12614[label="2"]
+n12613[label="Expresion"]
+n12611 -> n12612
+n12611 -> n12614
+n12611 -> n12613
+nodo12615[label="Operacion Aritmetica"];
+nodo12616[label="+"];
+nodo12617[label="Expresion"];
+nodo12618[label="Expresion"];
+n12619[label="AccessVar"]
+n12619 -> n12620
+n12620[label="absolutoi"]
+nodo12617 -> n12619
+n12621[label="AccessVar"]
+n12621 -> n12622
+n12622[label="absolutoj"]
+nodo12618 -> n12621
+nodo12615 -> nodo12616;
+nodo12616 -> nodo12617;
+nodo12616 -> nodo12618;
+n12623[label="AccessVar"]
+n12623 -> n12624
+n12624[label="n"]
+n12613 -> n12623
+n12625[label="Operacion Relacional"]
+n12626[label="Expresion"]
+n12628[label="3"]
+n12627[label="Expresion"]
+n12625 -> n12626
+n12625 -> n12628
+n12625 -> n12627
+nodo12629[label="Operacion Aritmetica"];
+nodo12630[label="+"];
+nodo12631[label="Expresion"];
+nodo12632[label="Expresion"];
+nodo12633[label="Operacion Aritmetica"];
+nodo12634[label="*"];
+nodo12635[label="Expresion"];
+nodo12636[label="Expresion"];
+nodo12637[label="Operacion Aritmetica"];
+nodo12638[label="-"];
+nodo12639[label="Expresion"];
+nodo12640[label="Expresion"];
+nodo12641[label="Operacion Aritmetica"];
+nodo12642[label="/"];
+nodo12643[label="Expresion"];
+nodo12644[label="Expresion"];
+nodo12645[label="Operacion Aritmetica"];
+nodo12646[label="-"];
+nodo12647[label="Expresion"];
+nodo12643 -> nodo12646;
+nodo12646 -> nodo12647;
+undefinednodo12645 -> nodo12646;
+n12648[label="Nativo"]
+n12649[label="2"]
+n12648 -> n12649
+nodo12644 -> n12648
+nodo12641 -> nodo12642;
+nodo12642 -> nodo12643;
+nodo12642 -> nodo12644;
+n12650[label="AccessVar"]
+n12650 -> n12651
+n12651[label="i"]
+nodo12640 -> n12650
+nodo12637 -> nodo12638;
+nodo12638 -> nodo12639;
+nodo12638 -> nodo12640;
+nodo12652[label="Operacion Aritmetica"];
+nodo12653[label="-"];
+nodo12654[label="Expresion"];
+nodo12655[label="Expresion"];
+nodo12656[label="Operacion Aritmetica"];
+nodo12657[label="/"];
+nodo12658[label="Expresion"];
+nodo12659[label="Expresion"];
+nodo12660[label="Operacion Aritmetica"];
+nodo12661[label="-"];
+nodo12662[label="Expresion"];
+nodo12658 -> nodo12661;
+nodo12661 -> nodo12662;
+undefinednodo12660 -> nodo12661;
+n12663[label="Nativo"]
+n12664[label="2"]
+n12663 -> n12664
+nodo12659 -> n12663
+nodo12656 -> nodo12657;
+nodo12657 -> nodo12658;
+nodo12657 -> nodo12659;
+n12665[label="AccessVar"]
+n12665 -> n12666
+n12666[label="i"]
+nodo12655 -> n12665
+nodo12652 -> nodo12653;
+nodo12653 -> nodo12654;
+nodo12653 -> nodo12655;
+nodo12633 -> nodo12634;
+nodo12634 -> nodo12635;
+nodo12634 -> nodo12636;
+nodo12667[label="Operacion Aritmetica"];
+nodo12668[label="*"];
+nodo12669[label="Expresion"];
+nodo12670[label="Expresion"];
+nodo12671[label="Operacion Aritmetica"];
+nodo12672[label="-"];
+nodo12673[label="Expresion"];
+nodo12674[label="Expresion"];
+nodo12675[label="Operacion Aritmetica"];
+nodo12676[label="/"];
+nodo12677[label="Expresion"];
+nodo12678[label="Expresion"];
+n12679[label="AccessVar"]
+n12679 -> n12680
+n12680[label="n"]
+nodo12677 -> n12679
+n12681[label="Nativo"]
+n12682[label="2"]
+n12681 -> n12682
+nodo12678 -> n12681
+nodo12675 -> nodo12676;
+nodo12676 -> nodo12677;
+nodo12676 -> nodo12678;
+n12683[label="AccessVar"]
+n12683 -> n12684
+n12684[label="j"]
+nodo12674 -> n12683
+nodo12671 -> nodo12672;
+nodo12672 -> nodo12673;
+nodo12672 -> nodo12674;
+nodo12685[label="Operacion Aritmetica"];
+nodo12686[label="-"];
+nodo12687[label="Expresion"];
+nodo12688[label="Expresion"];
+nodo12689[label="Operacion Aritmetica"];
+nodo12690[label="/"];
+nodo12691[label="Expresion"];
+nodo12692[label="Expresion"];
+n12693[label="AccessVar"]
+n12693 -> n12694
+n12694[label="n"]
+nodo12691 -> n12693
+n12695[label="Nativo"]
+n12696[label="2"]
+n12695 -> n12696
+nodo12692 -> n12695
+nodo12689 -> nodo12690;
+nodo12690 -> nodo12691;
+nodo12690 -> nodo12692;
+n12697[label="AccessVar"]
+n12697 -> n12698
+n12698[label="j"]
+nodo12688 -> n12697
+nodo12685 -> nodo12686;
+nodo12686 -> nodo12687;
+nodo12686 -> nodo12688;
+nodo12667 -> nodo12668;
+nodo12668 -> nodo12669;
+nodo12668 -> nodo12670;
+nodo12629 -> nodo12630;
+nodo12630 -> nodo12631;
+nodo12630 -> nodo12632;
+nodo12699[label="Operacion Aritmetica"];
+nodo12700[label="/"];
+nodo12701[label="Expresion"];
+nodo12702[label="Expresion"];
+nodo12703[label="Operacion Aritmetica"];
+nodo12704[label="*"];
+nodo12705[label="Expresion"];
+nodo12706[label="Expresion"];
+n12707[label="AccessVar"]
+n12707 -> n12708
+n12708[label="n"]
+nodo12705 -> n12707
+n12709[label="AccessVar"]
+n12709 -> n12710
+n12710[label="n"]
+nodo12706 -> n12709
+nodo12703 -> nodo12704;
+nodo12704 -> nodo12705;
+nodo12704 -> nodo12706;
+n12711[label="Nativo"]
+n12712[label="2"]
+n12711 -> n12712
+nodo12702 -> n12711
+nodo12699 -> nodo12700;
+nodo12700 -> nodo12701;
+nodo12700 -> nodo12702;
+n12713[label="Operacion Relacional"]
+n12714[label="Expresion"]
+n12716[label="3"]
+n12715[label="Expresion"]
+n12713 -> n12714
+n12713 -> n12716
+n12713 -> n12715
+nodo12717[label="Operacion Aritmetica"];
+nodo12718[label="+"];
+nodo12719[label="Expresion"];
+nodo12720[label="Expresion"];
+nodo12721[label="Operacion Aritmetica"];
+nodo12722[label="*"];
+nodo12723[label="Expresion"];
+nodo12724[label="Expresion"];
+nodo12725[label="Operacion Aritmetica"];
+nodo12726[label="-"];
+nodo12727[label="Expresion"];
+nodo12728[label="Expresion"];
+nodo12729[label="Operacion Aritmetica"];
+nodo12730[label="/"];
+nodo12731[label="Expresion"];
+nodo12732[label="Expresion"];
+nodo12733[label="Operacion Aritmetica"];
+nodo12734[label="-"];
+nodo12735[label="Expresion"];
+nodo12731 -> nodo12734;
+nodo12734 -> nodo12735;
+undefinednodo12733 -> nodo12734;
+n12736[label="Nativo"]
+n12737[label="2"]
+n12736 -> n12737
+nodo12732 -> n12736
+nodo12729 -> nodo12730;
+nodo12730 -> nodo12731;
+nodo12730 -> nodo12732;
+n12738[label="AccessVar"]
+n12738 -> n12739
+n12739[label="i"]
+nodo12728 -> n12738
+nodo12725 -> nodo12726;
+nodo12726 -> nodo12727;
+nodo12726 -> nodo12728;
+nodo12740[label="Operacion Aritmetica"];
+nodo12741[label="-"];
+nodo12742[label="Expresion"];
+nodo12743[label="Expresion"];
+nodo12744[label="Operacion Aritmetica"];
+nodo12745[label="/"];
+nodo12746[label="Expresion"];
+nodo12747[label="Expresion"];
+nodo12748[label="Operacion Aritmetica"];
+nodo12749[label="-"];
+nodo12750[label="Expresion"];
+nodo12746 -> nodo12749;
+nodo12749 -> nodo12750;
+undefinednodo12748 -> nodo12749;
+n12751[label="Nativo"]
+n12752[label="2"]
+n12751 -> n12752
+nodo12747 -> n12751
+nodo12744 -> nodo12745;
+nodo12745 -> nodo12746;
+nodo12745 -> nodo12747;
+n12753[label="AccessVar"]
+n12753 -> n12754
+n12754[label="i"]
+nodo12743 -> n12753
+nodo12740 -> nodo12741;
+nodo12741 -> nodo12742;
+nodo12741 -> nodo12743;
+nodo12721 -> nodo12722;
+nodo12722 -> nodo12723;
+nodo12722 -> nodo12724;
+nodo12755[label="Operacion Aritmetica"];
+nodo12756[label="*"];
+nodo12757[label="Expresion"];
+nodo12758[label="Expresion"];
+nodo12759[label="Operacion Aritmetica"];
+nodo12760[label="-"];
+nodo12761[label="Expresion"];
+nodo12762[label="Expresion"];
+nodo12763[label="Operacion Aritmetica"];
+nodo12764[label="/"];
+nodo12765[label="Expresion"];
+nodo12766[label="Expresion"];
+nodo12767[label="Operacion Aritmetica"];
+nodo12768[label="-"];
+nodo12769[label="Expresion"];
+nodo12765 -> nodo12768;
+nodo12768 -> nodo12769;
+undefinednodo12767 -> nodo12768;
+n12770[label="Nativo"]
+n12771[label="2"]
+n12770 -> n12771
+nodo12766 -> n12770
+nodo12763 -> nodo12764;
+nodo12764 -> nodo12765;
+nodo12764 -> nodo12766;
+n12772[label="AccessVar"]
+n12772 -> n12773
+n12773[label="j"]
+nodo12762 -> n12772
+nodo12759 -> nodo12760;
+nodo12760 -> nodo12761;
+nodo12760 -> nodo12762;
+nodo12774[label="Operacion Aritmetica"];
+nodo12775[label="-"];
+nodo12776[label="Expresion"];
+nodo12777[label="Expresion"];
+nodo12778[label="Operacion Aritmetica"];
+nodo12779[label="/"];
+nodo12780[label="Expresion"];
+nodo12781[label="Expresion"];
+nodo12782[label="Operacion Aritmetica"];
+nodo12783[label="-"];
+nodo12784[label="Expresion"];
+nodo12780 -> nodo12783;
+nodo12783 -> nodo12784;
+undefinednodo12782 -> nodo12783;
+n12785[label="Nativo"]
+n12786[label="2"]
+n12785 -> n12786
+nodo12781 -> n12785
+nodo12778 -> nodo12779;
+nodo12779 -> nodo12780;
+nodo12779 -> nodo12781;
+n12787[label="AccessVar"]
+n12787 -> n12788
+n12788[label="j"]
+nodo12777 -> n12787
+nodo12774 -> nodo12775;
+nodo12775 -> nodo12776;
+nodo12775 -> nodo12777;
+nodo12755 -> nodo12756;
+nodo12756 -> nodo12757;
+nodo12756 -> nodo12758;
+nodo12717 -> nodo12718;
+nodo12718 -> nodo12719;
+nodo12718 -> nodo12720;
+nodo12789[label="Operacion Aritmetica"];
+nodo12790[label="/"];
+nodo12791[label="Expresion"];
+nodo12792[label="Expresion"];
+nodo12793[label="Operacion Aritmetica"];
+nodo12794[label="*"];
+nodo12795[label="Expresion"];
+nodo12796[label="Expresion"];
+n12797[label="AccessVar"]
+n12797 -> n12798
+n12798[label="n"]
+nodo12795 -> n12797
+n12799[label="AccessVar"]
+n12799 -> n12800
+n12800[label="n"]
+nodo12796 -> n12799
+nodo12793 -> nodo12794;
+nodo12794 -> nodo12795;
+nodo12794 -> nodo12796;
+n12801[label="Nativo"]
+n12802[label="2"]
+n12801 -> n12802
+nodo12792 -> n12801
+nodo12789 -> nodo12790;
+nodo12790 -> nodo12791;
+nodo12790 -> nodo12792;
+n12600[label="{"]
+n12598 -> n12600
+n12601[label="Bloque Then"]
+n12598 -> n12601
+n12803[label="Bloque"]
+n12804[label="{"]
+n12803 -> n12804
+n12806[label="Instrucciones"]
+n12807[label="Variables"]
+n12806 -> n12807
+n12808[label="Variables"]
+n12807 -> n12808
+n12808 -> n12817[label="cadenaFigura"]
+n12808 -> nodo12809[label="Operacion Aritmetica"];
+nodo12810[label="+"];
+nodo12811[label="Expresion"];
+nodo12812[label="Expresion"];
+n12813[label="AccessVar"]
+n12813 -> n12814
+n12814[label="cadenaFigura"]
+nodo12811 -> n12813
+n12815[label="Nativo"]
+n12816[label="* "]
+n12815 -> n12816
+nodo12812 -> n12815
+nodo12809 -> nodo12810;
+nodo12810 -> nodo12811;
+nodo12810 -> nodo12812;
+
+nodo12818[label="Operacion Aritmetica"];
+nodo12819[label="+"];
+nodo12820[label="Expresion"];
+nodo12821[label="Expresion"];
+n12822[label="AccessVar"]
+n12822 -> n12823
+n12823[label="cadenaFigura"]
+nodo12820 -> n12822
+n12824[label="Nativo"]
+n12825[label="* "]
+n12824 -> n12825
+nodo12821 -> n12824
+nodo12818 -> nodo12819;
+nodo12819 -> nodo12820;
+nodo12819 -> nodo12821;
+n12803 -> n12806
+n12805[label="}"]
+n12803 -> n12805
+n12601 -> n12803
+n12602[label="}"]
+n12598 -> n12602
+n12826[label="Else"]
+n12598 -> n12826
+n12827[label="{"]
+n12826 -> n12827
+n12828[label="Bloque Then"]
+n12826 -> n12828
+n12830[label="Bloque"]
+n12831[label="{"]
+n12830 -> n12831
+n12833[label="Instrucciones"]
+n12834[label="Variables"]
+n12833 -> n12834
+n12835[label="Variables"]
+n12834 -> n12835
+n12835 -> n12844[label="cadenaFigura"]
+n12835 -> nodo12836[label="Operacion Aritmetica"];
+nodo12837[label="+"];
+nodo12838[label="Expresion"];
+nodo12839[label="Expresion"];
+n12840[label="AccessVar"]
+n12840 -> n12841
+n12841[label="cadenaFigura"]
+nodo12838 -> n12840
+n12842[label="Nativo"]
+n12843[label=". "]
+n12842 -> n12843
+nodo12839 -> n12842
+nodo12836 -> nodo12837;
+nodo12837 -> nodo12838;
+nodo12837 -> nodo12839;
+
+nodo12845[label="Operacion Aritmetica"];
+nodo12846[label="+"];
+nodo12847[label="Expresion"];
+nodo12848[label="Expresion"];
+n12849[label="AccessVar"]
+n12849 -> n12850
+n12850[label="cadenaFigura"]
+nodo12847 -> n12849
+n12851[label="Nativo"]
+n12852[label=". "]
+n12851 -> n12852
+nodo12848 -> n12851
+nodo12845 -> nodo12846;
+nodo12846 -> nodo12847;
+nodo12846 -> nodo12848;
+n12830 -> n12833
+n12832[label="}"]
+n12830 -> n12832
+n12828 -> n12830
+n12829[label="}"]
+n12826 -> n12829
+n12853[label="Variables"]
+n12481 -> n12853
+n12854[label="Variables"]
+n12853 -> n12854
+n12854 -> n12863[label="j"]
+n12854 -> nodo12855[label="Operacion Aritmetica"];
+nodo12856[label="+"];
+nodo12857[label="Expresion"];
+nodo12858[label="Expresion"];
+n12859[label="AccessVar"]
+n12859 -> n12860
+n12860[label="j"]
+nodo12857 -> n12859
+n12861[label="Nativo"]
+n12862[label="1"]
+n12861 -> n12862
+nodo12858 -> n12861
+nodo12855 -> nodo12856;
+nodo12856 -> nodo12857;
+nodo12856 -> nodo12858;
+
+nodo12864[label="Operacion Aritmetica"];
+nodo12865[label="+"];
+nodo12866[label="Expresion"];
+nodo12867[label="Expresion"];
+n12868[label="AccessVar"]
+n12868 -> n12869
+n12869[label="j"]
+nodo12866 -> n12868
+n12870[label="Nativo"]
+n12871[label="1"]
+n12870 -> n12871
+nodo12867 -> n12870
+nodo12864 -> nodo12865;
+nodo12865 -> nodo12866;
+nodo12865 -> nodo12867;
+n12482[label="}"]
+n12478 -> n12482
+n12872[label="Raiz"]
+n12423 -> n12872
+n12873[label="Impresión"]
+n12872 -> n12873
+n12874[label="cout"]
+n12873 -> n12874
+n12875[label="<<"]
+n12873 -> n12875
+n12876[label="Expresión"]
+n12873 -> n12876
+n12877[label="AccessVar"]
+n12877 -> n12878
+n12878[label="cadenaFigura"]
+n12876 -> n12877
+n12879[label="<<"]
+n12873 -> n12879
+n12880[label="endl"]
+n12873 -> n12880
+n12881[label="Variables"]
+n12423 -> n12881
+n12882[label="Variables"]
+n12881 -> n12882
+n12882 -> n12891[label="i"]
+n12882 -> nodo12883[label="Operacion Aritmetica"];
+nodo12884[label="+"];
+nodo12885[label="Expresion"];
+nodo12886[label="Expresion"];
+n12887[label="AccessVar"]
+n12887 -> n12888
+n12888[label="i"]
+nodo12885 -> n12887
+n12889[label="Nativo"]
+n12890[label="1"]
+n12889 -> n12890
+nodo12886 -> n12889
+nodo12883 -> nodo12884;
+nodo12884 -> nodo12885;
+nodo12884 -> nodo12886;
+
+nodo12892[label="Operacion Aritmetica"];
+nodo12893[label="+"];
+nodo12894[label="Expresion"];
+nodo12895[label="Expresion"];
+n12896[label="AccessVar"]
+n12896 -> n12897
+n12897[label="i"]
+nodo12894 -> n12896
+n12898[label="Nativo"]
+n12899[label="1"]
+n12898 -> n12899
+nodo12895 -> n12898
+nodo12892 -> nodo12893;
+nodo12893 -> nodo12894;
+nodo12893 -> nodo12895;
+n12424[label="}"]
+n12420 -> n12424
+
+}

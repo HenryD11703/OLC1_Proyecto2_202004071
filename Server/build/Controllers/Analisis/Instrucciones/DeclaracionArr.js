@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Simbolo_1 = __importDefault(require("../SimboloC/Simbolo"));
 const Tipo_1 = require("../SimboloC/Tipo");
 //Para la declaracion de arreglos de tipo1 donde solo se obtendra el tipo, el id y el tamaño (para de una o dos dimensiones)
@@ -66,10 +67,8 @@ class DeclaracionArr extends Instruccion_1.Instruccion {
                 }
                 arreglo.push(valorPorDefecto);
             }
-            console.log(arreglo);
             //agregar a la tabla de simbolos
             for (let ide of this.id) {
-                console.log("El tipo es: " + this.tipo.getTipo() + " y el id es: " + ide + " y el arreglo es: " + arreglo);
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipo, ide, arreglo))) {
                     return new Errores_1.default('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                 }
@@ -116,7 +115,6 @@ class DeclaracionArr extends Instruccion_1.Instruccion {
                 }
                 arreglo.push(arreglo2);
             }
-            console.log(arreglo);
             // Agregar a la tabla de símbolos
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipo, ide, arreglo))) {
@@ -133,7 +131,6 @@ class DeclaracionArr extends Instruccion_1.Instruccion {
                     return valorFinal;
                 arreglo3.push(valorFinal);
             }
-            console.log(arreglo3);
             //agregar a la tabla de simbolos
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipo, ide, arreglo3))) {
@@ -160,7 +157,6 @@ class DeclaracionArr extends Instruccion_1.Instruccion {
             }
             arreglo4.push(arreglo5);
             arreglo4.push(arreglo6);
-            console.log(arreglo4);
             //agregar a la tabla de simbolos
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo_1.default(this.tipo, ide, arreglo4))) {
@@ -168,6 +164,185 @@ class DeclaracionArr extends Instruccion_1.Instruccion {
                 }
             }
         }
+    }
+    /*
+    declaracionArr : tipo ids CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED PYC  { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $9,null,$7,null,null); }
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL NEW tipo CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED PYC        { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, $11,$14,$9,null,null); }
+               | tipo ids CORCHETEI CORCHETED IGUAL CORCHETEI lista_valores CORCHETED PYC     { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$7,null); }
+               | tipo ids CORCHETEI CORCHETED CORCHETEI CORCHETED IGUAL CORCHETEI CORCHETEI lista_valores CORCHETED COMA  CORCHETEI lista_valores CORCHETED CORCHETED PYC { $$ = new DeclaracionArr.default($1, @1.first_line, @1.first_column, $2, null,null,null,$10,$14); }
+               | tipo ids CORCHETEI CORCHETED IGUAL funcioncstr PYC { $$ = new DeclaracionCstr.default($1,$2,$6,@1.first_line,@1.first_column); }
+
+;
+
+    lista_valores : lista_valores COMA expresion        { $1.push($3); $$ = $1; }
+                | expresion                           { $$ = [$1]; }
+    
+    */
+    buildAst(anterior) {
+        var _a, _b;
+        let contador = Contador_1.default.getInstance();
+        let funcionDeclaracion = `n${contador.get()}`;
+        let nodoTipo = `n${contador.get()}`;
+        let nodoIds = `n${contador.get()}`;
+        let nodoCorcheteI = `n${contador.get()}`;
+        let nodoCorcheteD = `n${contador.get()}`;
+        // Para el tipo 1
+        if (this.tamaño1 !== null && this.tamaño2 == null) {
+            let nodoIgual = `n${contador.get()}`;
+            let nodoNew = `n${contador.get()}`;
+            let nodoExpresion = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoIgual}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+            resultado += `${nodoNew}[label="NEW"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoNew}\n`;
+            resultado += `${nodoTipo}[label="${(_a = this.tipo2) === null || _a === void 0 ? void 0 : _a.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += this.tamaño1.buildAst(nodoExpresion);
+            resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+        else if (this.tamaño1 !== null && this.tamaño2 !== null) {
+            let nodoIgual = `n${contador.get()}`;
+            let nodoNew = `n${contador.get()}`;
+            let nodoExpresion1 = `n${contador.get()}`;
+            let nodoExpresion2 = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoIgual}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+            resultado += `${nodoNew}[label="NEW"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoNew}\n`;
+            resultado += `${nodoTipo}[label="${(_b = this.tipo2) === null || _b === void 0 ? void 0 : _b.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += this.tamaño1.buildAst(nodoExpresion1);
+            resultado += `${funcionDeclaracion} -> ${nodoExpresion1}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += this.tamaño2.buildAst(nodoExpresion2);
+            resultado += `${funcionDeclaracion} -> ${nodoExpresion2}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+        else if (this.valores !== null && this.valores2 == null) {
+            let nodoCorcheteI = `n${contador.get()}`;
+            let nodoCorcheteD = `n${contador.get()}`;
+            let nodoIgual = `n${contador.get()}`;
+            let nodoValores = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoIgual}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoValores}[label="Valores"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoValores}\n`;
+            for (let valor of this.valores) {
+                let nodoValor = `n${contador.get()}`;
+                resultado += valor.buildAst(nodoValor);
+                resultado += `${nodoValores} -> ${nodoValor}\n`;
+            }
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+        else if (this.valores !== null && this.valores2 !== null) {
+            let nodoCorcheteI = `n${contador.get()}`;
+            let nodoCorcheteD = `n${contador.get()}`;
+            let nodoIgual = `n${contador.get()}`;
+            let nodoValores = `n${contador.get()}`;
+            let nodoValores2 = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.tipo.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoIgual}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoValores}[label="Valores"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoValores}\n`;
+            for (let valor of this.valores) {
+                let nodoValor = `n${contador.get()}`;
+                resultado += valor.buildAst(nodoValor);
+                resultado += `${nodoValores} -> ${nodoValor}\n`;
+            }
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${nodoCorcheteI}[label="["]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteI}\n`;
+            resultado += `${nodoValores2}[label="Valores"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoValores2}\n`;
+            for (let valor of this.valores2) {
+                let nodoValor = `n${contador.get()}`;
+                resultado += valor.buildAst(nodoValor);
+                resultado += `${nodoValores2} -> ${nodoValor}\n`;
+            }
+            resultado += `${nodoCorcheteD}[label="]"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoCorcheteD}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+        return "";
     }
 }
 exports.default = DeclaracionArr;

@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class toUpper extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.CADENA), linea, columna);
@@ -46,6 +47,27 @@ class toUpper extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `No se puede convertir a mayusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
+    }
+    //funcToUpper : TOUPPER PARENTESISI expresion PARENTESISD 
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionToUpper = `n${contador.get()}`;
+        let nodoToUpper = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionToUpper}[label="toUpper"]\n`;
+        resultado += `${nodoToUpper}[label="TOUPPER"]\n`;
+        resultado += `${funcionToUpper} -> ${nodoToUpper}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionToUpper} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionToUpper} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionToUpper} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionToUpper}\n`;
+        return resultado;
     }
 }
 exports.default = toUpper;

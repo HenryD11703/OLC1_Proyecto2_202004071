@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
@@ -67,6 +68,32 @@ class FuncionWhile extends Instruccion_1.Instruccion {
                     return result;
             }
         }
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoWhile = `n${contador.get()}`;
+        let nodoCondicion = `n${contador.get()}`;
+        let nodoLlaveI = `n${contador.get()}`;
+        let nodoBloque = `n${contador.get()}`;
+        let nodoLlaveD = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoWhile}[label="While"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoWhile}\n`;
+        resultado += `${nodoCondicion}[label="Condición"]\n`;
+        resultado += `${nodoWhile} -> ${nodoCondicion}\n`;
+        resultado += this.condicion.buildAst(`${nodoCondicion}`);
+        resultado += `${nodoLlaveI}[label="{"]\n`;
+        resultado += `${nodoWhile} -> ${nodoLlaveI}\n`;
+        resultado += `${nodoBloque}[label="Bloque de Instrucciones"]\n`;
+        resultado += `${nodoWhile} -> ${nodoBloque}\n`;
+        for (let instruccion of this.Instrucciones) {
+            resultado += instruccion.buildAst(`${nodoBloque}`);
+        }
+        resultado += `${nodoLlaveD}[label="}"]\n`;
+        resultado += `${nodoWhile} -> ${nodoLlaveD}\n`;
+        return resultado;
     }
 }
 exports.default = FuncionWhile;

@@ -30,6 +30,7 @@ exports.OperadorAritmetico = void 0;
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Aritmetica extends Instruccion_1.Instruccion {
     constructor(operador, fila, columna, operando1, operando2) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), fila, columna);
@@ -59,7 +60,6 @@ class Aritmetica extends Instruccion_1.Instruccion {
         }
         switch (this.Operador) {
             case OperadorAritmetico.SUMA:
-                console.log(this.suma(operadorIzq, operadorDer));
                 return this.suma(operadorIzq, operadorDer);
             case OperadorAritmetico.RESTA:
                 return this.resta(operadorIzq, operadorDer);
@@ -699,6 +699,86 @@ class Aritmetica extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Error Semantico', `No se puede negar ${Tipo1}`, this.Linea, this.Columna);
         }
+    }
+    /*
+    operacion : expresion MAS expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.SUMA,@1.first_line, @1.first_column, $1, $3);}
+          | expresion RES expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.RESTA,@1.first_line, @1.first_column, $1, $3);}
+          | expresion MUL expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MULTIPLICACION,@1.first_line, @1.first_column, $1, $3);}
+          | expresion DIV expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.DIVISION,@1.first_line, @1.first_column, $1, $3);}
+          | expresion MOD expresion              { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.MODULO,@1.first_line, @1.first_column, $1, $3);}
+          | POW PARENTESISI expresion COMA expresion PARENTESISD { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.POTENCIA,@1.first_line, @1.first_column, $3, $5);}
+          | RES expresion %prec UMENOS           { $$ = new Aritmetica.default(Aritmetica.OperadorAritmetico.NEGACION,@1.first_line, @1.first_column, $2);}
+    */
+    //poner un nodo expresion del que salga un nodo que sera el numero de la operacion
+    buildAst(anterior) {
+        var _a, _b, _c, _d, _e;
+        let contador = Contador_1.default.getInstance();
+        let resultado = "";
+        let nodoOperacion = `nodo${contador.get()}`;
+        resultado += `${nodoOperacion}[label=\"Operacion Aritmetica\"];\n`;
+        //validar para cuando sea una operacion unaria
+        if (this.Operador == OperadorAritmetico.NEGACION) {
+            let nodoNegacion = `nodo${contador.get()}`;
+            let nodoExpresion = `nodo${contador.get()}`;
+            resultado += `${nodoNegacion}[label=\"-\"];\n`;
+            resultado += `${nodoExpresion}[label=\"Expresion\"];\n`;
+            resultado += `${anterior} -> ${nodoNegacion};\n`;
+            resultado += `${nodoNegacion} -> ${nodoExpresion};\n`;
+            resultado += (_a = this.Operando1) === null || _a === void 0 ? void 0 : _a.buildAst(nodoExpresion);
+            resultado += `${nodoOperacion} -> ${nodoNegacion};\n`;
+            return resultado;
+        }
+        else if (this.Operador == OperadorAritmetico.POTENCIA) {
+            let nodoPotencia = `nodo${contador.get()}`;
+            let nodoParentesisI = `nodo${contador.get()}`;
+            let nodoExpresion1 = `nodo${contador.get()}`;
+            let nodoComa = `nodo${contador.get()}`;
+            let nodoExpresion2 = `nodo${contador.get()}`;
+            let nodoParentesisD = `nodo${contador.get()}`;
+            resultado += `${nodoPotencia}[label=\"POW\"];\n`;
+            resultado += `${nodoParentesisI}[label=\"(\"];\n`;
+            resultado += `${nodoExpresion1}[label=\"Expresion\"];\n`;
+            resultado += `${nodoComa}[label=\",\"];\n`;
+            resultado += `${nodoExpresion2}[label=\"Expresion\"];\n`;
+            resultado += `${nodoParentesisD}[label=\")\"];\n`;
+            resultado += (_b = this.Operando1) === null || _b === void 0 ? void 0 : _b.buildAst(nodoExpresion1);
+            resultado += (_c = this.Operando2) === null || _c === void 0 ? void 0 : _c.buildAst(nodoExpresion2);
+            resultado += `${nodoOperacion} -> ${nodoPotencia};\n`;
+            resultado += `${nodoPotencia} -> ${nodoParentesisI};\n`;
+            resultado += `${nodoPotencia} -> ${nodoExpresion1};\n`;
+            resultado += `${nodoPotencia} -> ${nodoComa};\n`;
+            resultado += `${nodoPotencia} -> ${nodoExpresion2};\n`;
+            resultado += `${nodoPotencia} -> ${nodoParentesisD};\n`;
+            return resultado;
+        }
+        let signoOperacion = "";
+        if (this.Operador == OperadorAritmetico.SUMA) {
+            signoOperacion = "+";
+        }
+        else if (this.Operador == OperadorAritmetico.RESTA) {
+            signoOperacion = "-";
+        }
+        else if (this.Operador == OperadorAritmetico.MULTIPLICACION) {
+            signoOperacion = "*";
+        }
+        else if (this.Operador == OperadorAritmetico.DIVISION) {
+            signoOperacion = "/";
+        }
+        else if (this.Operador == OperadorAritmetico.MODULO) {
+            signoOperacion = "%";
+        }
+        let nodoOperador = `nodo${contador.get()}`;
+        let nodoExpresion1 = `nodo${contador.get()}`;
+        let nodoExpresion2 = `nodo${contador.get()}`;
+        resultado += `${nodoOperador}[label=\"${signoOperacion}\"];\n`;
+        resultado += `${nodoExpresion1}[label=\"Expresion\"];\n`;
+        resultado += `${nodoExpresion2}[label=\"Expresion\"];\n`;
+        resultado += (_d = this.Operando1) === null || _d === void 0 ? void 0 : _d.buildAst(nodoExpresion1);
+        resultado += (_e = this.Operando2) === null || _e === void 0 ? void 0 : _e.buildAst(nodoExpresion2);
+        resultado += `${nodoOperacion} -> ${nodoOperador};\n`;
+        resultado += `${nodoOperador} -> ${nodoExpresion1};\n`;
+        resultado += `${nodoOperador} -> ${nodoExpresion2};\n`;
+        return resultado;
     }
 }
 exports.default = Aritmetica;

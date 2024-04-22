@@ -1,6 +1,7 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import Errores from '../Excepciones/Errores';
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from "../SimboloC/Contador";
 import Simbolo from "../SimboloC/Simbolo";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
@@ -28,5 +29,23 @@ export default class VariablesA extends Instruccion {
             this.Tipo = valor.getTipoSimbolo();
             valor.setValor(NewValue);
         }
+    }
+    //| ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }  
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoVariables = `n${contador.get()}`;
+        let nodoExpresion = this.exp.buildAst(nodoRaiz);
+        let resultado = `${nodoRaiz}[label="Variables"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoVariables}[label="Variables"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoVariables}\n`;
+        for (let id of this.ids) {
+            resultado += `${nodoVariables} -> n${contador.get()}[label="${id}"]\n`;
+        }
+        resultado += `${nodoVariables} -> ${nodoExpresion}\n`;
+        resultado += this.exp.buildAst(nodoExpresion);
+        return resultado;
+        
     }
 }

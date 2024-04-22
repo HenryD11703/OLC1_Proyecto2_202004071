@@ -1,0 +1,16 @@
+digraph G {
+n0[label="Inicio"]
+nCodigo[label="Codigo"]
+n0 -> nCodigo
+n25[label="Instruccion"]
+nCodigo -> n25
+n26[label="Declaracion"]
+n27[label="0"]
+n26 -> n27
+n28[label="Ids"]
+n26 -> n28
+n29[label="addafsdfasdf"]
+n28 -> n29
+n25 -> n26
+
+}

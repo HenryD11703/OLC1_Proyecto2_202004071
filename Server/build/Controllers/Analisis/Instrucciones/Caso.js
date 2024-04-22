@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
 class Caso extends Instruccion_1.Instruccion {
@@ -51,6 +52,30 @@ class Caso extends Instruccion_1.Instruccion {
                     return result;
             }
         }
+    }
+    //caso : CASE expresion DOSPUNTOS codigos
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoCaso = `n${contador.get()}`;
+        let nodoCase = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoDosPuntos = `n${contador.get()}`;
+        let nodoCodigos = `n${contador.get()}`;
+        let resultado = `${nodoCaso}[label="Caso"]\n`;
+        resultado += `${nodoCase}[label="CASE"]\n`;
+        resultado += `${nodoCaso} -> ${nodoCase}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${nodoCaso} -> ${nodoExpresion}\n`;
+        resultado += `${nodoDosPuntos}[label=":"]\n`;
+        resultado += `${nodoCaso} -> ${nodoDosPuntos}\n`;
+        resultado += `${nodoCodigos}[label="Instrucciones"]\n`;
+        for (let instruccion of this.instrucciones) {
+            resultado += instruccion.buildAst(nodoCodigos);
+        }
+        resultado += `${nodoCaso} -> ${nodoCodigos}\n`;
+        resultado += `${anterior} -> ${nodoCaso}\n`;
+        return resultado;
     }
 }
 exports.default = Caso;

@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Declaracion_1 = __importDefault(require("./Declaracion"));
@@ -59,6 +60,37 @@ class Execute extends Instruccion_1.Instruccion {
             if (resultadoFuncion instanceof Errores_1.default)
                 return resultadoFuncion;
         }
+    }
+    /*
+    execute: EXECUTE ID PARENTESISI PARENTESISD PYC                      { $$ = new Execute.default($2, [], @1.first_line, @1.first_column); }
+       | EXECUTE ID PARENTESISI parametros_llamada PARENTESISD PYC   { $$ = new Execute.default($2, $4, @1.first_line, @1.first_column); }
+    */
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoExecute = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let nodoParametros = null;
+        let resultado = `${nodoExecute}[label="Execute"]\n`;
+        resultado += `${anterior} -> ${nodoExecute}\n`;
+        resultado += `${nodoId}[label="${this.id}"]\n`;
+        resultado += `${nodoExecute} -> ${nodoId}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${nodoExecute} -> ${nodoParentesisI}\n`;
+        if (this.parametros.length > 0) {
+            nodoParametros = `n${contador.get()}`;
+            resultado += `${nodoParametros}[label="Parametros"]\n`;
+            resultado += `${nodoExecute} -> ${nodoParametros}\n`;
+            for (let parametro of this.parametros) {
+                let nodoParametro = `n${contador.get()}`;
+                resultado += parametro.buildAst(nodoParametro);
+                resultado += `${nodoParametros} -> ${nodoParametro}\n`;
+            }
+        }
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${nodoExecute} -> ${nodoParentesisD}\n`;
+        return resultado;
     }
 }
 exports.default = Execute;

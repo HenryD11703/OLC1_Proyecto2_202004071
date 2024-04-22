@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
@@ -78,6 +79,52 @@ class FuncionFor extends Instruccion_1.Instruccion {
             this.incremento.interpretar(ArbolS, TablaFor);
         }
         return null;
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoFor = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoDeclaracion = `n${contador.get()}`;
+        let nodoPuntoComa1 = `n${contador.get()}`;
+        let nodoCondicion = `n${contador.get()}`;
+        let nodoPuntoComa2 = `n${contador.get()}`;
+        let nodoIncremento = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let nodoLlaveI = `n${contador.get()}`;
+        let nodoBloque = `n${contador.get()}`;
+        let nodoLlaveD = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoFor}[label="For"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoFor}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${nodoFor} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoDeclaracion}[label="Declaración"]\n`;
+        resultado += `${nodoFor} -> ${nodoDeclaracion}\n`;
+        resultado += this.declaracion.buildAst(`${nodoDeclaracion}`);
+        resultado += `${nodoPuntoComa1}[label=";"]\n`;
+        resultado += `${nodoFor} -> ${nodoPuntoComa1}\n`;
+        resultado += `${nodoCondicion}[label="Condición"]\n`;
+        resultado += `${nodoFor} -> ${nodoCondicion}\n`;
+        resultado += this.condicion.buildAst(`${nodoCondicion}`);
+        resultado += `${nodoPuntoComa2}[label=";"]\n`;
+        resultado += `${nodoFor} -> ${nodoPuntoComa2}\n`;
+        resultado += `${nodoIncremento}[label="Incremento"]\n`;
+        resultado += `${nodoFor} -> ${nodoIncremento}\n`;
+        resultado += this.incremento.buildAst(`${nodoIncremento}`);
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${nodoFor} -> ${nodoParentesisD}\n`;
+        resultado += `${nodoLlaveI}[label="{"]\n`;
+        resultado += `${nodoFor} -> ${nodoLlaveI}\n`;
+        resultado += `${nodoBloque}[label="Bloque de Instrucciones"]\n`;
+        resultado += `${nodoFor} -> ${nodoBloque}\n`;
+        for (let instruccion of this.instrucciones) {
+            resultado += instruccion.buildAst(`${nodoBloque}`);
+        }
+        resultado += `${nodoLlaveD}[label="}"]\n`;
+        resultado += `${nodoFor} -> ${nodoLlaveD}\n`;
+        return resultado;
     }
 }
 exports.default = FuncionFor;

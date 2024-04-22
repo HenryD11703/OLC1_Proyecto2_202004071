@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class toLower extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.CADENA), linea, columna);
@@ -46,6 +47,27 @@ class toLower extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `No se puede convertir a minusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
+    }
+    //funcToLower : TOLOWER PARENTESISI expresion PARENTESISD 
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionToLower = `n${contador.get()}`;
+        let nodoToLower = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionToLower}[label="toLower"]\n`;
+        resultado += `${nodoToLower}[label="TOLOWER"]\n`;
+        resultado += `${funcionToLower} -> ${nodoToLower}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionToLower} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionToLower} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionToLower} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionToLower}\n`;
+        return resultado;
     }
 }
 exports.default = toLower;

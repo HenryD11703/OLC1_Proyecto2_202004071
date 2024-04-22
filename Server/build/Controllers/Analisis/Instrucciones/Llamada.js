@@ -34,6 +34,7 @@ const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Declaracion_1 = __importDefault(require("./Declaracion"));
 const Funcion_1 = __importDefault(require("./Funcion"));
 const Return_1 = __importDefault(require("./Return"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Llamada extends Instruccion_1.Instruccion {
     constructor(id, parametros, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.VOID), linea, columna);
@@ -52,10 +53,28 @@ class Llamada extends Instruccion_1.Instruccion {
                 return new Errores_1.default('Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
             }
             for (let i = 0; i < buscarFuncion.parametros.length; i++) {
-                let declaracionParametro = new Declaracion_1.default(buscarFuncion.parametros[i].tipo, this.Linea, this.Columna, [buscarFuncion.parametros[i].id], this.parametros[i]);
+                let declaracionParametro = new Declaracion_1.default(buscarFuncion.parametros[i].tipo, this.Linea, this.Columna, [buscarFuncion.parametros[i].id]);
+                let valor;
+                if (buscarFuncion.parametros[i].arreglo) {
+                    // El parámetro es un arreglo
+                    valor = this.parametros[i].interpretar(ArbolS, tabla);
+                }
+                else {
+                    // El parámetro es un valor normal
+                    valor = this.parametros[i].interpretar(ArbolS, tabla);
+                    if (valor instanceof Errores_1.default)
+                        return valor;
+                }
                 let resultado = declaracionParametro.interpretar(ArbolS, newTabla);
                 if (resultado instanceof Errores_1.default)
                     return resultado;
+                let variable = newTabla.getVariable(buscarFuncion.parametros[i].id);
+                if (variable == null)
+                    return new Errores_1.default('Semantico', `La variable ${buscarFuncion.parametros[i].id} no existe`, this.Linea, this.Columna);
+                if (!buscarFuncion.parametros[i].arreglo && variable.getTipoSimbolo().getTipo() != this.parametros[i].Tipo.getTipo()) {
+                    return new Errores_1.default('Semantico', `El tipo de la variable ${buscarFuncion.parametros[i].id} no coincide con el tipo del parámetro`, this.Linea, this.Columna);
+                }
+                variable.setValor(valor);
             }
             let resultadoFuncion = buscarFuncion.interpretar(ArbolS, newTabla);
             if (resultadoFuncion instanceof Return_1.default) {
@@ -69,6 +88,37 @@ class Llamada extends Instruccion_1.Instruccion {
             if (resultadoFuncion instanceof Errores_1.default)
                 return resultadoFuncion;
         }
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoLlamada = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoParametros = null;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoLlamada}[label="Llamada"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoLlamada}\n`;
+        resultado += `${nodoId}[label="${this.id}"]\n`;
+        resultado += `${nodoLlamada} -> ${nodoId}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${nodoLlamada} -> ${nodoParentesisI}\n`;
+        if (this.parametros.length > 0) {
+            nodoParametros = `n${contador.get()}`;
+            resultado += `${nodoParametros}[label="Parámetros"]\n`;
+            resultado += `${nodoLlamada} -> ${nodoParametros}\n`;
+            for (let parametro of this.parametros) {
+                let nodoParametro = `n${contador.get()}`;
+                resultado += `${nodoParametro}[label="Parámetro"]\n`;
+                resultado += `${nodoParametros} -> ${nodoParametro}\n`;
+                resultado += parametro.buildAst(`${nodoParametro}`);
+            }
+        }
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${nodoLlamada} -> ${nodoParentesisD}\n`;
+        return resultado;
     }
 }
 exports.default = Llamada;

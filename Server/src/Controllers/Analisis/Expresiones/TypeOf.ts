@@ -3,6 +3,7 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Errores from "../Excepciones/Errores";
+import Contador from "../SimboloC/Contador";
 
 export default class TypeOf extends Instruccion {
     private expresion: Instruccion;
@@ -37,5 +38,26 @@ export default class TypeOf extends Instruccion {
             default:
                 return new Errores('Semantico', `No se puede obtener el tipo de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
+    }
+    //funcionTypeOf: TYPEOF PARENTESISI expresion PARENTESISD 
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let funcionTypeOf = `n${contador.get()}`;
+        let nodoTypeOf = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionTypeOf}[label="TypeOf"]\n`;
+        resultado += `${nodoTypeOf}[label="TYPEOF"]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoTypeOf}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionTypeOf} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionTypeOf}\n`;
+        return resultado;
     }
 }

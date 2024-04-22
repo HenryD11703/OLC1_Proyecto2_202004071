@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class TypeOf extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.CADENA), linea, columna);
@@ -60,6 +61,27 @@ class TypeOf extends Instruccion_1.Instruccion {
             default:
                 return new Errores_1.default('Semantico', `No se puede obtener el tipo de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
+    }
+    //funcionTypeOf: TYPEOF PARENTESISI expresion PARENTESISD 
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let funcionTypeOf = `n${contador.get()}`;
+        let nodoTypeOf = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${funcionTypeOf}[label="TypeOf"]\n`;
+        resultado += `${nodoTypeOf}[label="TYPEOF"]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoTypeOf}\n`;
+        resultado += `${nodoParentesisI}[label="("]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += this.expresion.buildAst(nodoExpresion);
+        resultado += `${funcionTypeOf} -> ${nodoExpresion}\n`;
+        resultado += `${nodoParentesisD}[label=")"]\n`;
+        resultado += `${funcionTypeOf} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${funcionTypeOf}\n`;
+        return resultado;
     }
 }
 exports.default = TypeOf;

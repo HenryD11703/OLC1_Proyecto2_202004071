@@ -3,6 +3,7 @@ import ArbolS from "../SimboloC/ArbolS";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Errores from "../Excepciones/Errores";
+import Contador from "../SimboloC/Contador";
 
 
 export default class Casteos extends Instruccion {
@@ -128,6 +129,34 @@ export default class Casteos extends Instruccion {
             default:
                 return new Errores('Semantico', `Tipo de dato no valido`, this.Linea, this.Columna);
         }
+    }
+    /*
+    Casteos :   tipoDestino  expresion { $$ = new Casteos.default($1, $2, @1.first_line, @1.first_column); }
+    ;
+    tipoDestino : PINTP                                      { $$ = Casteos.TipoCasteo.aENTERO; }
+                | PDOUBLEP                                   { $$ = Casteos.TipoCasteo.aDECIMAL; } 
+                | PCHARP                                     { $$ = Casteos.TipoCasteo.aCARACTER; }
+                | PSTRINGP   
+    */
+
+    
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoCasteos = `n${contador.get()}`
+        let nodoTipo = `n${contador.get()}`
+        let nodoTipoDestino = `n${contador.get()}`
+        let nodoExpresion = `n${contador.get()}`
+        let resultado = `${nodoCasteos}[label="Casteos"]\n`
+        resultado += `${nodoTipo}[label="Tipo"]\n`
+        resultado += `${nodoTipoDestino}[label="${this.TipoCast.toString()}"]\n`
+        resultado += `${nodoExpresion}[label="Expresion"]\n`
+        resultado += `${anterior} -> ${nodoCasteos}\n`
+        resultado += `${nodoCasteos} -> ${nodoTipo}\n`
+        resultado += `${nodoTipo} -> ${nodoTipoDestino}\n`
+        resultado += `${nodoCasteos} -> ${nodoExpresion}\n`
+        resultado += this.valor.buildAst(nodoExpresion)
+        return resultado
+        
     }
 }
 

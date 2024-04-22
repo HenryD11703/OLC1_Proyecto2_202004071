@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class AccessVar extends Instruccion_1.Instruccion {
     constructor(id, linea, columna) {
@@ -40,6 +41,18 @@ class AccessVar extends Instruccion_1.Instruccion {
             return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         this.Tipo = ValueVar.getTipoSimbolo();
         return ValueVar.getValor();
+    }
+    // Se creara un nodo para el AST
+    // AccessVar solo cuenta con un ID por lo que se creara un nodo para el AST el id y el id 
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoAccessVar = `n${contador.get()}`;
+        let nodoID = `n${contador.get()}`;
+        let resultado = `${nodoAccessVar}[label="AccessVar"]\n`;
+        resultado += `${nodoAccessVar} -> ${nodoID}\n`;
+        resultado += `${nodoID}[label="${this.id}"]\n`;
+        resultado += `${anterior} -> ${nodoAccessVar}\n`;
+        return resultado;
     }
 }
 exports.default = AccessVar;

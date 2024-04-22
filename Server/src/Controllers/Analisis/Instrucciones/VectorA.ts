@@ -1,6 +1,7 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import Errores from '../Excepciones/Errores';
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from "../SimboloC/Contador";
 import Simbolo from "../SimboloC/Simbolo";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
@@ -41,5 +42,38 @@ export default class AsignacionVec extends Instruccion {
         } else {
             return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         }
+    }
+    /*
+    modificacionVector : ID CORCHETEI expresion CORCHETED IGUAL expresion   { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $6); } 
+                   | ID CORCHETEI expresion CORCHETED CORCHETEI expresion CORCHETED IGUAL expresion  { $$ = new VectorA.default($1, @1.first_line, @1.first_column, $3, $9, $6); }
+;
+*/
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoAsignacion = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoExpresion = `n${contador.get()}`;
+        let nodoExpresion2 = `n${contador.get()}`;
+        let nodoValor = `n${contador.get()}`;
+        let nodoValor2 = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Asignacion Vector"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoAsignacion}[label="Asignacion"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoAsignacion}\n`;
+        resultado += `${nodoId}[label="${this.id}"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoId}\n`;
+        resultado += `${nodoExpresion}[label="Expresion"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoExpresion}\n`;
+        resultado += this.numero.buildAst(nodoExpresion);
+        resultado += `${nodoValor}[label="Valor"]\n`;
+        resultado += `${nodoAsignacion} -> ${nodoValor}\n`;
+        resultado += this.valor.buildAst(nodoValor);
+        if (this.numero2 != undefined) {
+            resultado += `${nodoExpresion2}[label="Expresion"]\n`;
+            resultado += `${nodoAsignacion} -> ${nodoExpresion2}\n`;
+            resultado += this.numero2.buildAst(nodoExpresion2);
+        }
+        return resultado;
     }
 }

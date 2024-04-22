@@ -1,5 +1,6 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from "../SimboloC/Contador";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 
@@ -13,6 +14,16 @@ export default class Nativo extends Instruccion {
     }
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
         return this.valor;
+    }
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoNativo = `n${contador.get()}`
+        let nodoValor = `n${contador.get()}`
+        let resultado = `${nodoNativo}[label="Nativo"]\n`
+        resultado += `${nodoValor}[label="${this.valor}"]\n`
+        resultado += `${nodoNativo} -> ${nodoValor}\n`
+        resultado += `${anterior} -> ${nodoNativo}\n`
+        return resultado
     }
     
 }

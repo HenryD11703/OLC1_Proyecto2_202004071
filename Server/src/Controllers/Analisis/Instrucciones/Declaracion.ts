@@ -1,6 +1,7 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import Errores from "../Excepciones/Errores";
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from "../SimboloC/Contador";
 import Simbolo from "../SimboloC/Simbolo";
 import TablaSimbolos from '../SimboloC/TablaSimbolos';
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
@@ -38,6 +39,64 @@ export default class Declaracion extends Instruccion {
             }
         }
     }
+
+    /**
+     declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2); }                 
+            | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
+            | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }                                
+    ;
+    ids : ID                                    { $$ = [$1]; }                                                                   
+        | ids COMA ID                           { $1.push($3); $$ = $1; }                         
+    ;
+    tipo : INT                                      { $$ = new Tipo.default(Tipo.TipoDato.ENTERO); } 
+        | DOUBLE                                   { $$ = new Tipo.default(Tipo.TipoDato.DECIMAL); }
+        | BOOL                                     { $$ = new Tipo.default(Tipo.TipoDato.BOOLEANO); }
+        | CHAR                                     { $$ = new Tipo.default(Tipo.TipoDato.CARACTER); }
+        | STD DOSPUNTOS DOSPUNTOS STRING           { $$ = new Tipo.default(Tipo.TipoDato.CADENA); }
+        | VOID                                     { $$ = new Tipo.default(Tipo.TipoDato.VOID); }
+; 
+     */
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let funcionDeclaracion = `n${contador.get()}`;
+        let nodoTipo = `n${contador.get()}`;
+        let nodoIds = `n${contador.get()}`;
+        if (this.valor) {
+            let nodoIgual = `n${contador.get()}`;
+            let nodoExpresion = `n${contador.get()}`;
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.Tipo.getTipo().toString()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            for (let id of this.id) {
+                resultado += `${nodoIds} -> n${contador.get()}[label="${id}"]\n`;
+            }
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            resultado += `${nodoIgual}[label="="]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIgual}\n`;
+            resultado += `${nodoExpresion}[label="Expresion"]\n`;
+            resultado += this.valor.buildAst(nodoExpresion);
+            resultado += `${funcionDeclaracion} -> ${nodoExpresion}\n`;
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+        else {
+            let resultado = `${funcionDeclaracion}[label="Declaracion"]\n`;
+            resultado += `${nodoTipo}[label="${this.Tipo.getTipo()}"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoTipo}\n`;
+            resultado += `${nodoIds}[label="Ids"]\n`;
+            resultado += `${funcionDeclaracion} -> ${nodoIds}\n`;
+            for (let id of this.id) {
+                let nodoId = `n${contador.get()}`;
+                resultado += `${nodoId}[label="${id}"]\n`;
+                resultado += `${nodoIds} -> ${nodoId}\n`;
+            }
+            resultado += `${anterior} -> ${funcionDeclaracion}\n`;
+            return resultado;
+        }
+
+    }
+
 
     valorDefecto(tipo: TipoDato) {
         switch (tipo) {

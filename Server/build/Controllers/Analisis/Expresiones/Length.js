@@ -29,6 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 class Length extends Instruccion_1.Instruccion {
     constructor(expresion, linea, columna) {
         super(new Tipo_1.default(Tipo_1.TipoDato.ENTERO), linea, columna);
@@ -48,6 +49,31 @@ class Length extends Instruccion_1.Instruccion {
         else {
             return new Errores_1.default('Semantico', `No se puede obtener la longitud de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
+    }
+    //funcionLength: ID PUNTO LENGTH PARENTESISI PARENTESISD { $$ = new Length.default(new AccesoVar.default($1, @1.first_line, @1.first_column), @1.first_line, @1.first_column); }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoLength = `n${contador.get()}`;
+        let nodoID = `n${contador.get()}`;
+        let nodoPunto = `n${contador.get()}`;
+        let Length = `n${contador.get()}`;
+        let nodoParentesisI = `n${contador.get()}`;
+        let nodoParentesisD = `n${contador.get()}`;
+        let resultado = `${nodoLength}[label="Length"]\n`;
+        //como ID proviene de AccesoVar se llama a su metodo buildAst
+        resultado += `${nodoID}[label="ID"]\n`;
+        resultado += this.expresion.buildAst(nodoID);
+        resultado += `${nodoLength} -> ${nodoID}\n`;
+        resultado += `${nodoPunto}[label="PUNTO"]\n`;
+        resultado += `${nodoLength} -> ${nodoPunto}\n`;
+        resultado += `${Length}[label="LENGTH"]\n`;
+        resultado += `${nodoLength} -> ${Length}\n`;
+        resultado += `${nodoParentesisI}[label="PARENTESISI"]\n`;
+        resultado += `${nodoLength} -> ${nodoParentesisI}\n`;
+        resultado += `${nodoParentesisD}[label="PARENTESISD"]\n`;
+        resultado += `${nodoLength} -> ${nodoParentesisD}\n`;
+        resultado += `${anterior} -> ${nodoLength}\n`;
+        return resultado;
     }
 }
 exports.default = Length;

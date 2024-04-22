@@ -1,4 +1,6 @@
 %{
+
+    const Errores = require('./Analisis/Excepciones/Errores');
     
     const Tipo = require('./Analisis/Simbolo/Tipo');
 
@@ -198,6 +200,7 @@ codigo : declaracionv  PYC                 { $$ = $1; }
        | funciones                         { $$ = $1; }
        | llamada PYC                       { $$ = $1; }
        | execute                            { $$ = $1; }
+       | error PYC                         { $$ =  new Errores.default('Sintactico', 'Error sintactico en la entrada', @1.first_line, @1.first_column); }
 ;
 //constructor(id: string, parametros: Instruccion[], linea: number, columna: number){
 execute: EXECUTE ID PARENTESISI PARENTESISD PYC                      { $$ = new Execute.default($2, [], @1.first_line, @1.first_column); }
@@ -210,6 +213,10 @@ funciones : tipo ID PARENTESISI parametros PARENTESISD LLAVEI codigos LLAVED { $
 
 parametros : parametros COMA tipo ID       {$1.push({tipo:$3, id:$4}); $$ = $1;}
            | tipo ID                     { $$ = [{tipo:$1, id:$2}]; }
+           | parametros COMA tipo ID CORCHETEI CORCHETED {$1.push({tipo:$3, id:$4, arreglo:true}); $$ = $1;}
+           | tipo ID CORCHETEI CORCHETED {$$ = [{tipo:$1, id:$2, arreglo:true}]; }
+           | parametros COMA tipo ID CORCHETEI CORCHETED CORCHETEI CORCHETED {$1.push({tipo:$3, id:$4, arreglo:true}); $$ = $1;}
+           | tipo ID CORCHETEI CORCHETED CORCHETEI CORCHETED {$$ = [{tipo:$1, id:$2, arreglo:true}]; }
 ; 
 
 llamada : ID PARENTESISI parametros_llamada PARENTESISD        { $$ = new Llamada.default($1, $3, @1.first_line, @1.first_column);}
@@ -220,7 +227,7 @@ parametros_llamada : parametros_llamada COMA expresion      { $1.push($3); $$ = 
                    | expresion                              { $$ = [$1]; }
 ;
 
-declaracionv: tipo ids                         { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2); }                 
+declaracionv: tipo ids                            { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2); }                 
             | tipo ids IGUAL expresion          { $$ = new DeclaracionVar.default($1, @1.first_line, @1.first_column, $2, $4); }  
             | ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }                                
 ;

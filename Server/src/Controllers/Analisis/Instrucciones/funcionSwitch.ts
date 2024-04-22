@@ -1,6 +1,7 @@
 import { Instruccion } from "../Abstracto/Instruccion";
 import Errores from "../Excepciones/Errores";
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from "../SimboloC/Contador";
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from "./Bloque";
@@ -61,4 +62,53 @@ export default class FuncionSwitch extends Instruccion {
 
     return null;
   }
+
+  buildAst(anterior: string): string {
+    let contador = Contador.getInstance();
+    let nodoRaiz = `n${contador.get()}`;
+    let nodoSwitch = `n${contador.get()}`;
+    let nodoExpresion = `n${contador.get()}`;
+    let nodoLlaveI = `n${contador.get()}`;
+    let nodoCasos = null;
+    let nodoDefault = null;
+
+    let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+    resultado += `${anterior} -> ${nodoRaiz}\n`;
+    resultado += `${nodoSwitch}[label="Switch"]\n`;
+    resultado += `${nodoRaiz} -> ${nodoSwitch}\n`;
+
+    resultado += `${nodoExpresion}[label="Expresión"]\n`;
+    resultado += `${nodoSwitch} -> ${nodoExpresion}\n`;
+    resultado += this.expresion.buildAst(`${nodoExpresion}`);
+
+    resultado += `${nodoLlaveI}[label="{"]\n`;
+    resultado += `${nodoSwitch} -> ${nodoLlaveI}\n`;
+
+    if (this.casos !== null) {
+        nodoCasos = `n${contador.get()}`;
+        resultado += `${nodoCasos}[label="Casos"]\n`;
+        resultado += `${nodoSwitch} -> ${nodoCasos}\n`;
+
+        for (let caso of this.casos) {
+            let nodoCaso = `n${contador.get()}`;
+            resultado += `${nodoCaso}[label="Caso"]\n`;
+            resultado += `${nodoCasos} -> ${nodoCaso}\n`;
+            resultado += caso.buildAst(`${nodoCaso}`);
+        }
+    }
+
+    if (this.casoDefault !== null) {
+        nodoDefault = `n${contador.get()}`;
+        resultado += `${nodoDefault}[label="Default"]\n`;
+        resultado += `${nodoSwitch} -> ${nodoDefault}\n`;
+        resultado += this.casoDefault.buildAst(`${nodoDefault}`);
+    }
+
+    let nodoLlaveD = `n${contador.get()}`;
+    resultado += `${nodoLlaveD}[label="}"]\n`;
+    resultado += `${nodoSwitch} -> ${nodoLlaveD}\n`;
+
+    return resultado;
+}
+
 }

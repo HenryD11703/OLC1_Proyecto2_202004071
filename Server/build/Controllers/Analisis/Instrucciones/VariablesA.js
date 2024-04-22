@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class VariablesA extends Instruccion_1.Instruccion {
     constructor(ids, exp, fila, columna) {
@@ -48,6 +49,23 @@ class VariablesA extends Instruccion_1.Instruccion {
             this.Tipo = valor.getTipoSimbolo();
             valor.setValor(NewValue);
         }
+    }
+    //| ids IGUAL expresion               { $$ = new AsignacionVar.default($1, $3, @1.first_line, @1.first_column); }  
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoVariables = `n${contador.get()}`;
+        let nodoExpresion = this.exp.buildAst(nodoRaiz);
+        let resultado = `${nodoRaiz}[label="Variables"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoVariables}[label="Variables"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoVariables}\n`;
+        for (let id of this.ids) {
+            resultado += `${nodoVariables} -> n${contador.get()}[label="${id}"]\n`;
+        }
+        resultado += `${nodoVariables} -> ${nodoExpresion}\n`;
+        resultado += this.exp.buildAst(nodoExpresion);
+        return resultado;
     }
 }
 exports.default = VariablesA;

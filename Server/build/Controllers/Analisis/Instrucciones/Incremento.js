@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 class Incremento extends Instruccion_1.Instruccion {
     constructor(id, tipo, linea, columna) {
@@ -61,6 +62,22 @@ class Incremento extends Instruccion_1.Instruccion {
                 return new Errores_1.default('Semantico', `No se puede decrementar un tipo de dato ${valor.getTipoSimbolo().getTipo()}`, this.Linea, this.Columna);
             }
         }
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoIncremento = `n${contador.get()}`;
+        let nodoId = `n${contador.get()}`;
+        let nodoTipo = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoIncremento}[label="Incremento/Decremento"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoIncremento}\n`;
+        resultado += `${nodoId}[label="${this.id}"]\n`;
+        resultado += `${nodoIncremento} -> ${nodoId}\n`;
+        resultado += `${nodoTipo}[label="${this.tipo}"]\n`;
+        resultado += `${nodoIncremento} -> ${nodoTipo}\n`;
+        return resultado;
     }
 }
 exports.default = Incremento;

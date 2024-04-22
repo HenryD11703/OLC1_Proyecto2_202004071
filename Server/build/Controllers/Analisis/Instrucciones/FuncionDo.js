@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstracto/Instruccion");
 const Errores_1 = __importDefault(require("../Excepciones/Errores"));
+const Contador_1 = __importDefault(require("../SimboloC/Contador"));
 const TablaSimbolos_1 = __importDefault(require("../SimboloC/TablaSimbolos"));
 const Tipo_1 = __importStar(require("../SimboloC/Tipo"));
 const Break_1 = __importDefault(require("./Break"));
@@ -86,6 +87,35 @@ class FuncionDo extends Instruccion_1.Instruccion {
             if (condicionResultado instanceof Errores_1.default)
                 return condicionResultado;
         }
+    }
+    buildAst(anterior) {
+        let contador = Contador_1.default.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoDoWhile = `n${contador.get()}`;
+        let nodoBloque = `n${contador.get()}`;
+        let nodoCondicion = `n${contador.get()}`;
+        let nodoIgual = `n${contador.get()}`;
+        let nodoLlaveI = `n${contador.get()}`;
+        let nodoLlaveD = `n${contador.get()}`;
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoDoWhile}[label="Do-While"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoDoWhile}\n`;
+        resultado += `${nodoLlaveI}[label="{"]\n`;
+        resultado += `${nodoDoWhile} -> ${nodoLlaveI}\n`;
+        resultado += `${nodoBloque}[label="Bloque de Instrucciones"]\n`;
+        resultado += `${nodoDoWhile} -> ${nodoBloque}\n`;
+        for (let instruccion of this.instrucciones) {
+            resultado += instruccion.buildAst(`${nodoBloque}`);
+        }
+        resultado += `${nodoLlaveD}[label="}"]\n`;
+        resultado += `${nodoDoWhile} -> ${nodoLlaveD}\n`;
+        resultado += `${nodoIgual}[label="while"]\n`;
+        resultado += `${nodoDoWhile} -> ${nodoIgual}\n`;
+        resultado += `${nodoCondicion}[label="Condición"]\n`;
+        resultado += `${nodoDoWhile} -> ${nodoCondicion}\n`;
+        resultado += this.condicion.buildAst(`${nodoCondicion}`);
+        return resultado;
     }
 }
 exports.default = FuncionDo;

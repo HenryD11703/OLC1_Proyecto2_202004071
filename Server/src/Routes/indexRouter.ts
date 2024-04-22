@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { indexController } from "../Controllers/indexController";
-
+import * as path from 'path';
 class router{
     public router: Router = Router();
 
@@ -13,6 +13,10 @@ class router{
         this.router.get('/', indexController.prueba);
         this.router.post('/post', indexController.postMethod);
         this.router.post('/analizar', indexController.analizar);
+        this.router.post('/graficar', indexController.getGraph);
+        this.router.get('/imagen-ast.png', (req, res) => {
+            res.sendFile(path.join(__dirname, 'temp.png'));
+          });
     }
 }
 

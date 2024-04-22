@@ -1,6 +1,7 @@
 import { Instruccion } from '../Abstracto/Instruccion';
 import Errores from "../Excepciones/Errores";
 import ArbolS from "../SimboloC/ArbolS";
+import Contador from '../SimboloC/Contador';
 import TablaSimbolos from "../SimboloC/TablaSimbolos";
 import Tipo, { TipoDato } from "../SimboloC/Tipo";
 import Bloque from './Bloque';
@@ -41,4 +42,39 @@ export default class FuncionWhile extends Instruccion {
             }
         }
     }
+
+    buildAst(anterior: string): string {
+        let contador = Contador.getInstance();
+        let nodoRaiz = `n${contador.get()}`;
+        let nodoWhile = `n${contador.get()}`;
+        let nodoCondicion = `n${contador.get()}`;
+        let nodoLlaveI = `n${contador.get()}`;
+        let nodoBloque = `n${contador.get()}`;
+        let nodoLlaveD = `n${contador.get()}`;
+    
+        let resultado = `${nodoRaiz}[label="Raiz"]\n`;
+        resultado += `${anterior} -> ${nodoRaiz}\n`;
+        resultado += `${nodoWhile}[label="While"]\n`;
+        resultado += `${nodoRaiz} -> ${nodoWhile}\n`;
+    
+        resultado += `${nodoCondicion}[label="Condición"]\n`;
+        resultado += `${nodoWhile} -> ${nodoCondicion}\n`;
+        resultado += this.condicion.buildAst(`${nodoCondicion}`);
+    
+        resultado += `${nodoLlaveI}[label="{"]\n`;
+        resultado += `${nodoWhile} -> ${nodoLlaveI}\n`;
+    
+        resultado += `${nodoBloque}[label="Bloque de Instrucciones"]\n`;
+        resultado += `${nodoWhile} -> ${nodoBloque}\n`;
+    
+        for (let instruccion of this.Instrucciones) {
+            resultado += instruccion.buildAst(`${nodoBloque}`);
+        }
+    
+        resultado += `${nodoLlaveD}[label="}"]\n`;
+        resultado += `${nodoWhile} -> ${nodoLlaveD}\n`;
+    
+        return resultado;
+    }
+
 }
