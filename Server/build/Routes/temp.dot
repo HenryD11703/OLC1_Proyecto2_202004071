@@ -366,49 +366,24 @@ n176[label="Instrucciones"]
 n170 -> n176
 n189[label="Return"]
 n176 -> n189
-n189 -> n191[label="AccesoVec"]
-n192[label="miLista"]
-n193[label="["]
-n194[label="Expresion"]
-n195[label="]"]
+n190[label="return"]
+n189 -> n190
+n192[label="AccesoVec"]
+n189 -> n192
+n192 -> n193
+n193[label="miLista"]
+n194[label="["]
+n192 -> n194
+n195[label="Expresion"]
+n192 -> n195
+n197[label="AccessVar"]
+n197 -> n198
+n198[label="index"]
+n195 -> n197
+n196[label="]"]
+n192 -> n196
+n191[label=";"]
 n189 -> n191
-n191 -> n192
-n191 -> n193
-n191 -> n194
-n191 -> n195
-n196[label="AccessVar"]
-n196 -> n197
-n197[label="index"]
-n194 -> n196
-
-n198[label="AccesoVec"]
-n199[label="miLista"]
-n200[label="["]
-n201[label="Expresion"]
-n202[label="]"]
-n191[label="AccesoVec"]
-n192[label="miLista"]
-n193[label="["]
-n194[label="Expresion"]
-n195[label="]"]
-n189 -> n191
-n191 -> n192
-n191 -> n193
-n191 -> n194
-n191 -> n195
-n196[label="AccessVar"]
-n196 -> n197
-n197[label="index"]
-n194 -> n196
- -> n198
-n198 -> n199
-n198 -> n200
-n198 -> n201
-n198 -> n202
-n203[label="AccessVar"]
-n203 -> n204
-n204[label="index"]
-n201 -> n203
 n177[label="}"]
 n170 -> n177
 

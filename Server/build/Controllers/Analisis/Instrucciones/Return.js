@@ -47,17 +47,22 @@ class Return extends Instruccion_1.Instruccion {
         let contador = Contador_1.default.getInstance();
         let nodoRaiz = `n${contador.get()}`;
         let nodoReturn = `n${contador.get()}`;
+        let nodoPYC = `n${contador.get()}`;
         if (this.expresion != null) {
-            let nodoExpresion = this.expresion.buildAst(nodoRaiz);
             let resultado = `${nodoRaiz}[label="Return"]\n`;
             resultado += `${anterior} -> ${nodoRaiz}\n`;
-            resultado += `${nodoRaiz} -> ${nodoExpresion}\n`;
-            resultado += this.expresion.buildAst(nodoExpresion);
+            resultado += `${nodoReturn}[label="return"]\n`;
+            resultado += `${nodoRaiz} -> ${nodoReturn}\n`;
+            resultado += this.expresion.buildAst(nodoRaiz);
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${nodoRaiz} -> ${nodoPYC}\n`;
             return resultado;
         }
         else {
             let resultado = `${nodoRaiz}[label="Return"]\n`;
             resultado += `${anterior} -> ${nodoRaiz}\n`;
+            resultado += `${nodoPYC}[label=";"]\n`;
+            resultado += `${nodoRaiz} -> ${nodoPYC}\n`;
             return resultado;
         }
     }
