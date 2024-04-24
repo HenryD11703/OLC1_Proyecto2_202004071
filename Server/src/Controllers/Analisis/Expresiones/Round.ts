@@ -23,6 +23,7 @@ export default class Round extends Instruccion{
                 this.Tipo = new Tipo(TipoDato.ENTERO);
                 return valor;
             default:
+                arbolS.createAndAddError(arbolS, 'Semantico', `No se puede redondear un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `No se puede redondear un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

@@ -41,8 +41,10 @@ class Caso extends Instruccion_1.Instruccion {
         //Casos para el switch
         if (this.expresion != null) {
             let valorExpresion = this.expresion.interpretar(ArbolS, tabla);
-            if (valorExpresion instanceof Errores_1.default)
+            if (valorExpresion instanceof Errores_1.default) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', valorExpresion.toString(), this.Linea, this.Columna);
                 return valorExpresion;
+            }
             let valorExp = valorExpresion;
             for (let instruccion of this.instrucciones) {
                 if (instruccion instanceof Break_1.default)

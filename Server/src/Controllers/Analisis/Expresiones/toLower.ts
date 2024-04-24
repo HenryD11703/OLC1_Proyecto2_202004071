@@ -20,6 +20,7 @@ export default class toLower extends Instruccion {
                 this.Tipo = new Tipo(TipoDato.CADENA);
                 return valor.toLowerCase();
             default:
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede convertir a minusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `No se puede convertir a minusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

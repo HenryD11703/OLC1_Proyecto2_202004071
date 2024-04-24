@@ -2,1891 +2,619 @@ digraph G {
 n0[label="Inicio"]
 nCodigo[label="Codigo"]
 n0 -> nCodigo
-n1[label="Instruccion"]
-nCodigo -> n1
-n2[label="Funcion Execute"]
-n1 -> n2
-n2 -> n6
-n3[label="main"]
-n2 -> n3
-n4[label="("]
-n2 -> n4
-n6[label="EXECUTE"]
-n5[label=")"]
-n7[label=";"]
-n2 -> n7
-n2 -> n5
-n8[label="Instruccion"]
-nCodigo -> n8
-n9[label="Declaracion Variable"]
-n10[label="INT"]
-n9 -> n10
-n11[label="Ids"]
-n15[label="var1"]
-n11 -> n15
-n9 -> n11
-n13[label="="]
-n9 -> n13
-n14[label="Expresion"]
-n16[label="Nativo"]
-n17[label="0"]
-n16 -> n17
-n14 -> n16
-n9 -> n14
-n8 -> n9
-n12[label=";"]
-n9 -> n12
-n18[label="Instruccion"]
-nCodigo -> n18
-n19[label="Declaracion de Funcion"]
-n18 -> n19
-n20[label="VOID"]
-n19 -> n20
-n21[label="main"]
-n19 -> n21
-n22[label="("]
-n19 -> n22
-n23[label=")"]
-n19 -> n23
-n24[label="{"]
-n19 -> n24
-n25[label="Instrucciones"]
-n19 -> n25
-n27[label="Impresion"]
-n25 -> n27
-n28[label="Impresión"]
-n27 -> n28
-n29[label="cout"]
-n28 -> n29
-n30[label="<<"]
-n28 -> n30
-n31[label="Expresión"]
-n28 -> n31
-n32[label="Nativo"]
-n33[label="Archivo de prueba
-"]
-n32 -> n33
-n31 -> n32
-n34[label="Impresion"]
-n25 -> n34
-n35[label="Impresión"]
-n34 -> n35
-n36[label="cout"]
-n35 -> n36
-n37[label="<<"]
-n35 -> n37
-n38[label="Expresión"]
-n35 -> n38
-n39[label="Nativo"]
-n40[label="Si sale compi1"]
-n39 -> n40
-n38 -> n39
-n41[label="<<"]
-n35 -> n41
-n42[label="endl"]
-n35 -> n42
-n43[label="Declaracion Variable"]
-n44[label="INT"]
-n43 -> n44
-n45[label="Ids"]
-n49[label="var1"]
-n45 -> n49
-n43 -> n45
-n47[label="="]
-n43 -> n47
-n48[label="Expresion"]
-n50[label="Nativo"]
-n51[label="10"]
-n50 -> n51
-n48 -> n50
-n43 -> n48
-n25 -> n43
-n46[label=";"]
-n43 -> n46
-n52[label="Raiz"]
-n25 -> n52
-n53[label="If"]
-n52 -> n53
-n54[label="Condición"]
-n53 -> n54
-n58[label="Operacion Relacional"]
-n54 -> n58
-n59[label="Expresion"]
-n61[label="=="]
-n60[label="Expresion"]
-n58 -> n59
-n58 -> n61
-n58 -> n60
-n62[label="AccessVar"]
-n62 -> n63
-n63[label="var1"]
-n59 -> n62
-n64[label="Nativo"]
-n65[label="0"]
-n64 -> n65
-n60 -> n64
-n55[label="{"]
-n53 -> n55
-n56[label="Bloque Then"]
-n53 -> n56
-n66[label="Bloque"]
-n67[label="{"]
-n66 -> n67
-n69[label="Instrucciones"]
-n70[label="Impresion"]
-n69 -> n70
-n71[label="Impresión"]
-n70 -> n71
-n72[label="cout"]
-n71 -> n72
-n73[label="<<"]
-n71 -> n73
-n74[label="Expresión"]
-n71 -> n74
-n75[label="Nativo"]
-n76[label="Manejo de ambitos erroneo :'("]
-n75 -> n76
-n74 -> n75
-n77[label="<<"]
-n71 -> n77
-n78[label="endl"]
-n71 -> n78
-n66 -> n69
-n68[label="}"]
-n66 -> n68
-n56 -> n66
-n57[label="}"]
-n53 -> n57
-n79[label="Else"]
-n53 -> n79
-n80[label="{"]
-n79 -> n80
-n81[label="Bloque Then"]
-n79 -> n81
-n83[label="Bloque"]
-n84[label="{"]
-n83 -> n84
-n86[label="Instrucciones"]
-n87[label="Impresion"]
-n86 -> n87
-n88[label="Impresión"]
-n87 -> n88
-n89[label="cout"]
-n88 -> n89
-n90[label="<<"]
-n88 -> n90
-n91[label="Expresión"]
-n88 -> n91
-n92[label="Nativo"]
-n93[label="Manejo de ambitos correcto"]
-n92 -> n93
-n91 -> n92
-n94[label="<<"]
-n88 -> n94
-n95[label="endl"]
-n88 -> n95
-n83 -> n86
-n85[label="}"]
-n83 -> n85
-n81 -> n83
-n82[label="}"]
-n79 -> n82
-n96[label="Funcion llamada"]
-n25 -> n96
-n97[label="Llamada"]
-n96 -> n97
-n98[label="tablaMultiplicar"]
-n97 -> n98
-n99[label="("]
-n97 -> n99
-n101[label="Parámetros"]
-n97 -> n101
-n102[label="Parámetro"]
-n101 -> n102
-n103[label="Nativo"]
-n104[label="5"]
-n103 -> n104
-n102 -> n103
-n100[label=")"]
-n97 -> n100
-n105[label="Funcion llamada"]
-n25 -> n105
-n106[label="Llamada"]
-n105 -> n106
-n107[label="recursividadBasica"]
-n106 -> n107
-n108[label="("]
-n106 -> n108
-n109[label=")"]
-n106 -> n109
-n110[label="Funcion llamada"]
-n25 -> n110
-n111[label="Llamada"]
-n110 -> n111
-n112[label="AnalizarArreglo"]
-n111 -> n112
-n113[label="("]
-n111 -> n113
-n115[label="Parámetros"]
-n111 -> n115
-n116[label="Parámetro"]
-n115 -> n116
-n117[label="AccessVar"]
-n117 -> n118
-n118[label="arreglo2"]
-n116 -> n117
-n114[label=")"]
-n111 -> n114
-n119[label="Impresion"]
-n25 -> n119
-n120[label="Impresión"]
-n119 -> n120
-n121[label="cout"]
-n120 -> n121
-n122[label="<<"]
-n120 -> n122
-n123[label="Expresión"]
-n120 -> n123
-n124[label="Nativo"]
-n125[label="Fin de la prueba"]
-n124 -> n125
-n123 -> n124
-n126[label="<<"]
-n120 -> n126
-n127[label="endl"]
-n120 -> n127
-n128[label="Impresion"]
-n25 -> n128
-n129[label="Impresión"]
-n128 -> n129
-n130[label="cout"]
-n129 -> n130
-n131[label="<<"]
-n129 -> n131
-n132[label="Expresión"]
-n129 -> n132
-n133[label="Nativo"]
-n134[label="Función factorial"]
-n133 -> n134
-n132 -> n133
-n135[label="<<"]
-n129 -> n135
-n136[label="endl"]
-n129 -> n136
-n137[label="Impresion"]
-n25 -> n137
-n138[label="Impresión"]
-n137 -> n138
-n139[label="cout"]
-n138 -> n139
-n140[label="<<"]
-n138 -> n140
-n141[label="Expresión"]
-n138 -> n141
-n142[label="Funcion llamada"]
-n141 -> n142
-n143[label="Llamada"]
-n142 -> n143
-n144[label="factorial"]
-n143 -> n144
-n145[label="("]
-n143 -> n145
-n147[label="Parámetros"]
-n143 -> n147
-n148[label="Parámetro"]
-n147 -> n148
-n149[label="Nativo"]
-n150[label="5"]
-n149 -> n150
-n148 -> n149
-n146[label=")"]
-n143 -> n146
-n151[label="<<"]
-n138 -> n151
-n152[label="endl"]
-n138 -> n152
-n153[label="Impresion"]
-n25 -> n153
-n154[label="Impresión"]
-n153 -> n154
-n155[label="cout"]
-n154 -> n155
-n156[label="<<"]
-n154 -> n156
-n157[label="Expresión"]
-n154 -> n157
-n158[label="Nativo"]
-n159[label="función ackerman"]
-n158 -> n159
-n157 -> n158
-n160[label="<<"]
-n154 -> n160
-n161[label="endl"]
-n154 -> n161
-n162[label="Impresion"]
-n25 -> n162
-n163[label="Impresión"]
-n162 -> n163
-n164[label="cout"]
-n163 -> n164
-n165[label="<<"]
-n163 -> n165
-n166[label="Expresión"]
-n163 -> n166
-n167[label="Funcion llamada"]
-n166 -> n167
-n168[label="Llamada"]
-n167 -> n168
-n169[label="ackerman"]
-n168 -> n169
-n170[label="("]
-n168 -> n170
-n172[label="Parámetros"]
-n168 -> n172
-n173[label="Parámetro"]
-n172 -> n173
-n174[label="Nativo"]
-n175[label="3"]
-n174 -> n175
-n173 -> n174
-n176[label="Parámetro"]
-n172 -> n176
-n177[label="Nativo"]
-n178[label="4"]
-n177 -> n178
-n176 -> n177
-n171[label=")"]
-n168 -> n171
-n179[label="<<"]
-n163 -> n179
-n180[label="endl"]
-n163 -> n180
-n181[label="Impresion"]
-n25 -> n181
-n182[label="Impresión"]
-n181 -> n182
-n183[label="cout"]
-n182 -> n183
-n184[label="<<"]
-n182 -> n184
-n185[label="Expresión"]
-n182 -> n185
-n186[label="Nativo"]
-n187[label="torres"]
-n186 -> n187
-n185 -> n186
-n188[label="<<"]
-n182 -> n188
-n189[label="endl"]
-n182 -> n189
-n190[label="Funcion llamada"]
-n25 -> n190
-n191[label="Llamada"]
-n190 -> n191
-n192[label="torres"]
-n191 -> n192
-n193[label="("]
-n191 -> n193
-n195[label="Parámetros"]
-n191 -> n195
-n196[label="Parámetro"]
-n195 -> n196
-n197[label="Nativo"]
-n198[label="3"]
-n197 -> n198
-n196 -> n197
-n199[label="Parámetro"]
-n195 -> n199
-n200[label="Nativo"]
-n201[label="A"]
-n200 -> n201
-n199 -> n200
-n202[label="Parámetro"]
-n195 -> n202
-n203[label="Nativo"]
-n204[label="C"]
-n203 -> n204
-n202 -> n203
-n205[label="Parámetro"]
-n195 -> n205
-n206[label="Nativo"]
-n207[label="B"]
-n206 -> n207
-n205 -> n206
-n194[label=")"]
-n191 -> n194
-n26[label="}"]
-n19 -> n26
-n208[label="Instruccion"]
-nCodigo -> n208
-n209[label="Declaracion de Funcion"]
-n208 -> n209
-n210[label="VOID"]
-n209 -> n210
-n211[label="tablamultiplicar"]
-n209 -> n211
-n212[label="("]
-n209 -> n212
-n217[label="Parametros"]
-n209 -> n217
-n218[label="Parametro"]
-n217 -> n218
-n219[label="INT"]
-n218 -> n219
-n220[label="valor"]
-n218 -> n220
-n213[label=")"]
-n209 -> n213
-n214[label="{"]
-n209 -> n214
-n215[label="Instrucciones"]
-n209 -> n215
-n221[label="Declaracion"]
-n225[label="STD"]
-n221 -> n225
-n226[label=":"]
-n221 -> n226
-n227[label=":"]
-n221 -> n227
-n228[label="STRING"]
-n221 -> n228
-n223[label="Ids"]
-n229[label="cadenaSalida"]
-n223 -> n229
-n230[label="="]
-n221 -> n230
-n231[label="Expresion"]
-n232[label="Nativo"]
-n233[label="Final de la tabla de multiplicar"]
-n232 -> n233
-n231 -> n232
-n221 -> n231
-n221 -> n223
-n224[label=";"]
-n221 -> n224
-n215 -> n221
-n234[label="Raiz"]
-n215 -> n234
-n235[label="For"]
-n234 -> n235
-n236[label="("]
-n235 -> n236
-n237[label="Declaración"]
-n235 -> n237
-n246[label="Declaracion Variable"]
-n247[label="INT"]
-n246 -> n247
-n248[label="Ids"]
-n252[label="i"]
-n248 -> n252
-n246 -> n248
-n250[label="="]
-n246 -> n250
-n251[label="Expresion"]
-n253[label="Nativo"]
-n254[label="1"]
-n253 -> n254
-n251 -> n253
-n246 -> n251
-n237 -> n246
-n249[label=";"]
-n246 -> n249
-n238[label=";"]
-n235 -> n238
-n239[label="Condición"]
-n235 -> n239
-n255[label="Operacion Relacional"]
-n239 -> n255
-n256[label="Expresion"]
-n258[label="<="]
-n257[label="Expresion"]
-n255 -> n256
-n255 -> n258
-n255 -> n257
-n259[label="AccessVar"]
-n259 -> n260
-n260[label="i"]
-n256 -> n259
-n261[label="Nativo"]
-n262[label="11"]
-n261 -> n262
-n257 -> n261
-n240[label=";"]
-n235 -> n240
-n241[label="Incremento"]
-n235 -> n241
-n263[label="Raiz"]
-n241 -> n263
-n264[label="Incremento/Decremento"]
-n263 -> n264
-n265[label="i"]
-n264 -> n265
-n266[label="++"]
-n264 -> n266
-n242[label=")"]
-n235 -> n242
-n243[label="{"]
-n235 -> n243
-n244[label="Bloque de Instrucciones"]
-n235 -> n244
-n267[label="Impresion"]
-n244 -> n267
-n268[label="Impresión"]
-n267 -> n268
-n269[label="cout"]
-n268 -> n269
-n270[label="<<"]
-n268 -> n270
-n271[label="Expresión"]
-n268 -> n271
-nodo273[label="Operacion Aritmetica"];
-n271 -> nodo273;
-nodo274[label="+"];
-nodo275[label="Expresion"];
-nodo276[label="Expresion"];
-nodo273 -> nodo274;
-nodo274 -> nodo275;
-nodo274 -> nodo276;
-nodo278[label="Operacion Aritmetica"];
-nodo275 -> nodo278;
-nodo279[label="+"];
-nodo280[label="Expresion"];
-nodo281[label="Expresion"];
-nodo278 -> nodo279;
-nodo279 -> nodo280;
-nodo279 -> nodo281;
-nodo283[label="Operacion Aritmetica"];
-nodo280 -> nodo283;
-nodo284[label="+"];
-nodo285[label="Expresion"];
-nodo286[label="Expresion"];
-nodo283 -> nodo284;
-nodo284 -> nodo285;
-nodo284 -> nodo286;
-nodo288[label="Operacion Aritmetica"];
-nodo285 -> nodo288;
-nodo289[label="+"];
-nodo290[label="Expresion"];
-nodo291[label="Expresion"];
-nodo288 -> nodo289;
-nodo289 -> nodo290;
-nodo289 -> nodo291;
-n292[label="AccessVar"]
-n292 -> n293
-n293[label="valor"]
-nodo290 -> n292
-n294[label="Nativo"]
-n295[label=" x "]
-n294 -> n295
-nodo291 -> n294
-n296[label="AccessVar"]
-n296 -> n297
-n297[label="i"]
-nodo286 -> n296
-n298[label="Nativo"]
-n299[label=" = "]
-n298 -> n299
-nodo281 -> n298
-nodo301[label="Operacion Aritmetica"];
-nodo276 -> nodo301;
-nodo302[label="*"];
-nodo303[label="Expresion"];
-nodo304[label="Expresion"];
-nodo301 -> nodo302;
-nodo302 -> nodo303;
-nodo302 -> nodo304;
-n305[label="AccessVar"]
-n305 -> n306
-n306[label="valor"]
-nodo303 -> n305
-n307[label="AccessVar"]
-n307 -> n308
-n308[label="i"]
-nodo304 -> n307
-n309[label="<<"]
-n268 -> n309
-n310[label="endl"]
-n268 -> n310
-n311[label="Raiz"]
-n244 -> n311
-n312[label="If"]
-n311 -> n312
-n313[label="Condición"]
-n312 -> n313
-n317[label="Operacion Relacional"]
-n313 -> n317
-n318[label="Expresion"]
-n320[label="=="]
-n319[label="Expresion"]
-n317 -> n318
-n317 -> n320
-n317 -> n319
-n321[label="AccessVar"]
-n321 -> n322
-n322[label="i"]
-n318 -> n321
-n323[label="Nativo"]
-n324[label="11"]
-n323 -> n324
-n319 -> n323
-n314[label="{"]
-n312 -> n314
-n315[label="Bloque Then"]
-n312 -> n315
-n325[label="Bloque"]
-n326[label="{"]
-n325 -> n326
-n328[label="Instrucciones"]
-n329[label="Impresion"]
-n328 -> n329
-n330[label="Impresión"]
-n329 -> n330
-n331[label="cout"]
-n330 -> n331
-n332[label="<<"]
-n330 -> n332
-n333[label="Expresión"]
-n330 -> n333
-n334[label="AccessVar"]
-n334 -> n335
-n335[label="cadenaSalida"]
-n333 -> n334
-n336[label="<<"]
-n330 -> n336
-n337[label="endl"]
-n330 -> n337
-n338[label="Break"]
-n339[label="BREAK"]
-n338 -> n339
-n340[label=";"]
-n338 -> n340
-n328 -> n338
-n325 -> n328
-n327[label="}"]
-n325 -> n327
-n315 -> n325
-n316[label="}"]
-n312 -> n316
-n245[label="}"]
-n235 -> n245
-n216[label="}"]
-n209 -> n216
-n341[label="Instruccion"]
-nCodigo -> n341
-n342[label="Declaracion de Funcion"]
-n341 -> n342
-n343[label="INT"]
-n342 -> n343
-n344[label="mcd"]
-n342 -> n344
-n345[label="("]
-n342 -> n345
-n350[label="Parametros"]
-n342 -> n350
-n351[label="Parametro"]
-n350 -> n351
-n352[label="INT"]
-n351 -> n352
-n353[label="a"]
-n351 -> n353
-n354[label="Parametro"]
-n350 -> n354
-n355[label="INT"]
-n354 -> n355
-n356[label="b"]
-n354 -> n356
-n346[label=")"]
-n342 -> n346
-n347[label="{"]
-n342 -> n347
-n348[label="Instrucciones"]
-n342 -> n348
-n357[label="Raiz"]
-n348 -> n357
-n358[label="If"]
-n357 -> n358
-n359[label="Condición"]
-n358 -> n359
-n363[label="Operacion Relacional"]
-n359 -> n363
-n364[label="Expresion"]
-n366[label="=="]
-n365[label="Expresion"]
-n363 -> n364
-n363 -> n366
-n363 -> n365
-n367[label="AccessVar"]
-n367 -> n368
-n368[label="b"]
-n364 -> n367
-n369[label="Nativo"]
-n370[label="0"]
-n369 -> n370
-n365 -> n369
-n360[label="{"]
-n358 -> n360
-n361[label="Bloque Then"]
-n358 -> n361
-n371[label="Bloque"]
-n372[label="{"]
-n371 -> n372
-n374[label="Instrucciones"]
-n375[label="Return"]
-n374 -> n375
-n376[label="return"]
-n375 -> n376
-n378[label="AccessVar"]
-n378 -> n379
-n379[label="a"]
-n375 -> n378
-n377[label=";"]
-n375 -> n377
-n371 -> n374
-n373[label="}"]
-n371 -> n373
-n361 -> n371
-n362[label="}"]
-n358 -> n362
-n380[label="Else"]
-n358 -> n380
-n381[label="{"]
-n380 -> n381
-n382[label="Bloque Then"]
-n380 -> n382
-n384[label="Bloque"]
-n385[label="{"]
-n384 -> n385
-n387[label="Instrucciones"]
-n388[label="Return"]
-n387 -> n388
-n389[label="return"]
-n388 -> n389
-n391[label="Funcion llamada"]
-n388 -> n391
-n392[label="Llamada"]
-n391 -> n392
-n393[label="mcd"]
-n392 -> n393
-n394[label="("]
-n392 -> n394
-n396[label="Parámetros"]
-n392 -> n396
-n397[label="Parámetro"]
-n396 -> n397
-n398[label="AccessVar"]
-n398 -> n399
-n399[label="b"]
-n397 -> n398
-n400[label="Parámetro"]
-n396 -> n400
-n401[label="Casteos"]
-n402[label="Tipo"]
-n403[label="0"]
-n404[label="Expresion"]
-n400 -> n401
-n401 -> n402
-n402 -> n403
-n401 -> n404
-nodo406[label="Operacion Aritmetica"];
-n404 -> nodo406;
-nodo407[label="%"];
-nodo408[label="Expresion"];
-nodo409[label="Expresion"];
-nodo406 -> nodo407;
-nodo407 -> nodo408;
-nodo407 -> nodo409;
-n410[label="AccessVar"]
-n410 -> n411
-n411[label="a"]
-nodo408 -> n410
-n412[label="AccessVar"]
-n412 -> n413
-n413[label="b"]
-nodo409 -> n412
-n395[label=")"]
-n392 -> n395
-n390[label=";"]
-n388 -> n390
-n384 -> n387
-n386[label="}"]
-n384 -> n386
-n382 -> n384
-n383[label="}"]
-n380 -> n383
-n349[label="}"]
-n342 -> n349
-n414[label="Instruccion"]
-nCodigo -> n414
-n415[label="Declaracion de Funcion"]
-n414 -> n415
-n416[label="INT"]
-n415 -> n416
-n417[label="factorial"]
-n415 -> n417
-n418[label="("]
-n415 -> n418
-n423[label="Parametros"]
-n415 -> n423
-n424[label="Parametro"]
-n423 -> n424
-n425[label="INT"]
-n424 -> n425
-n426[label="n"]
-n424 -> n426
-n419[label=")"]
-n415 -> n419
-n420[label="{"]
-n415 -> n420
-n421[label="Instrucciones"]
-n415 -> n421
-n427[label="Raiz"]
-n421 -> n427
-n428[label="If"]
-n427 -> n428
-n429[label="Condición"]
-n428 -> n429
-n433[label="Operacion Relacional"]
-n429 -> n433
-n434[label="Expresion"]
-n436[label="=="]
-n435[label="Expresion"]
-n433 -> n434
-n433 -> n436
-n433 -> n435
-n437[label="AccessVar"]
-n437 -> n438
-n438[label="n"]
-n434 -> n437
-n439[label="Nativo"]
-n440[label="0"]
-n439 -> n440
-n435 -> n439
-n430[label="{"]
-n428 -> n430
-n431[label="Bloque Then"]
-n428 -> n431
-n441[label="Bloque"]
-n442[label="{"]
-n441 -> n442
-n444[label="Instrucciones"]
-n445[label="Return"]
-n444 -> n445
-n446[label="return"]
-n445 -> n446
-n448[label="Nativo"]
-n449[label="1"]
-n448 -> n449
-n445 -> n448
-n447[label=";"]
-n445 -> n447
-n441 -> n444
-n443[label="}"]
-n441 -> n443
-n431 -> n441
-n432[label="}"]
-n428 -> n432
-n450[label="Else"]
-n428 -> n450
-n451[label="{"]
-n450 -> n451
-n452[label="Bloque Then"]
-n450 -> n452
-n454[label="Bloque"]
-n455[label="{"]
-n454 -> n455
-n457[label="Instrucciones"]
-n458[label="Return"]
-n457 -> n458
-n459[label="return"]
-n458 -> n459
-nodo462[label="Operacion Aritmetica"];
-n458 -> nodo462;
-nodo463[label="*"];
-nodo464[label="Expresion"];
-nodo465[label="Expresion"];
-nodo462 -> nodo463;
-nodo463 -> nodo464;
-nodo463 -> nodo465;
-n466[label="AccessVar"]
-n466 -> n467
-n467[label="n"]
-nodo464 -> n466
-n468[label="Funcion llamada"]
-nodo465 -> n468
-n469[label="Llamada"]
-n468 -> n469
-n470[label="factorial"]
-n469 -> n470
-n471[label="("]
-n469 -> n471
-n473[label="Parámetros"]
-n469 -> n473
-n474[label="Parámetro"]
-n473 -> n474
-nodo476[label="Operacion Aritmetica"];
-n474 -> nodo476;
-nodo477[label="-"];
-nodo478[label="Expresion"];
-nodo479[label="Expresion"];
-nodo476 -> nodo477;
-nodo477 -> nodo478;
-nodo477 -> nodo479;
-n480[label="AccessVar"]
-n480 -> n481
-n481[label="n"]
-nodo478 -> n480
-n482[label="Nativo"]
-n483[label="1"]
-n482 -> n483
-nodo479 -> n482
-n472[label=")"]
-n469 -> n472
-n460[label=";"]
-n458 -> n460
-n454 -> n457
-n456[label="}"]
-n454 -> n456
-n452 -> n454
-n453[label="}"]
-n450 -> n453
-n422[label="}"]
-n415 -> n422
-n484[label="Instruccion"]
-nCodigo -> n484
-n485[label="Declaracion de Funcion"]
-n484 -> n485
-n486[label="INT"]
-n485 -> n486
-n487[label="ackerman"]
-n485 -> n487
-n488[label="("]
-n485 -> n488
-n493[label="Parametros"]
-n485 -> n493
-n494[label="Parametro"]
-n493 -> n494
-n495[label="INT"]
-n494 -> n495
-n496[label="m"]
-n494 -> n496
-n497[label="Parametro"]
-n493 -> n497
-n498[label="INT"]
-n497 -> n498
-n499[label="n"]
-n497 -> n499
-n489[label=")"]
-n485 -> n489
-n490[label="{"]
-n485 -> n490
-n491[label="Instrucciones"]
-n485 -> n491
-n500[label="Raiz"]
-n491 -> n500
-n501[label="If"]
-n500 -> n501
-n502[label="Condición"]
-n501 -> n502
-n506[label="Operacion Relacional"]
-n502 -> n506
-n507[label="Expresion"]
-n509[label="=="]
-n508[label="Expresion"]
-n506 -> n507
-n506 -> n509
-n506 -> n508
-n510[label="AccessVar"]
-n510 -> n511
-n511[label="m"]
-n507 -> n510
-n512[label="Nativo"]
-n513[label="0"]
-n512 -> n513
-n508 -> n512
-n503[label="{"]
-n501 -> n503
-n504[label="Bloque Then"]
-n501 -> n504
-n514[label="Bloque"]
-n515[label="{"]
-n514 -> n515
-n517[label="Instrucciones"]
-n518[label="Return"]
-n517 -> n518
-n519[label="return"]
-n518 -> n519
-nodo522[label="Operacion Aritmetica"];
-n518 -> nodo522;
-nodo523[label="+"];
-nodo524[label="Expresion"];
-nodo525[label="Expresion"];
-nodo522 -> nodo523;
-nodo523 -> nodo524;
-nodo523 -> nodo525;
-n526[label="AccessVar"]
-n526 -> n527
-n527[label="n"]
-nodo524 -> n526
-n528[label="Nativo"]
-n529[label="1"]
-n528 -> n529
-nodo525 -> n528
-n520[label=";"]
-n518 -> n520
-n514 -> n517
-n516[label="}"]
-n514 -> n516
-n504 -> n514
-n505[label="}"]
-n501 -> n505
-n530[label="Else"]
-n501 -> n530
-n531[label="{"]
-n530 -> n531
-n532[label="Bloque Then"]
-n530 -> n532
-n534[label="Raiz"]
-n532 -> n534
-n535[label="If"]
-n534 -> n535
-n536[label="Condición"]
-n535 -> n536
-n540[label="Operacion Relacional"]
-n536 -> n540
-n541[label="Expresion"]
-n543[label="=="]
-n542[label="Expresion"]
-n540 -> n541
-n540 -> n543
-n540 -> n542
-n544[label="AccessVar"]
-n544 -> n545
-n545[label="n"]
-n541 -> n544
-n546[label="Nativo"]
-n547[label="0"]
-n546 -> n547
-n542 -> n546
-n537[label="{"]
-n535 -> n537
-n538[label="Bloque Then"]
-n535 -> n538
-n548[label="Bloque"]
-n549[label="{"]
-n548 -> n549
-n551[label="Instrucciones"]
-n552[label="Return"]
-n551 -> n552
-n553[label="return"]
-n552 -> n553
-n555[label="Funcion llamada"]
-n552 -> n555
-n556[label="Llamada"]
-n555 -> n556
-n557[label="ackerman"]
-n556 -> n557
-n558[label="("]
-n556 -> n558
-n560[label="Parámetros"]
-n556 -> n560
-n561[label="Parámetro"]
-n560 -> n561
-nodo563[label="Operacion Aritmetica"];
-n561 -> nodo563;
-nodo564[label="-"];
-nodo565[label="Expresion"];
-nodo566[label="Expresion"];
-nodo563 -> nodo564;
-nodo564 -> nodo565;
-nodo564 -> nodo566;
-n567[label="AccessVar"]
-n567 -> n568
-n568[label="m"]
-nodo565 -> n567
-n569[label="Nativo"]
-n570[label="1"]
-n569 -> n570
-nodo566 -> n569
-n571[label="Parámetro"]
-n560 -> n571
-n572[label="Nativo"]
-n573[label="1"]
-n572 -> n573
-n571 -> n572
-n559[label=")"]
-n556 -> n559
-n554[label=";"]
-n552 -> n554
-n548 -> n551
-n550[label="}"]
-n548 -> n550
-n538 -> n548
-n539[label="}"]
-n535 -> n539
-n574[label="Else"]
-n535 -> n574
-n575[label="{"]
-n574 -> n575
-n576[label="Bloque Then"]
-n574 -> n576
-n578[label="Bloque"]
-n579[label="{"]
-n578 -> n579
-n581[label="Instrucciones"]
-n582[label="Return"]
-n581 -> n582
-n583[label="return"]
-n582 -> n583
-n585[label="Funcion llamada"]
-n582 -> n585
-n586[label="Llamada"]
-n585 -> n586
-n587[label="ackerman"]
-n586 -> n587
-n588[label="("]
-n586 -> n588
-n590[label="Parámetros"]
-n586 -> n590
-n591[label="Parámetro"]
-n590 -> n591
-nodo593[label="Operacion Aritmetica"];
-n591 -> nodo593;
-nodo594[label="-"];
-nodo595[label="Expresion"];
-nodo596[label="Expresion"];
-nodo593 -> nodo594;
-nodo594 -> nodo595;
-nodo594 -> nodo596;
-n597[label="AccessVar"]
-n597 -> n598
-n598[label="m"]
-nodo595 -> n597
-n599[label="Nativo"]
-n600[label="1"]
-n599 -> n600
-nodo596 -> n599
-n601[label="Parámetro"]
-n590 -> n601
-n602[label="Funcion llamada"]
-n601 -> n602
-n603[label="Llamada"]
-n602 -> n603
-n604[label="ackerman"]
-n603 -> n604
-n605[label="("]
-n603 -> n605
-n607[label="Parámetros"]
-n603 -> n607
-n608[label="Parámetro"]
-n607 -> n608
-n609[label="AccessVar"]
-n609 -> n610
-n610[label="m"]
-n608 -> n609
-n611[label="Parámetro"]
-n607 -> n611
-nodo613[label="Operacion Aritmetica"];
-n611 -> nodo613;
-nodo614[label="-"];
-nodo615[label="Expresion"];
-nodo616[label="Expresion"];
-nodo613 -> nodo614;
-nodo614 -> nodo615;
-nodo614 -> nodo616;
-n617[label="AccessVar"]
-n617 -> n618
-n618[label="n"]
-nodo615 -> n617
-n619[label="Nativo"]
-n620[label="1"]
-n619 -> n620
-nodo616 -> n619
-n606[label=")"]
-n603 -> n606
-n589[label=")"]
-n586 -> n589
-n584[label=";"]
-n582 -> n584
-n578 -> n581
-n580[label="}"]
-n578 -> n580
-n576 -> n578
-n577[label="}"]
-n574 -> n577
-n533[label="}"]
-n530 -> n533
-n492[label="}"]
-n485 -> n492
-n621[label="Instruccion"]
-nCodigo -> n621
-n622[label="Declaracion de Funcion"]
-n621 -> n622
-n623[label="VOID"]
-n622 -> n623
-n624[label="recursividadbasica"]
-n622 -> n624
-n625[label="("]
-n622 -> n625
-n626[label=")"]
-n622 -> n626
-n627[label="{"]
-n622 -> n627
-n628[label="Instrucciones"]
-n622 -> n628
-n630[label="Declaracion Variable"]
-n631[label="INT"]
-n630 -> n631
-n632[label="Ids"]
-n636[label="resultado"]
-n632 -> n636
-n630 -> n632
-n634[label="="]
-n630 -> n634
-n635[label="Expresion"]
-n637[label="Funcion llamada"]
-n635 -> n637
-n638[label="Llamada"]
-n637 -> n638
-n639[label="mcd"]
-n638 -> n639
-n640[label="("]
-n638 -> n640
-n642[label="Parámetros"]
-n638 -> n642
-n643[label="Parámetro"]
-n642 -> n643
-n644[label="Nativo"]
-n645[label="48"]
-n644 -> n645
-n643 -> n644
-n646[label="Parámetro"]
-n642 -> n646
-n647[label="Nativo"]
-n648[label="18"]
-n647 -> n648
-n646 -> n647
-n641[label=")"]
-n638 -> n641
-n630 -> n635
-n628 -> n630
-n633[label=";"]
-n630 -> n633
-n649[label="Raiz"]
-n628 -> n649
-n650[label="If"]
-n649 -> n650
-n651[label="Condición"]
-n650 -> n651
-n655[label="Operacion Relacional"]
-n651 -> n655
-n656[label="Expresion"]
-n658[label="=="]
-n657[label="Expresion"]
-n655 -> n656
-n655 -> n658
-n655 -> n657
-n659[label="AccessVar"]
-n659 -> n660
-n660[label="resultado"]
-n656 -> n659
-n661[label="Nativo"]
-n662[label="6"]
-n661 -> n662
-n657 -> n661
-n652[label="{"]
-n650 -> n652
-n653[label="Bloque Then"]
-n650 -> n653
-n663[label="Bloque"]
-n664[label="{"]
-n663 -> n664
-n666[label="Instrucciones"]
-n667[label="Impresion"]
-n666 -> n667
-n668[label="Impresión"]
-n667 -> n668
-n669[label="cout"]
-n668 -> n669
-n670[label="<<"]
-n668 -> n670
-n671[label="Expresión"]
-n668 -> n671
-n672[label="Nativo"]
-n673[label="Funcion recursiva correcta"]
-n672 -> n673
-n671 -> n672
-n674[label="<<"]
-n668 -> n674
-n675[label="endl"]
-n668 -> n675
-n676[label="Return"]
-n666 -> n676
-n678[label=";"]
-n676 -> n678
-n663 -> n666
-n665[label="}"]
-n663 -> n665
-n653 -> n663
-n654[label="}"]
-n650 -> n654
-n679[label="Impresion"]
-n628 -> n679
-n680[label="Impresión"]
-n679 -> n680
-n681[label="cout"]
-n680 -> n681
-n682[label="<<"]
-n680 -> n682
-n683[label="Expresión"]
-n680 -> n683
-n684[label="Nativo"]
-n685[label="Funcion recursiva incorrecta"]
-n684 -> n685
-n683 -> n684
-n686[label="<<"]
-n680 -> n686
-n687[label="endl"]
-n680 -> n687
-n629[label="}"]
-n622 -> n629
-n688[label="Instruccion"]
-nCodigo -> n688
-n689[label="Declaracion de Funcion"]
-n688 -> n689
-n690[label="VOID"]
-n689 -> n690
-n691[label="analizararreglo"]
-n689 -> n691
-n692[label="("]
-n689 -> n692
-n697[label="Parametros"]
-n689 -> n697
-n698[label="Parametro"]
-n697 -> n698
-n699[label="INT"]
-n698 -> n699
-n700[label="arreglo"]
-n698 -> n700
-n701[label="["]
-n698 -> n701
-n702[label="]"]
-n698 -> n702
-n703[label="["]
-n698 -> n703
-n704[label="]"]
-n698 -> n704
-n693[label=")"]
-n689 -> n693
-n694[label="{"]
-n689 -> n694
-n695[label="Instrucciones"]
-n689 -> n695
-n705[label="Declaracion Variable"]
-n706[label="INT"]
-n705 -> n706
-n707[label="Ids"]
-n705 -> n707
-n709[label="temporal"]
-n707 -> n709
-n710[label="suma"]
-n707 -> n710
-n711[label="ceros"]
-n707 -> n711
-n695 -> n705
-n708[label=";"]
-n705 -> n708
-n712[label="Raiz"]
-n695 -> n712
-n713[label="For"]
-n712 -> n713
-n714[label="("]
-n713 -> n714
-n715[label="Declaración"]
-n713 -> n715
-n724[label="Declaracion Variable"]
-n725[label="INT"]
-n724 -> n725
-n726[label="Ids"]
-n730[label="i"]
-n726 -> n730
-n724 -> n726
-n728[label="="]
-n724 -> n728
-n729[label="Expresion"]
-n731[label="Nativo"]
-n732[label="0"]
-n731 -> n732
-n729 -> n731
-n724 -> n729
-n715 -> n724
-n727[label=";"]
-n724 -> n727
-n716[label=";"]
-n713 -> n716
-n717[label="Condición"]
-n713 -> n717
-n733[label="Operacion Relacional"]
-n717 -> n733
-n734[label="Expresion"]
-n736[label="<"]
-n735[label="Expresion"]
-n733 -> n734
-n733 -> n736
-n733 -> n735
-n737[label="AccessVar"]
-n737 -> n738
-n738[label="i"]
-n734 -> n737
-n739[label="Length"]
-n745[label="AccessVar"]
-n745 -> n746
-n746[label="arreglo"]
-n740 -> n745
-n740[label="ID"]
-n739 -> n740
-n741[label="."]n739 -> n741
-n742[label="LENGTH"]
-n739 -> n742
-n743[label="("]
-n739 -> n743
-n744[label=")"]
-n739 -> n744
-n735 -> n739
-n718[label=";"]
-n713 -> n718
-n719[label="Incremento"]
-n713 -> n719
-n747[label="Raiz"]
-n719 -> n747
-n748[label="Incremento/Decremento"]
-n747 -> n748
-n749[label="i"]
-n748 -> n749
-n750[label="++"]
-n748 -> n750
-n720[label=")"]
-n713 -> n720
-n721[label="{"]
-n713 -> n721
-n722[label="Bloque de Instrucciones"]
-n713 -> n722
-n751[label="VariablesA"]
-n752[label="IDS"]
-n751 -> n752
-n756[label="temporal"]
-n752 -> n756
-n753[label="="]
-n751 -> n753
-n754[label="Expresion"]
-n757[label="AccesoVec"]
-n754 -> n757
-n757 -> n758
-n758[label="arreglo"]
-n759[label="["]
-n757 -> n759
-n760[label="Expresion"]
-n757 -> n760
-n762[label="AccessVar"]
-n762 -> n763
-n763[label="i"]
-n760 -> n762
-n761[label="]"]
-n757 -> n761
-n751 -> n754
-n755[label=";"]
-n751 -> n755
-n722 -> n751
-n764[label="Raiz"]
-n722 -> n764
-n765[label="If"]
-n764 -> n765
-n766[label="Condición"]
-n765 -> n766
-n770[label="Operacion Relacional"]
-n766 -> n770
-n771[label="Expresion"]
-n773[label="=="]
-n772[label="Expresion"]
-n770 -> n771
-n770 -> n773
-n770 -> n772
-n774[label="AccessVar"]
-n774 -> n775
-n775[label="temporal"]
-n771 -> n774
-n776[label="Nativo"]
-n777[label="0"]
-n776 -> n777
-n772 -> n776
-n767[label="{"]
-n765 -> n767
-n768[label="Bloque Then"]
-n765 -> n768
-n778[label="Bloque"]
-n779[label="{"]
-n778 -> n779
-n781[label="Instrucciones"]
-n782[label="VariablesA"]
-n783[label="IDS"]
-n782 -> n783
-n787[label="ceros"]
-n783 -> n787
-n784[label="="]
-n782 -> n784
-n785[label="Expresion"]
-nodo789[label="Operacion Aritmetica"];
-n785 -> nodo789;
-nodo790[label="+"];
-nodo791[label="Expresion"];
-nodo792[label="Expresion"];
-nodo789 -> nodo790;
-nodo790 -> nodo791;
-nodo790 -> nodo792;
-n793[label="AccessVar"]
-n793 -> n794
-n794[label="ceros"]
-nodo791 -> n793
-n795[label="Nativo"]
-n796[label="1"]
-n795 -> n796
-nodo792 -> n795
-n782 -> n785
-n786[label=";"]
-n782 -> n786
-n781 -> n782
-n797[label="Continue"]
-n798[label="CONTINUE"]
-n797 -> n798
-n799[label=";"]
-n797 -> n799
-n781 -> n797
-n778 -> n781
-n780[label="}"]
-n778 -> n780
-n768 -> n778
-n769[label="}"]
-n765 -> n769
-n800[label="VariablesA"]
-n801[label="IDS"]
-n800 -> n801
-n805[label="suma"]
-n801 -> n805
-n802[label="="]
-n800 -> n802
-n803[label="Expresion"]
-nodo807[label="Operacion Aritmetica"];
-n803 -> nodo807;
-nodo808[label="+"];
-nodo809[label="Expresion"];
-nodo810[label="Expresion"];
-nodo807 -> nodo808;
-nodo808 -> nodo809;
-nodo808 -> nodo810;
-n811[label="AccessVar"]
-n811 -> n812
-n812[label="suma"]
-nodo809 -> n811
-n813[label="AccessVar"]
-n813 -> n814
-n814[label="temporal"]
-nodo810 -> n813
-n800 -> n803
-n804[label=";"]
-n800 -> n804
-n722 -> n800
-n723[label="}"]
-n713 -> n723
-n815[label="Impresion"]
-n695 -> n815
-n816[label="Impresión"]
-n815 -> n816
-n817[label="cout"]
-n816 -> n817
-n818[label="<<"]
-n816 -> n818
-n819[label="Expresión"]
-n816 -> n819
-nodo821[label="Operacion Aritmetica"];
-n819 -> nodo821;
-nodo822[label="+"];
-nodo823[label="Expresion"];
-nodo824[label="Expresion"];
-nodo821 -> nodo822;
-nodo822 -> nodo823;
-nodo822 -> nodo824;
-n825[label="Nativo"]
-n826[label="La suma de los elementos del arreglo es: "]
-n825 -> n826
-nodo823 -> n825
-n827[label="AccessVar"]
-n827 -> n828
-n828[label="suma"]
-nodo824 -> n827
-n829[label="<<"]
-n816 -> n829
-n830[label="endl"]
-n816 -> n830
-n831[label="Impresion"]
-n695 -> n831
-n832[label="Impresión"]
-n831 -> n832
-n833[label="cout"]
-n832 -> n833
-n834[label="<<"]
-n832 -> n834
-n835[label="Expresión"]
-n832 -> n835
-nodo837[label="Operacion Aritmetica"];
-n835 -> nodo837;
-nodo838[label="+"];
-nodo839[label="Expresion"];
-nodo840[label="Expresion"];
-nodo837 -> nodo838;
-nodo838 -> nodo839;
-nodo838 -> nodo840;
-n841[label="Nativo"]
-n842[label="La cantidad de ceros en el arreglo es: "]
-n841 -> n842
-nodo839 -> n841
-n843[label="AccessVar"]
-n843 -> n844
-n844[label="ceros"]
-nodo840 -> n843
-n845[label="<<"]
-n832 -> n845
-n846[label="endl"]
-n832 -> n846
-n696[label="}"]
-n689 -> n696
-n847[label="Instruccion"]
-nCodigo -> n847
-n848[label="Declaracion de Funcion"]
-n847 -> n848
-n849[label="VOID"]
-n848 -> n849
-n850[label="torres"]
-n848 -> n850
-n851[label="("]
-n848 -> n851
-n856[label="Parametros"]
-n848 -> n856
-n857[label="Parametro"]
-n856 -> n857
-n858[label="INT"]
-n857 -> n858
-n859[label="n"]
-n857 -> n859
-n860[label="Parametro"]
-n856 -> n860
-n861[label="CHAR"]
-n860 -> n861
-n862[label="origen"]
-n860 -> n862
-n863[label="Parametro"]
-n856 -> n863
-n864[label="CHAR"]
-n863 -> n864
-n865[label="destino"]
-n863 -> n865
-n866[label="Parametro"]
-n856 -> n866
-n867[label="CHAR"]
-n866 -> n867
-n868[label="auxiliar"]
-n866 -> n868
-n852[label=")"]
-n848 -> n852
-n853[label="{"]
-n848 -> n853
-n854[label="Instrucciones"]
-n848 -> n854
-n869[label="Raiz"]
-n854 -> n869
-n870[label="If"]
-n869 -> n870
-n871[label="Condición"]
-n870 -> n871
-n875[label="Operacion Relacional"]
-n871 -> n875
-n876[label="Expresion"]
-n878[label=">"]
-n877[label="Expresion"]
-n875 -> n876
-n875 -> n878
-n875 -> n877
-n879[label="AccessVar"]
-n879 -> n880
-n880[label="n"]
-n876 -> n879
-n881[label="Nativo"]
-n882[label="0"]
-n881 -> n882
-n877 -> n881
-n872[label="{"]
-n870 -> n872
-n873[label="Bloque Then"]
-n870 -> n873
-n883[label="Bloque"]
-n884[label="{"]
-n883 -> n884
-n886[label="Instrucciones"]
-n887[label="Funcion llamada"]
-n886 -> n887
-n888[label="Llamada"]
-n887 -> n888
-n889[label="torres"]
-n888 -> n889
-n890[label="("]
-n888 -> n890
-n892[label="Parámetros"]
-n888 -> n892
-n893[label="Parámetro"]
-n892 -> n893
-nodo895[label="Operacion Aritmetica"];
-n893 -> nodo895;
-nodo896[label="-"];
-nodo897[label="Expresion"];
-nodo898[label="Expresion"];
-nodo895 -> nodo896;
-nodo896 -> nodo897;
-nodo896 -> nodo898;
-n899[label="AccessVar"]
-n899 -> n900
-n900[label="n"]
-nodo897 -> n899
-n901[label="Nativo"]
-n902[label="1"]
-n901 -> n902
-nodo898 -> n901
-n903[label="Parámetro"]
-n892 -> n903
-n904[label="AccessVar"]
-n904 -> n905
-n905[label="origen"]
-n903 -> n904
-n906[label="Parámetro"]
-n892 -> n906
-n907[label="AccessVar"]
-n907 -> n908
-n908[label="auxiliar"]
-n906 -> n907
-n909[label="Parámetro"]
-n892 -> n909
-n910[label="AccessVar"]
-n910 -> n911
-n911[label="destino"]
-n909 -> n910
-n891[label=")"]
-n888 -> n891
-n912[label="Impresion"]
-n886 -> n912
-n913[label="Impresión"]
-n912 -> n913
-n914[label="cout"]
-n913 -> n914
-n915[label="<<"]
-n913 -> n915
-n916[label="Expresión"]
-n913 -> n916
-nodo918[label="Operacion Aritmetica"];
-n916 -> nodo918;
-nodo919[label="+"];
-nodo920[label="Expresion"];
-nodo921[label="Expresion"];
-nodo918 -> nodo919;
-nodo919 -> nodo920;
-nodo919 -> nodo921;
-nodo923[label="Operacion Aritmetica"];
-nodo920 -> nodo923;
-nodo924[label="+"];
-nodo925[label="Expresion"];
-nodo926[label="Expresion"];
-nodo923 -> nodo924;
-nodo924 -> nodo925;
-nodo924 -> nodo926;
-nodo928[label="Operacion Aritmetica"];
-nodo925 -> nodo928;
-nodo929[label="+"];
-nodo930[label="Expresion"];
-nodo931[label="Expresion"];
-nodo928 -> nodo929;
-nodo929 -> nodo930;
-nodo929 -> nodo931;
-n932[label="Nativo"]
-n933[label="Mueve un disco de "]
-n932 -> n933
-nodo930 -> n932
-n934[label="AccessVar"]
-n934 -> n935
-n935[label="origen"]
-nodo931 -> n934
-n936[label="Nativo"]
-n937[label=" a "]
-n936 -> n937
-nodo926 -> n936
-n938[label="AccessVar"]
-n938 -> n939
-n939[label="destino"]
-nodo921 -> n938
-n940[label="<<"]
-n913 -> n940
-n941[label="endl"]
-n913 -> n941
-n942[label="Funcion llamada"]
-n886 -> n942
-n943[label="Llamada"]
-n942 -> n943
-n944[label="torres"]
-n943 -> n944
-n945[label="("]
-n943 -> n945
-n947[label="Parámetros"]
-n943 -> n947
-n948[label="Parámetro"]
-n947 -> n948
-nodo950[label="Operacion Aritmetica"];
-n948 -> nodo950;
-nodo951[label="-"];
-nodo952[label="Expresion"];
-nodo953[label="Expresion"];
-nodo950 -> nodo951;
-nodo951 -> nodo952;
-nodo951 -> nodo953;
-n954[label="AccessVar"]
-n954 -> n955
-n955[label="n"]
-nodo952 -> n954
-n956[label="Nativo"]
-n957[label="1"]
-n956 -> n957
-nodo953 -> n956
-n958[label="Parámetro"]
-n947 -> n958
-n959[label="AccessVar"]
-n959 -> n960
-n960[label="auxiliar"]
-n958 -> n959
-n961[label="Parámetro"]
-n947 -> n961
-n962[label="AccessVar"]
-n962 -> n963
-n963[label="destino"]
-n961 -> n962
-n964[label="Parámetro"]
-n947 -> n964
-n965[label="AccessVar"]
-n965 -> n966
-n966[label="origen"]
-n964 -> n965
-n946[label=")"]
-n943 -> n946
-n883 -> n886
-n885[label="}"]
-n883 -> n885
-n873 -> n883
-n874[label="}"]
-n870 -> n874
-n855[label="}"]
-n848 -> n855
+n10625[label="Instruccion"]
+nCodigo -> n10625
+n10626[label="Declaracion de Funcion"]
+n10625 -> n10626
+n10627[label="INT"]
+n10626 -> n10627
+n10628[label="fibonacci"]
+n10626 -> n10628
+n10629[label="("]
+n10626 -> n10629
+n10634[label="Parametros"]
+n10626 -> n10634
+n10635[label="Parametro"]
+n10634 -> n10635
+n10636[label="INT"]
+n10635 -> n10636
+n10637[label="n"]
+n10635 -> n10637
+n10630[label=")"]
+n10626 -> n10630
+n10631[label="{"]
+n10626 -> n10631
+n10632[label="Instrucciones"]
+n10626 -> n10632
+n10638[label="Raiz"]
+n10632 -> n10638
+n10639[label="If"]
+n10638 -> n10639
+n10640[label="Condición"]
+n10639 -> n10640
+n10644[label="Operacion Relacional"]
+n10640 -> n10644
+n10645[label="Expresion"]
+n10647[label="<="]
+n10646[label="Expresion"]
+n10644 -> n10645
+n10644 -> n10647
+n10644 -> n10646
+n10648[label="AccessVar"]
+n10648 -> n10649
+n10649[label="n"]
+n10645 -> n10648
+n10650[label="Nativo"]
+n10651[label="1"]
+n10650 -> n10651
+n10646 -> n10650
+n10641[label="{"]
+n10639 -> n10641
+n10642[label="Bloque Then"]
+n10639 -> n10642
+n10652[label="Bloque"]
+n10653[label="{"]
+n10652 -> n10653
+n10655[label="Instrucciones"]
+n10656[label="Return"]
+n10655 -> n10656
+n10657[label="return"]
+n10656 -> n10657
+n10659[label="AccessVar"]
+n10659 -> n10660
+n10660[label="n"]
+n10656 -> n10659
+n10658[label=";"]
+n10656 -> n10658
+n10652 -> n10655
+n10654[label="}"]
+n10652 -> n10654
+n10642 -> n10652
+n10643[label="}"]
+n10639 -> n10643
+n10661[label="Else"]
+n10639 -> n10661
+n10662[label="{"]
+n10661 -> n10662
+n10663[label="Bloque Then"]
+n10661 -> n10663
+n10665[label="Bloque"]
+n10666[label="{"]
+n10665 -> n10666
+n10668[label="Instrucciones"]
+n10669[label="Return"]
+n10668 -> n10669
+n10670[label="return"]
+n10669 -> n10670
+nodo10673[label="Operacion Aritmetica"];
+n10669 -> nodo10673;
+nodo10674[label="+"];
+nodo10675[label="Expresion"];
+nodo10676[label="Expresion"];
+nodo10673 -> nodo10674;
+nodo10674 -> nodo10675;
+nodo10674 -> nodo10676;
+n10677[label="Funcion llamada"]
+nodo10675 -> n10677
+n10678[label="Llamada"]
+n10677 -> n10678
+n10679[label="fibonacci"]
+n10678 -> n10679
+n10680[label="("]
+n10678 -> n10680
+n10682[label="Parámetros"]
+n10678 -> n10682
+n10683[label="Parámetro"]
+n10682 -> n10683
+nodo10685[label="Operacion Aritmetica"];
+n10683 -> nodo10685;
+nodo10686[label="-"];
+nodo10687[label="Expresion"];
+nodo10688[label="Expresion"];
+nodo10685 -> nodo10686;
+nodo10686 -> nodo10687;
+nodo10686 -> nodo10688;
+n10689[label="AccessVar"]
+n10689 -> n10690
+n10690[label="n"]
+nodo10687 -> n10689
+n10691[label="Nativo"]
+n10692[label="1"]
+n10691 -> n10692
+nodo10688 -> n10691
+n10681[label=")"]
+n10678 -> n10681
+n10693[label="Funcion llamada"]
+nodo10676 -> n10693
+n10694[label="Llamada"]
+n10693 -> n10694
+n10695[label="fibonacci"]
+n10694 -> n10695
+n10696[label="("]
+n10694 -> n10696
+n10698[label="Parámetros"]
+n10694 -> n10698
+n10699[label="Parámetro"]
+n10698 -> n10699
+nodo10701[label="Operacion Aritmetica"];
+n10699 -> nodo10701;
+nodo10702[label="-"];
+nodo10703[label="Expresion"];
+nodo10704[label="Expresion"];
+nodo10701 -> nodo10702;
+nodo10702 -> nodo10703;
+nodo10702 -> nodo10704;
+n10705[label="AccessVar"]
+n10705 -> n10706
+n10706[label="n"]
+nodo10703 -> n10705
+n10707[label="Nativo"]
+n10708[label="2"]
+n10707 -> n10708
+nodo10704 -> n10707
+n10697[label=")"]
+n10694 -> n10697
+n10671[label=";"]
+n10669 -> n10671
+n10665 -> n10668
+n10667[label="}"]
+n10665 -> n10667
+n10663 -> n10665
+n10664[label="}"]
+n10661 -> n10664
+n10633[label="}"]
+n10626 -> n10633
+n10709[label="Instruccion"]
+nCodigo -> n10709
+n10710[label="Declaracion de Funcion"]
+n10709 -> n10710
+n10711[label="VOID"]
+n10710 -> n10711
+n10712[label="main"]
+n10710 -> n10712
+n10713[label="("]
+n10710 -> n10713
+n10714[label=")"]
+n10710 -> n10714
+n10715[label="{"]
+n10710 -> n10715
+n10716[label="Instrucciones"]
+n10710 -> n10716
+n10718[label="Declaracion Variable"]
+n10719[label="INT"]
+n10718 -> n10719
+n10720[label="Ids"]
+n10724[label="n"]
+n10720 -> n10724
+n10718 -> n10720
+n10722[label="="]
+n10718 -> n10722
+n10723[label="Expresion"]
+n10725[label="Nativo"]
+n10726[label="11"]
+n10725 -> n10726
+n10723 -> n10725
+n10718 -> n10723
+n10716 -> n10718
+n10721[label=";"]
+n10718 -> n10721
+n10727[label="Impresion"]
+n10716 -> n10727
+n10728[label="Impresión"]
+n10727 -> n10728
+n10729[label="cout"]
+n10728 -> n10729
+n10730[label="<<"]
+n10728 -> n10730
+n10731[label="Expresión"]
+n10728 -> n10731
+nodo10733[label="Operacion Aritmetica"];
+n10731 -> nodo10733;
+nodo10734[label="+"];
+nodo10735[label="Expresion"];
+nodo10736[label="Expresion"];
+nodo10733 -> nodo10734;
+nodo10734 -> nodo10735;
+nodo10734 -> nodo10736;
+n10737[label="Nativo"]
+n10738[label="El valor de n es: "]
+n10737 -> n10738
+nodo10735 -> n10737
+n10739[label="AccessVar"]
+n10739 -> n10740
+n10740[label="n"]
+nodo10736 -> n10739
+n10741[label="<<"]
+n10728 -> n10741
+n10742[label="endl"]
+n10728 -> n10742
+n10743[label="Declaracion Variable"]
+n10744[label="INT"]
+n10743 -> n10744
+n10745[label="Ids"]
+n10749[label="valorFib"]
+n10745 -> n10749
+n10743 -> n10745
+n10747[label="="]
+n10743 -> n10747
+n10748[label="Expresion"]
+n10750[label="Funcion llamada"]
+n10748 -> n10750
+n10751[label="Llamada"]
+n10750 -> n10751
+n10752[label="fibonacci"]
+n10751 -> n10752
+n10753[label="("]
+n10751 -> n10753
+n10755[label="Parámetros"]
+n10751 -> n10755
+n10756[label="Parámetro"]
+n10755 -> n10756
+n10757[label="AccessVar"]
+n10757 -> n10758
+n10758[label="n"]
+n10756 -> n10757
+n10754[label=")"]
+n10751 -> n10754
+n10743 -> n10748
+n10716 -> n10743
+n10746[label=";"]
+n10743 -> n10746
+n10759[label="Impresion"]
+n10716 -> n10759
+n10760[label="Impresión"]
+n10759 -> n10760
+n10761[label="cout"]
+n10760 -> n10761
+n10762[label="<<"]
+n10760 -> n10762
+n10763[label="Expresión"]
+n10760 -> n10763
+nodo10765[label="Operacion Aritmetica"];
+n10763 -> nodo10765;
+nodo10766[label="+"];
+nodo10767[label="Expresion"];
+nodo10768[label="Expresion"];
+nodo10765 -> nodo10766;
+nodo10766 -> nodo10767;
+nodo10766 -> nodo10768;
+nodo10770[label="Operacion Aritmetica"];
+nodo10767 -> nodo10770;
+nodo10771[label="+"];
+nodo10772[label="Expresion"];
+nodo10773[label="Expresion"];
+nodo10770 -> nodo10771;
+nodo10771 -> nodo10772;
+nodo10771 -> nodo10773;
+nodo10775[label="Operacion Aritmetica"];
+nodo10772 -> nodo10775;
+nodo10776[label="+"];
+nodo10777[label="Expresion"];
+nodo10778[label="Expresion"];
+nodo10775 -> nodo10776;
+nodo10776 -> nodo10777;
+nodo10776 -> nodo10778;
+n10779[label="Nativo"]
+n10780[label="Fibonacci de "]
+n10779 -> n10780
+nodo10777 -> n10779
+n10781[label="AccessVar"]
+n10781 -> n10782
+n10782[label="n"]
+nodo10778 -> n10781
+n10783[label="Nativo"]
+n10784[label=" es: "]
+n10783 -> n10784
+nodo10773 -> n10783
+n10785[label="AccessVar"]
+n10785 -> n10786
+n10786[label="valorFib"]
+nodo10768 -> n10785
+n10787[label="<<"]
+n10760 -> n10787
+n10788[label="endl"]
+n10760 -> n10788
+n10789[label="Impresion"]
+n10716 -> n10789
+n10790[label="Impresión"]
+n10789 -> n10790
+n10791[label="cout"]
+n10790 -> n10791
+n10792[label="<<"]
+n10790 -> n10792
+n10793[label="Expresión"]
+n10790 -> n10793
+n10794[label="Nativo"]
+n10795[label="Es par el valor de fibonacci?"]
+n10794 -> n10795
+n10793 -> n10794
+n10796[label="<<"]
+n10790 -> n10796
+n10797[label="endl"]
+n10790 -> n10797
+n10798[label="Raiz"]
+n10716 -> n10798
+n10799[label="If"]
+n10798 -> n10799
+n10800[label="Condición"]
+n10799 -> n10800
+n10804[label="Funcion llamada"]
+n10800 -> n10804
+n10805[label="Llamada"]
+n10804 -> n10805
+n10806[label="esPar"]
+n10805 -> n10806
+n10807[label="("]
+n10805 -> n10807
+n10809[label="Parámetros"]
+n10805 -> n10809
+n10810[label="Parámetro"]
+n10809 -> n10810
+n10811[label="AccessVar"]
+n10811 -> n10812
+n10812[label="valorFib"]
+n10810 -> n10811
+n10808[label=")"]
+n10805 -> n10808
+n10801[label="{"]
+n10799 -> n10801
+n10802[label="Bloque Then"]
+n10799 -> n10802
+n10813[label="Bloque"]
+n10814[label="{"]
+n10813 -> n10814
+n10816[label="Instrucciones"]
+n10817[label="Impresion"]
+n10816 -> n10817
+n10818[label="Impresión"]
+n10817 -> n10818
+n10819[label="cout"]
+n10818 -> n10819
+n10820[label="<<"]
+n10818 -> n10820
+n10821[label="Expresión"]
+n10818 -> n10821
+n10822[label="Nativo"]
+n10823[label="Si es xd"]
+n10822 -> n10823
+n10821 -> n10822
+n10824[label="<<"]
+n10818 -> n10824
+n10825[label="endl"]
+n10818 -> n10825
+n10813 -> n10816
+n10815[label="}"]
+n10813 -> n10815
+n10802 -> n10813
+n10803[label="}"]
+n10799 -> n10803
+n10826[label="Else"]
+n10799 -> n10826
+n10827[label="{"]
+n10826 -> n10827
+n10828[label="Bloque Then"]
+n10826 -> n10828
+n10830[label="Bloque"]
+n10831[label="{"]
+n10830 -> n10831
+n10833[label="Instrucciones"]
+n10834[label="Impresion"]
+n10833 -> n10834
+n10835[label="Impresión"]
+n10834 -> n10835
+n10836[label="cout"]
+n10835 -> n10836
+n10837[label="<<"]
+n10835 -> n10837
+n10838[label="Expresión"]
+n10835 -> n10838
+n10839[label="Nativo"]
+n10840[label="No :v"]
+n10839 -> n10840
+n10838 -> n10839
+n10841[label="<<"]
+n10835 -> n10841
+n10842[label="endl"]
+n10835 -> n10842
+n10830 -> n10833
+n10832[label="}"]
+n10830 -> n10832
+n10828 -> n10830
+n10829[label="}"]
+n10826 -> n10829
+n10717[label="}"]
+n10710 -> n10717
+n10843[label="Instruccion"]
+nCodigo -> n10843
+n10844[label="Funcion Execute"]
+n10843 -> n10844
+n10844 -> n10848
+n10845[label="main"]
+n10844 -> n10845
+n10846[label="("]
+n10844 -> n10846
+n10848[label="EXECUTE"]
+n10847[label=")"]
+n10849[label=";"]
+n10844 -> n10849
+n10844 -> n10847
+n10850[label="Instruccion"]
+nCodigo -> n10850
+n10851[label="Declaracion de Funcion"]
+n10850 -> n10851
+n10852[label="BOOL"]
+n10851 -> n10852
+n10853[label="espar"]
+n10851 -> n10853
+n10854[label="("]
+n10851 -> n10854
+n10859[label="Parametros"]
+n10851 -> n10859
+n10860[label="Parametro"]
+n10859 -> n10860
+n10861[label="INT"]
+n10860 -> n10861
+n10862[label="num"]
+n10860 -> n10862
+n10855[label=")"]
+n10851 -> n10855
+n10856[label="{"]
+n10851 -> n10856
+n10857[label="Instrucciones"]
+n10851 -> n10857
+n10863[label="Raiz"]
+n10857 -> n10863
+n10864[label="If"]
+n10863 -> n10864
+n10865[label="Condición"]
+n10864 -> n10865
+n10869[label="Operacion Relacional"]
+n10865 -> n10869
+n10870[label="Expresion"]
+n10872[label="=="]
+n10871[label="Expresion"]
+n10869 -> n10870
+n10869 -> n10872
+n10869 -> n10871
+n10873[label="AccessVar"]
+n10873 -> n10874
+n10874[label="num"]
+n10870 -> n10873
+n10875[label="Nativo"]
+n10876[label="0"]
+n10875 -> n10876
+n10871 -> n10875
+n10866[label="{"]
+n10864 -> n10866
+n10867[label="Bloque Then"]
+n10864 -> n10867
+n10877[label="Bloque"]
+n10878[label="{"]
+n10877 -> n10878
+n10880[label="Instrucciones"]
+n10881[label="Return"]
+n10880 -> n10881
+n10882[label="return"]
+n10881 -> n10882
+n10884[label="Nativo"]
+n10885[label="true"]
+n10884 -> n10885
+n10881 -> n10884
+n10883[label=";"]
+n10881 -> n10883
+n10877 -> n10880
+n10879[label="}"]
+n10877 -> n10879
+n10867 -> n10877
+n10868[label="}"]
+n10864 -> n10868
+n10886[label="Else"]
+n10864 -> n10886
+n10887[label="{"]
+n10886 -> n10887
+n10888[label="Bloque Then"]
+n10886 -> n10888
+n10890[label="Raiz"]
+n10888 -> n10890
+n10891[label="If"]
+n10890 -> n10891
+n10892[label="Condición"]
+n10891 -> n10892
+n10896[label="Operacion Relacional"]
+n10892 -> n10896
+n10897[label="Expresion"]
+n10899[label="=="]
+n10898[label="Expresion"]
+n10896 -> n10897
+n10896 -> n10899
+n10896 -> n10898
+n10900[label="AccessVar"]
+n10900 -> n10901
+n10901[label="num"]
+n10897 -> n10900
+n10902[label="Nativo"]
+n10903[label="1"]
+n10902 -> n10903
+n10898 -> n10902
+n10893[label="{"]
+n10891 -> n10893
+n10894[label="Bloque Then"]
+n10891 -> n10894
+n10904[label="Bloque"]
+n10905[label="{"]
+n10904 -> n10905
+n10907[label="Instrucciones"]
+n10908[label="Return"]
+n10907 -> n10908
+n10909[label="return"]
+n10908 -> n10909
+n10911[label="Nativo"]
+n10912[label="false"]
+n10911 -> n10912
+n10908 -> n10911
+n10910[label=";"]
+n10908 -> n10910
+n10904 -> n10907
+n10906[label="}"]
+n10904 -> n10906
+n10894 -> n10904
+n10895[label="}"]
+n10891 -> n10895
+n10913[label="Else"]
+n10891 -> n10913
+n10914[label="{"]
+n10913 -> n10914
+n10915[label="Bloque Then"]
+n10913 -> n10915
+n10917[label="Bloque"]
+n10918[label="{"]
+n10917 -> n10918
+n10920[label="Instrucciones"]
+n10921[label="Return"]
+n10920 -> n10921
+n10922[label="return"]
+n10921 -> n10922
+n10924[label="Funcion llamada"]
+n10921 -> n10924
+n10925[label="Llamada"]
+n10924 -> n10925
+n10926[label="esPar"]
+n10925 -> n10926
+n10927[label="("]
+n10925 -> n10927
+n10929[label="Parámetros"]
+n10925 -> n10929
+n10930[label="Parámetro"]
+n10929 -> n10930
+nodo10932[label="Operacion Aritmetica"];
+n10930 -> nodo10932;
+nodo10933[label="-"];
+nodo10934[label="Expresion"];
+nodo10935[label="Expresion"];
+nodo10932 -> nodo10933;
+nodo10933 -> nodo10934;
+nodo10933 -> nodo10935;
+n10936[label="AccessVar"]
+n10936 -> n10937
+n10937[label="num"]
+nodo10934 -> n10936
+n10938[label="Nativo"]
+n10939[label="2"]
+n10938 -> n10939
+nodo10935 -> n10938
+n10928[label=")"]
+n10925 -> n10928
+n10923[label=";"]
+n10921 -> n10923
+n10917 -> n10920
+n10919[label="}"]
+n10917 -> n10919
+n10915 -> n10917
+n10916[label="}"]
+n10913 -> n10916
+n10889[label="}"]
+n10886 -> n10889
+n10858[label="}"]
+n10851 -> n10858
 
 }

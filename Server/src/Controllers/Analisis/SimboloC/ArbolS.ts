@@ -51,10 +51,10 @@ export default class ArbolS {
         this.errores.push(error);
     }
     
-    public createAndAddError(ArbolS: ArbolS, tipo: string, descripcion: string, linea: number, columna: number): Errores {
+    public createAndAddError(ArbolS: ArbolS, tipo: string, descripcion: string, linea: number, columna: number)  {
         let error = new Errores(tipo, descripcion, linea, columna);
         ArbolS.addError(error);
-        return error;
+      
     }
 
     public getFunciones(){

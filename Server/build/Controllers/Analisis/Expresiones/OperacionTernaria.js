@@ -39,19 +39,26 @@ class OperacionTernaria extends Instruccion_1.Instruccion {
     }
     interpretar(arbolS, tabla) {
         const condicionResultado = this.condicion.interpretar(arbolS, tabla);
-        if (condicionResultado instanceof Errores_1.default)
+        if (condicionResultado instanceof Errores_1.default) {
+            arbolS.createAndAddError(arbolS, 'Semantico', `Error en la condicion de la operacion ternaria`, this.Linea, this.Columna);
             return condicionResultado;
+        }
         if (condicionResultado) {
             const valorVerdadero = this.expresionVerdadera.interpretar(arbolS, tabla);
-            if (valorVerdadero instanceof Errores_1.default)
+            if (valorVerdadero instanceof Errores_1.default) {
+                arbolS.createAndAddError(arbolS, 'Semantico', `Error en la expresion verdadera de la operacion ternaria`, this.Linea, this.Columna);
                 return valorVerdadero;
+            }
+            ;
             this.Tipo = this.expresionVerdadera.Tipo;
             return valorVerdadero;
         }
         else {
             const valorFalso = this.expresionFalsa.interpretar(arbolS, tabla);
-            if (valorFalso instanceof Errores_1.default)
+            if (valorFalso instanceof Errores_1.default) {
+                arbolS.createAndAddError(arbolS, 'Semantico', `Error en la expresion falsa de la operacion ternaria`, this.Linea, this.Columna);
                 return valorFalso;
+            }
             this.Tipo = this.expresionFalsa.Tipo;
             return valorFalso;
         }

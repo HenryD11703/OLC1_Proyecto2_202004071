@@ -31,15 +31,18 @@ export default class AsignacionVec extends Instruccion {
             if (this.numero2 == undefined) {
                 let resultado = tabla.setVariableVector(this.id, this.numero.interpretar(ArbolS, tabla), newValor);
                 if (!resultado) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                 }
             } else {
                 let resultado = tabla.setVariableVector2(this.id, this.numero.interpretar(ArbolS, tabla), this.numero2.interpretar(ArbolS, tabla), newValor);
                 if (!resultado) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                 }
             }
         } else {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
         }
     }

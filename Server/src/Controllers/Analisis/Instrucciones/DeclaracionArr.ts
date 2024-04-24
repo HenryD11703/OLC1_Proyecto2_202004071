@@ -44,6 +44,7 @@ export default class DeclaracionArr extends Instruccion {
 
         if (this.tamaño1 !== null && this.tamaño2 == null) {
             if (this.tipo.getTipo() !== this.tipo2?.getTipo()) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato ${this.tipo.getTipo()} no es igual al tipo de dato ${this.tipo2?.getTipo()}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `El tipo de dato ${this.tipo.getTipo()} no es igual al tipo de dato ${this.tipo2?.getTipo()}`, this.Linea, this.Columna);
             }
             //Es de tipo 1 de una dimension
@@ -70,6 +71,7 @@ export default class DeclaracionArr extends Instruccion {
                         valorPorDefecto = '0';
                         break;
                     default:
+                        ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato ${this.tipo.getTipo()} no es valido`, this.Linea, this.Columna);
                         return new Errores('Semantico', `El tipo de dato ${this.tipo.getTipo()} no es valido`, this.Linea, this.Columna);
                         break;
                 }
@@ -80,12 +82,14 @@ export default class DeclaracionArr extends Instruccion {
             for (let ide of this.id) {
 
                 if (!tabla.setVariable(new Simbolo(this.tipo, ide, arreglo))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                 }
             }
 
         } else if (this.tamaño1 !== null && this.tamaño2 !== null) {
             if (this.tipo.getTipo() !== this.tipo2?.getTipo()) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato ${this.tipo.getTipo()} no es igual al tipo de dato ${this.tipo2?.getTipo()}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `El tipo de dato ${this.tipo.getTipo()} no es igual al tipo de dato ${this.tipo2?.getTipo()}`, this.Linea, this.Columna);
             }
             // Es de tipo 1 de dos dimensiones
@@ -117,6 +121,7 @@ export default class DeclaracionArr extends Instruccion {
                             valorPorDefecto = '0';
                             break;
                         default:
+                            ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato ${this.tipo.getTipo()} no es valido`, this.Linea, this.Columna);
                             return new Errores('Semantico', `El tipo de dato ${this.tipo.getTipo()} no es valido`, this.Linea, this.Columna);
                             break;
                     }
@@ -129,6 +134,7 @@ export default class DeclaracionArr extends Instruccion {
             // Agregar a la tabla de símbolos
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo(this.tipo, ide, arreglo))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                 }
             }
@@ -149,6 +155,7 @@ export default class DeclaracionArr extends Instruccion {
             for (let ide of this.id) {
 
                 if (!tabla.setVariable(new Simbolo(this.tipo, ide, arreglo3))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                 }
             }
@@ -175,6 +182,7 @@ export default class DeclaracionArr extends Instruccion {
             //agregar a la tabla de simbolos
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo(this.tipo, ide, arreglo4))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${this.id} ya existe`, this.Linea, this.Columna);
                 }
             }

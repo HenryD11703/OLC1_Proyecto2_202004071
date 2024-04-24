@@ -37,8 +37,10 @@ class AccessVar extends Instruccion_1.Instruccion {
     }
     interpretar(ArbolS, tabla) {
         let ValueVar = tabla.getVariable(this.id);
-        if (ValueVar == null)
+        if (ValueVar == null) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
+        }
         this.Tipo = ValueVar.getTipoSimbolo();
         return ValueVar.getValor();
     }

@@ -29,6 +29,7 @@ export default class DeclaracionCstr extends Instruccion {
        
         for(let Identificador of this.id){
             if(!tabla.setVariable(new Simbolo(this.tipo, Identificador, valorC))){
+                ArbolS.createAndAddError(ArbolS, 'Semantico', 'Ya existe una variable con el mismo nombre', this.Linea, this.Columna);
                 return new Errores('Semantico', 'Ya existe una variable con el mismo nombre', this.Linea, this.Columna);
             }
         }

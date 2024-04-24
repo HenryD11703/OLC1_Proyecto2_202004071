@@ -22,9 +22,13 @@ export default class VariablesA extends Instruccion {
 
         for (let id of this.ids) {
             let valor = tabla.getVariable(id.toLowerCase());
-            if (valor == null) return new Errores('Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);
-            if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo())
+            if (valor == null) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);
+                return new Errores('Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);}
+            if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo()){
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
                 return new Errores('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
+            }
 
             this.Tipo = valor.getTipoSimbolo();
             valor.setValor(NewValue);

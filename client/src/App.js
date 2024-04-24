@@ -87,7 +87,12 @@ function generarReporteAST() {
 }
 
 function abrirReporteErrores() {
-  window.open('http://localhost:4000/errores.html', '_blank');
+  window.open('http://localhost:4000/errores', '_blank');
+}
+
+
+function abrirReporteTokens() {
+  window.open('http://localhost:4000/tabla_simbolos', '_blank');
 }
 
 
@@ -144,7 +149,7 @@ function abrirReporteErrores() {
                 {/* Agregado la clase me-2 aquí */}
                 <a
                   className="nav-link btn btn-sm btn-outline-light"
-                  href="tokens.html"
+                  onClick={abrirReporteTokens}
                 >
                   Tabla de Símbolos
                 </a>

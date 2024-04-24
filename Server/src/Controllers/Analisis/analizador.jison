@@ -145,8 +145,11 @@
 "/"                         return 'DIV';
 
 <<EOF>>                     return 'EOF';
-.					        {console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);}
-
+.					        {
+    
+   console.log(yylloc.first_line, yylloc.first_column,'Lexico',yytext);
+   return new Errores.default('Lexico', 'Caracter inesperado: ' + yytext, yylloc.first_line, yylloc.first_column);
+}
 %{
     
 %}

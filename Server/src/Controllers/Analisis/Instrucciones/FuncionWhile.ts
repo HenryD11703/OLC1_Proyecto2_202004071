@@ -24,6 +24,7 @@ export default class FuncionWhile extends Instruccion {
         if (condicionResultado instanceof Errores) return condicionResultado;
 
         if(this.condicion.Tipo.getTipo() !== TipoDato.BOOLEANO){
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La condicion del while tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
             return new Errores('Semantico', `La condicion del while tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
          

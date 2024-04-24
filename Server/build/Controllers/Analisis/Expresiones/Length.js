@@ -47,6 +47,7 @@ class Length extends Instruccion_1.Instruccion {
             return resultado.length;
         }
         else {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede obtener la longitud de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
             return new Errores_1.default('Semantico', `No se puede obtener la longitud de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
     }

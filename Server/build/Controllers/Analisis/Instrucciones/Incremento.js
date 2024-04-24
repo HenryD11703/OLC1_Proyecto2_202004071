@@ -38,8 +38,10 @@ class Incremento extends Instruccion_1.Instruccion {
     }
     interpretar(arbolS, tabla) {
         const valor = tabla.getVariable(this.id.toLowerCase());
-        if (valor == null)
+        if (valor == null) {
+            arbolS.createAndAddError(arbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
+        }
         if (this.tipo == '++') {
             if (valor.getTipoSimbolo().getTipo() == Tipo_1.TipoDato.ENTERO) {
                 valor.setValor(parseInt(valor.getValor().toString()) + 1);
@@ -48,6 +50,7 @@ class Incremento extends Instruccion_1.Instruccion {
                 valor.setValor(parseFloat(valor.getValor().toString()) + 1);
             }
             else {
+                arbolS.createAndAddError(arbolS, 'Semantico', `No se puede incrementar un tipo de dato ${valor.getTipoSimbolo().getTipo()}`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `No se puede incrementar un tipo de dato ${valor.getTipoSimbolo().getTipo()}`, this.Linea, this.Columna);
             }
         }
@@ -59,6 +62,7 @@ class Incremento extends Instruccion_1.Instruccion {
                 valor.setValor(parseFloat(valor.getValor().toString()) - 1);
             }
             else {
+                arbolS.createAndAddError(arbolS, 'Semantico', `No se puede decrementar un tipo de dato ${valor.getTipoSimbolo().getTipo()}`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `No se puede decrementar un tipo de dato ${valor.getTipoSimbolo().getTipo()}`, this.Linea, this.Columna);
             }
         }

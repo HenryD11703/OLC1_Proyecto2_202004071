@@ -26,7 +26,9 @@ export default class Bloque extends Instruccion {
             if (instruccion instanceof Return) return instruccion;
             let result = instruccion.interpretar(arbolS, tabla);
 
-            if (result instanceof Errores) return result;
+            if (result instanceof Errores) {
+                arbolS.createAndAddError(arbolS, 'Semantico', result.toString(), instruccion.Linea, instruccion.Columna);
+                return result;}
         }
     }
     /**

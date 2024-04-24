@@ -23,6 +23,7 @@ export default class Llamada extends Instruccion {
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
         let buscarFuncion = ArbolS.getFuncion(this.id);
         if (buscarFuncion == null) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores('Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
         }
 
@@ -31,6 +32,7 @@ export default class Llamada extends Instruccion {
             newTabla.setNombre("Llamada de función" + this.id);
 
             if (buscarFuncion.parametros.length != this.parametros.length) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
                 return new Errores('Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
             }
 
@@ -51,9 +53,12 @@ export default class Llamada extends Instruccion {
                 if (resultado instanceof Errores) return resultado;
 
                 let variable = newTabla.getVariable(buscarFuncion.parametros[i].id);
-                if (variable == null) return new Errores('Semantico', `La variable ${buscarFuncion.parametros[i].id} no existe`, this.Linea, this.Columna);
+                if (variable == null) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${buscarFuncion.parametros[i].id} no existe`, this.Linea, this.Columna);
+                    return new Errores('Semantico', `La variable ${buscarFuncion.parametros[i].id} no existe`, this.Linea, this.Columna);}
 
                 if (!buscarFuncion.parametros[i].arreglo && variable.getTipoSimbolo().getTipo() != this.parametros[i].Tipo.getTipo()) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de la variable ${buscarFuncion.parametros[i].id} no coincide con el tipo del parámetro`, this.Linea, this.Columna);
                     return new Errores('Semantico', `El tipo de la variable ${buscarFuncion.parametros[i].id} no coincide con el tipo del parámetro`, this.Linea, this.Columna);
                 }
 

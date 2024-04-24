@@ -29,6 +29,7 @@ export default class toString extends Instruccion {
                 this.Tipo = new Tipo(TipoDato.CADENA);
                 return valor.toString();
             default:
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede convertir a cadena un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `No se puede convertir a cadena un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

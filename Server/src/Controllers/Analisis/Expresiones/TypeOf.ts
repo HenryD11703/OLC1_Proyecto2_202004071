@@ -36,6 +36,7 @@ export default class TypeOf extends Instruccion {
             case TipoDato.VOID:
                 return "Void";
             default:
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede obtener el tipo de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
                 return new Errores('Semantico', `No se puede obtener el tipo de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
     }

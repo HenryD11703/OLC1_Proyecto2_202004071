@@ -1169,7 +1169,11 @@ case 85:return 67;
 break;
 case 86:return 5;
 break;
-case 87:console.log(yy_.yylloc.first_line, yy_.yylloc.first_column,'Lexico',yy_.yytext);
+case 87:
+    
+   console.log(yy_.yylloc.first_line, yy_.yylloc.first_column,'Lexico',yy_.yytext);
+   return new Errores.default('Lexico', 'Caracter inesperado: ' + yy_.yytext, yy_.yylloc.first_line, yy_.yylloc.first_column);
+
 break;
 case 88:
     

@@ -22,11 +22,13 @@ export default class Declaracion extends Instruccion {
             if (valorFinal instanceof Errores) return valorFinal;
 
             if (this.valor.Tipo.getTipo() != this.Tipo.getTipo()) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
                 return new Errores('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
             }
 
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo(this.Tipo, ide, valorFinal))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
                 }
             }
@@ -34,6 +36,7 @@ export default class Declaracion extends Instruccion {
         else {
             for (let ide of this.id) {
                 if (!tabla.setVariable(new Simbolo(this.Tipo, ide, this.valorDefecto(this.Tipo.getTipo())))) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
                     return new Errores('Semantico', `La variable ${ide} ya existe`, this.Linea, this.Columna);
                 }
             }

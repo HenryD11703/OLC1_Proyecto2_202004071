@@ -15,6 +15,8 @@ class router{
         this.router.post('/analizar', indexController.analizar);
         this.router.post('/graficar', indexController.getGraph);
         this.router.post('/errores.html', indexController.reporteErrores);
+        this.router.get('/errores', indexController.getErrores); 
+        this.router.get('/tabla_simbolos', indexController.getTablaSimbolos);
         this.router.get('/imagen-ast.png', (req, res) => {
             res.sendFile(path.join(__dirname, 'temp.png'));
           });

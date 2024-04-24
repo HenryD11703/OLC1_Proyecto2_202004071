@@ -43,6 +43,7 @@ class AccesoVec extends Instruccion_1.Instruccion {
             if (variable != null) {
                 let simboloVar = tabla.getVariableVector(this.id, this.numero.interpretar(ArbolS, tabla));
                 if (simboloVar === null) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                     return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                 }
                 this.Tipo = simboloVar.getTipoSimbolo();
@@ -54,6 +55,7 @@ class AccesoVec extends Instruccion_1.Instruccion {
             if (variable != null) {
                 let simboloVar2 = tabla.getVariableVector2(this.id, this.numero.interpretar(ArbolS, tabla), this.numero2.interpretar(ArbolS, tabla));
                 if (simboloVar2 === null) {
+                    ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                     return new Errores_1.default('Semantico', `La variable ${this.id} no existe`, this.Linea, this.Columna);
                 }
                 this.Tipo = simboloVar2.getTipoSimbolo();

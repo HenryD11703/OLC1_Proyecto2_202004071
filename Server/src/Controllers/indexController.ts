@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import ArbolS from './Analisis/SimboloC/ArbolS';
 import TablaSimbolos from './Analisis/SimboloC/TablaSimbolos';
 import cors from 'cors';
@@ -15,7 +15,6 @@ import { spawn } from 'child_process';
 
 var AstGraphviz: string;
 //para hacer la grafica del ast
-
 class Controller {
 
     constructor() {
@@ -35,7 +34,7 @@ class Controller {
 
 
     public analizar(req: Request, res: Response) {
-        
+
         try {
 
             AstGraphviz = "";
@@ -50,38 +49,48 @@ class Controller {
             let execute = null;
 
             for (let i of ast.getInstrucciones()) {
+
                 console.log(i);
-        
 
                 if (i instanceof Funcion) {
                     i.id = i.id.toLocaleLowerCase();
                     ast.addFunciones(i);
+
                 }
                 if (i instanceof Declaracion) {
                     i.interpretar(ast, Tabla);
+
                 }
 
                 if (i instanceof DeclaracionArr) {
                     i.interpretar(ast, Tabla);
+
                 }
                 if (i instanceof DeclaracionCstr) {
                     i.interpretar(ast, Tabla);
+
                 }
 
                 if (i instanceof Execute) {
                     execute = i
                 }
-                if (i instanceof Errores){
+                if (i instanceof Errores) {
                     ast.addError(i);
+
                 }
-                
+
 
             }
-            console.log(ast.getErrores());
-            this.reporteErrores(ast.getErrores());
+
+
+            
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }
+
+            this.reporteErrores(ast.getErrores());
+            this.reporteTablaSimbolos(Tabla);
+
 
             let contador = Contador.getInstance();
             let cadenaGraph = "digraph G {\n";
@@ -108,6 +117,97 @@ class Controller {
             res.json({ message: 'Error :( Ya no sale :c' })
         }
     }
+
+    private generarTablaHTML(tabla: TablaSimbolos, html: string, nivel: number = 0): string {
+        if (tabla === undefined) {
+            return html;
+        }
+    
+        let tablaActual = tabla.getTablaActual();
+        for (let [identificador, simbolo] of tablaActual) {
+            
+            let tipoSimbolo = ""
+
+            if(simbolo.getTipoSimbolo().getTipo() == 0){
+                tipoSimbolo = "Entero"
+            }  else if(simbolo.getTipoSimbolo().getTipo() == 1){
+                tipoSimbolo = "Decimal"
+            } else if(simbolo.getTipoSimbolo().getTipo() == 2){
+                tipoSimbolo = "boolean"
+            } else if(simbolo.getTipoSimbolo().getTipo() == 3){
+                tipoSimbolo = "Caracter"
+            } else if(simbolo.getTipoSimbolo().getTipo() == 4){
+                tipoSimbolo = "Cadena"
+            } else if(simbolo.getTipoSimbolo().getTipo() == 5){
+                tipoSimbolo = "Void"
+            } else if(simbolo.getTipoSimbolo().getTipo() == 6){
+                tipoSimbolo = "Vector"
+            }
+
+            html += `
+                <tr>
+                    <td>${'&nbsp;'.repeat(nivel * 4)}${identificador}</td>
+                    <td>${tipoSimbolo}</td>
+                    <td>${simbolo.getValor()}</td>
+                </tr>
+            `;
+        }
+    
+        let tablaAnterior = tabla.getTablaAnterior();
+        if (tablaAnterior) {
+            html = this.generarTablaHTML(tablaAnterior, html, nivel + 1);
+        }
+    
+        return html;
+    }
+
+    public reporteTablaSimbolos(tablaGlobal: TablaSimbolos) {
+        let html = `
+        <html>
+            <head>
+                <title>Tabla de Símbolos</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 15px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Tabla de Símbolos</h1>
+                <table>
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                    </tr>
+        `;
+
+
+        const tablaHTML = this.generarTablaHTML(tablaGlobal, html);
+        if (tablaHTML !== undefined) {
+            html = tablaHTML;
+        }
+
+        html += `
+                </table>
+            </body>
+        </html>
+        `;
+
+        // Escribir el archivo HTML en la carpeta Routes
+        fs.writeFileSync('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\tabla_simbolos.html', html);
+    }
+
     public getGraph(req: Request, res: Response) {
         const dotContent = AstGraphviz;
         const tempDotFile = 'D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\temp.dot';
@@ -117,11 +217,20 @@ class Controller {
         dot.on('close', () => {
             res.sendFile(tempPngFile);
         });
-        
+
 
     }
 
-    public reporteErrores(errores: Errores[]) : string {
+    public getTablaSimbolos(req: Request, res: Response) {
+        res.sendFile('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\tabla_simbolos.html');
+    }
+
+    public getErrores(req: Request, res: Response) {
+        res.sendFile('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\errores.html');
+    }
+
+
+    public reporteErrores(errores: Errores[]) {
         let html = `
         <html>
             <head>
@@ -152,25 +261,26 @@ class Controller {
                         <th>Columna</th>
                     </tr>
         `;
-    
+
         errores.forEach(error => {
             html += `
                 <tr>
-                    <td>${error.getTipoError}</td>
-                    <td>${error.getDescripcion}</td>
-                    <td>${error.getLinea}</td>
-                    <td>${error.getColumna}</td>
+                    <td>${error.getTipoError()}</td>
+                    <td>${error.getDescripcion()}</td>
+                    <td>${error.getLinea()}</td>
+                    <td>${error.getColumna()}</td>
                 </tr>
             `;
         });
-    
+
         html += `
                 </table>
             </body>
         </html>
         `;
-        console.log(html);
-        return html;
+        //crear archivo html en la carpeta Routes con el contenido de la variable html
+        fs.writeFileSync('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\errores.html', html);
+
     }
 }
 

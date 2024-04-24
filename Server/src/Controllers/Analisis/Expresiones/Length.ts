@@ -23,6 +23,7 @@ export default class Length extends Instruccion {
         } else if (TipoResultado == TipoDato.CADENA) {
             return resultado.length;
         }else{
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede obtener la longitud de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
             return new Errores('Semantico', `No se puede obtener la longitud de un valor de tipo ${this.expresion.Tipo.getTipo()}`, this.Linea, this.Columna);
         }
     }

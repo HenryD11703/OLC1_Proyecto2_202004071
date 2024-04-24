@@ -19,6 +19,7 @@ export default class Execute extends Instruccion{
     interpretar(ArbolS: ArbolS, tabla: TablaSimbolos) {
         let buscarFuncion = ArbolS.getFuncion(this.id);
         if (buscarFuncion == null) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores('Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
         }
 
@@ -27,6 +28,7 @@ export default class Execute extends Instruccion{
             newTabla.setNombre("Tabla Execute");
 
             if(buscarFuncion.parametros.length != this.parametros.length){
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
                 return new Errores('Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
             }
                 for(let i = 0; i < this.parametros.length; i++){

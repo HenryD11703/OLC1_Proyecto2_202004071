@@ -33,6 +33,7 @@ export default class FuncionFor extends Instruccion {
         let condicionResultado = this.condicion.interpretar(ArbolS, TablaFor);
         if (condicionResultado instanceof Errores) return condicionResultado;
         if (this.condicion.Tipo.getTipo() !== TipoDato.BOOLEANO) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La condición del for tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
             return new Errores('Semantico', `La condición del for tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
 

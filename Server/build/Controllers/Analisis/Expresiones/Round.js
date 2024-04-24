@@ -48,6 +48,7 @@ class Round extends Instruccion_1.Instruccion {
                 this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.ENTERO);
                 return valor;
             default:
+                arbolS.createAndAddError(arbolS, 'Semantico', `No se puede redondear un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `No se puede redondear un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

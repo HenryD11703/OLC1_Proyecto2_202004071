@@ -45,6 +45,7 @@ class toLower extends Instruccion_1.Instruccion {
                 this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.CADENA);
                 return valor.toLowerCase();
             default:
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede convertir a minusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `No se puede convertir a minusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

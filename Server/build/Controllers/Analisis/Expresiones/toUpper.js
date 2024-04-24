@@ -45,6 +45,7 @@ class toUpper extends Instruccion_1.Instruccion {
                 this.Tipo = new Tipo_1.default(Tipo_1.TipoDato.CADENA);
                 return valor.toUpperCase();
             default:
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `No se puede convertir a mayusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `No se puede convertir a mayusculas un valor de tipo ${tipoValor}`, this.Linea, this.Columna);
         }
     }

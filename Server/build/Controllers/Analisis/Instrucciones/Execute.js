@@ -42,12 +42,14 @@ class Execute extends Instruccion_1.Instruccion {
     interpretar(ArbolS, tabla) {
         let buscarFuncion = ArbolS.getFuncion(this.id);
         if (buscarFuncion == null) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
             return new Errores_1.default('Semantico', `La función ${this.id} no existe`, this.Linea, this.Columna);
         }
         if (buscarFuncion instanceof Funcion_1.default) {
             let newTabla = new TablaSimbolos_1.default(tabla);
             newTabla.setNombre("Tabla Execute");
             if (buscarFuncion.parametros.length != this.parametros.length) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `La función ${this.id} necesita ${buscarFuncion.parametros.length} parámetros`, this.Linea, this.Columna);
             }
             for (let i = 0; i < this.parametros.length; i++) {

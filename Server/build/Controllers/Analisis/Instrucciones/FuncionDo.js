@@ -60,6 +60,7 @@ class FuncionDo extends Instruccion_1.Instruccion {
         if (condicionResultado instanceof Errores_1.default)
             return condicionResultado;
         if (this.condicion.Tipo.getTipo() !== Tipo_1.TipoDato.BOOLEANO) {
+            ArbolS.createAndAddError(ArbolS, 'Semantico', `La condición del do-while tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
             return new Errores_1.default('Semantico', `La condición del do-while tiene que ser de tipo BOOLEAN`, this.Linea, this.Columna);
         }
         // Y ya después se evalúa la condición y se ejecuta el bloque de código mientras se cumpla la condición

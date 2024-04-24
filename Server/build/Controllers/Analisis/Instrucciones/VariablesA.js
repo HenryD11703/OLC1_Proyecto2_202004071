@@ -42,10 +42,14 @@ class VariablesA extends Instruccion_1.Instruccion {
             return NewValue;
         for (let id of this.ids) {
             let valor = tabla.getVariable(id.toLowerCase());
-            if (valor == null)
+            if (valor == null) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `La variable ${id} no existe`, this.Linea, this.Columna);
-            if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo())
+            }
+            if (this.exp.Tipo.getTipo() != valor.getTipoSimbolo().getTipo()) {
+                ArbolS.createAndAddError(ArbolS, 'Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
                 return new Errores_1.default('Semantico', `El tipo de dato no es igual`, this.Linea, this.Columna);
+            }
             this.Tipo = valor.getTipoSimbolo();
             valor.setValor(NewValue);
         }

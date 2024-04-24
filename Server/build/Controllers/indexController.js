@@ -62,11 +62,11 @@ class Controller {
                     ast.addError(i);
                 }
             }
-            console.log(ast.getErrores());
-            this.reporteErrores(ast.getErrores());
             if (execute != null) {
                 execute.interpretar(ast, Tabla);
             }
+            this.reporteErrores(ast.getErrores());
+            this.reporteTablaSimbolos(Tabla);
             let contador = Contador_1.default.getInstance();
             let cadenaGraph = "digraph G {\n";
             cadenaGraph += "n0[label=\"Inicio\"]\n";
@@ -90,6 +90,90 @@ class Controller {
             res.json({ message: 'Error :( Ya no sale :c' });
         }
     }
+    generarTablaHTML(tabla, html, nivel = 0) {
+        if (tabla === undefined) {
+            return html;
+        }
+        let tablaActual = tabla.getTablaActual();
+        for (let [identificador, simbolo] of tablaActual) {
+            let tipoSimbolo = "";
+            if (simbolo.getTipoSimbolo().getTipo() == 0) {
+                tipoSimbolo = "Entero";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 1) {
+                tipoSimbolo = "Decimal";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 2) {
+                tipoSimbolo = "boolean";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 3) {
+                tipoSimbolo = "Caracter";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 4) {
+                tipoSimbolo = "Cadena";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 5) {
+                tipoSimbolo = "Void";
+            }
+            else if (simbolo.getTipoSimbolo().getTipo() == 6) {
+                tipoSimbolo = "Vector";
+            }
+            html += `
+                <tr>
+                    <td>${'&nbsp;'.repeat(nivel * 4)}${identificador}</td>
+                    <td>${tipoSimbolo}</td>
+                    <td>${simbolo.getValor()}</td>
+                </tr>
+            `;
+        }
+        let tablaAnterior = tabla.getTablaAnterior();
+        if (tablaAnterior) {
+            html = this.generarTablaHTML(tablaAnterior, html, nivel + 1);
+        }
+        return html;
+    }
+    reporteTablaSimbolos(tablaGlobal) {
+        let html = `
+        <html>
+            <head>
+                <title>Tabla de Símbolos</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 15px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #4CAF50;
+                        color: white;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Tabla de Símbolos</h1>
+                <table>
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                    </tr>
+        `;
+        const tablaHTML = this.generarTablaHTML(tablaGlobal, html);
+        if (tablaHTML !== undefined) {
+            html = tablaHTML;
+        }
+        html += `
+                </table>
+            </body>
+        </html>
+        `;
+        // Escribir el archivo HTML en la carpeta Routes
+        fs_1.default.writeFileSync('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\tabla_simbolos.html', html);
+    }
     getGraph(req, res) {
         const dotContent = AstGraphviz;
         const tempDotFile = 'D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\temp.dot';
@@ -99,6 +183,12 @@ class Controller {
         dot.on('close', () => {
             res.sendFile(tempPngFile);
         });
+    }
+    getTablaSimbolos(req, res) {
+        res.sendFile('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\tabla_simbolos.html');
+    }
+    getErrores(req, res) {
+        res.sendFile('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\errores.html');
     }
     reporteErrores(errores) {
         let html = `
@@ -134,10 +224,10 @@ class Controller {
         errores.forEach(error => {
             html += `
                 <tr>
-                    <td>${error.getTipoError}</td>
-                    <td>${error.getDescripcion}</td>
-                    <td>${error.getLinea}</td>
-                    <td>${error.getColumna}</td>
+                    <td>${error.getTipoError()}</td>
+                    <td>${error.getDescripcion()}</td>
+                    <td>${error.getLinea()}</td>
+                    <td>${error.getColumna()}</td>
                 </tr>
             `;
         });
@@ -146,8 +236,8 @@ class Controller {
             </body>
         </html>
         `;
-        console.log(html);
-        return html;
+        //crear archivo html en la carpeta Routes con el contenido de la variable html
+        fs_1.default.writeFileSync('D:\\OLC1_Proyecto2_202004071\\Server\\build\\Routes\\errores.html', html);
     }
 }
 exports.indexController = new Controller();

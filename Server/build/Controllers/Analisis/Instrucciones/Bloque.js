@@ -47,8 +47,10 @@ class Bloque extends Instruccion_1.Instruccion {
             if (instruccion instanceof Return_1.default)
                 return instruccion;
             let result = instruccion.interpretar(arbolS, tabla);
-            if (result instanceof Errores_1.default)
+            if (result instanceof Errores_1.default) {
+                arbolS.createAndAddError(arbolS, 'Semantico', result.toString(), instruccion.Linea, instruccion.Columna);
                 return result;
+            }
         }
     }
     /**

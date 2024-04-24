@@ -47,7 +47,6 @@ class ArbolS {
     createAndAddError(ArbolS, tipo, descripcion, linea, columna) {
         let error = new Errores_1.default(tipo, descripcion, linea, columna);
         ArbolS.addError(error);
-        return error;
     }
     getFunciones() {
         return this.funciones;
