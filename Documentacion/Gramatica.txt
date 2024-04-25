@@ -1,0 +1,172 @@
+<inicio> ::= <codigos> EOF
+
+<codigos> ::= <codigos> <codigo>
+            | <codigo>
+
+<codigo> ::= <declaracionv> ';'
+           | <impresion>
+           | <incrementoDec> ';'
+           | <funcionIf>
+           | <funcionBreak>
+           | <funcionWhile>
+           | <funcionFor>
+           | <funciondo>
+           | <funcionContinue>
+           | <funcionReturn>
+           | <declaracionArr>
+           | <modificacionVector> ';'
+           | <funcionSwitch>
+           | <funciones>
+           | <llamada> ';'
+           | <execute>
+           | error ';'
+
+<execute> ::= 'EXECUTE' ID '(' ')' ';'
+            | 'EXECUTE' ID '(' <parametros_llamada> ')' ';'
+
+<funciones> ::= <tipo> ID '(' <parametros> ')' '{' <codigos> '}'
+              | <tipo> ID '(' ')' '{' <codigos> '}'
+
+<parametros> ::= <parametros> ',' <tipo> ID
+                | <tipo> ID
+                | <parametros> ',' <tipo> ID '[' ']'
+                | <tipo> ID '[' ']'
+                | <parametros> ',' <tipo> ID '[' ']' '[' ']'
+                | <tipo> ID '[' ']' '[' ']'
+
+<llamada> ::= ID '(' <parametros_llamada> ')'
+            | ID '(' ')'
+
+<parametros_llamada> ::= <parametros_llamada> ',' <expresion>
+                       | <expresion>
+
+<declaracionv> ::= <tipo> <ids>
+                  | <tipo> <ids> '=' <expresion>
+                  | <ids> '=' <expresion>
+
+<ids> ::= ID
+        | <ids> ',' ID
+
+<tipo> ::= 'INT'
+         | 'DOUBLE'
+         | 'BOOL'
+         | 'CHAR'
+         | 'STD' '::' 'STRING'
+         | 'VOID'
+
+<expresion> ::= <Casteos>
+              | NUMERO
+              | DECIMAL
+              | CADENA
+              | 'TRUE'
+              | 'FALSE'
+              | ID
+              | '(' <expresion> ')'
+              | <operacion>
+              | CARACTER
+              | <ternaryOp>
+              | <operacionRelacional>
+              | <accesoVector>
+              | <funcToLower>
+              | <funcToUpper>
+              | <funcionRound>
+              | <funcionLength>
+              | <funcionTypeOf>
+              | <funciontoString>
+              | <llamada>
+
+<operacion> ::= <expresion> '+' <expresion>
+              | <expresion> '-' <expresion>
+              | <expresion> '*' <expresion>
+              | <expresion> '/' <expresion>
+              | <expresion> '%' <expresion>
+              | 'POW' '(' <expresion> ',' <expresion> ')'
+              | '-' <expresion>
+
+<operacionRelacional> ::= <expresion> '==' <expresion>
+                        | <expresion> '!=' <expresion>
+                        | <expresion> '<' <expresion>
+                        | <expresion> '<=' <expresion>
+                        | <expresion> '>' <expresion>
+                        | <expresion> '>=' <expresion>
+                        | <expresion> 'OR' <expresion>
+                        | <expresion> 'AND' <expresion>
+                        | 'NOT' <expresion>
+
+<impresion> ::= 'COUT' '<<' <expresion> ';'
+              | 'COUT' '<<' <expresion> '<<' 'ENDL' ';'
+
+<ternaryOp> ::= <expresion> '?' <expresion> ':' <expresion>
+
+<incrementoDec> ::= ID '++'
+                  | ID '--'
+
+<Casteos> ::= <tipoDestino> <expresion>
+
+<tipoDestino> ::= 'PINTP'
+                | 'PDOUBLEP'
+                | 'PCHARP'
+                | 'PSTRINGP'
+
+<funcionIf> ::= 'IF' '(' <expresion> ')' <bloqueCodigo>
+               | 'IF' '(' <expresion> ')' <bloqueCodigo> 'ELSE' <bloqueCodigo>
+               | 'IF' '(' <expresion> ')' <bloqueCodigo> 'ELSE' <funcionIf>
+
+<bloqueCodigo> ::= '{' <codigos> '}'
+                 | '{' '}'
+
+<funcionBreak> ::= 'BREAK' ';'
+
+<funcionContinue> ::= 'CONTINUE' ';'
+
+<funcionReturn> ::= 'RETURN' <expresion> ';'
+                  | 'RETURN' ';'
+
+<funcionWhile> ::= 'WHILE' '(' <expresion> ')' '{' <codigos> '}'
+
+<funcionFor> ::= 'FOR' '(' <declaracionv> ';' <expresion> ';' <forActualizacion> ')' '{' <codigos> '}'
+
+<forActualizacion> ::= ID '++'
+                     | ID '--'
+
+<funciondo> ::= 'DO' '{' <codigos> '}' 'WHILE' '(' <expresion> ')' ';'
+
+<declaracionArr> ::= <tipo> <ids> '[' ']' '=' 'NEW' <tipo> '[' <expresion> ']' ';'
+                   | <tipo> <ids> '[' ']' '[' ']' '=' 'NEW' <tipo> '[' <expresion> ']' '[' <expresion> ']' ';'
+                   | <tipo> <ids> '[' ']' '=' '[' <lista_valores> ']' ';'
+                   | <tipo> <ids> '[' ']' '[' ']' '=' '[' '[' <lista_valores> ']' ',' '[' <lista_valores> ']' ']' ';'
+                   | <tipo> <ids> '[' ']' '=' <funcioncstr> ';'
+
+<lista_valores> ::= <lista_valores> ',' <expresion>
+                  | <expresion>
+
+<accesoVector> ::= ID '[' <expresion> ']'
+                 | ID '[' <expresion> ']' '[' <expresion> ']'
+
+<modificacionVector> ::= ID '[' <expresion> ']' '=' <expresion>
+                       | ID '[' <expresion> ']' '[' <expresion> ']' '=' <expresion>
+
+<funcToLower> ::= 'TOLOWER' '(' <expresion> ')'
+
+<funcToUpper> ::= 'TOUPPER' '(' <expresion> ')'
+
+<funcionRound> ::= 'ROUND' '(' <expresion> ')'
+
+<funcionLength> ::= ID '.' 'LENGTH' '(' ')'
+
+<funcionTypeOf> ::= 'TYPEOF' '(' <expresion> ')'
+
+<funciontoString> ::= 'STD' '::' 'TOSTRING' '(' <expresion> ')'
+
+<funcioncstr> ::= <expresion> 'C_STR' '(' ')'
+
+<funcionSwitch> ::= 'SWITCH' '(' <expresion> ')' '{' <lista_casos> <casodefault> '}'
+                  | 'SWITCH' '(' <expresion> ')' '{' <lista_casos> '}'
+                  | 'SWITCH' '(' <expresion> ')' '{' <casodefault> '}'
+
+<lista_casos> ::= <lista_casos> <caso>
+                | <caso>
+
+<caso> ::= 'CASE' <expresion> ':' <codigos>
+
+<casodefault> ::= 'DEFAULT' ':' <codigos>
